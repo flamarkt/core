@@ -1,0 +1,45 @@
+{
+    "name": "flamarkt/core",
+    "description": "The minimal marketplace framework based on Flarum.",
+    "keywords": [
+        "flarum",
+        "flamarkt",
+        "marketplace",
+        "ecommerce"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "require": {
+        "flarum/core": "^0.1.0-beta.16",
+        "ext-json": "*"
+    },
+    "authors": [
+        {
+            "name": "Flamarkt",
+            "homepage": "https://flamarkt.org/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/flamarkt/core/issues",
+        "source": "https://github.com/flamarkt/core"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flamarkt\\Core\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Flamarkt",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-shopping-cart",
+                "backgroundColor": "#684ba6",
+                "color": "#fff"
+            }
+        },
+        "branch-alias": {
+            "dev-main": "0.1.x-dev"
+        }
+    }
+}
