@@ -17,7 +17,11 @@ class OrderLineSerializer extends AbstractSerializer
     protected function getDefaultAttributes($line): array
     {
         return [
-            'order' => $line->order,
+            'number' => $line->number,
+            'group' => $line->group,
+            'type' => $line->type,
+            'label' => $line->label,
+            'comment' => $line->comment,
             'quantity' => $line->quantity,
             'priceUnit' => $line->price_unit,
             'priceTotal' => $line->price_total,

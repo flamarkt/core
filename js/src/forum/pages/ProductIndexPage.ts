@@ -3,6 +3,8 @@ import ProductListState from '../../common/states/ProductListState';
 import Link from 'flarum/common/components/Link';
 
 export default class ProductIndexPage extends Page {
+    state!: ProductListState;
+
     oninit() {
         this.state = new ProductListState();
         this.state.refresh();

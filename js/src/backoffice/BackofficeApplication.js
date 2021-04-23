@@ -6,8 +6,6 @@ import BackofficeNav from './components/BackofficeNav';
 import routes from './routes';
 import History from 'flarum/forum/utils/History';
 
-/* global m */
-
 export default class BackofficeApplication extends Application {
     history = {
         canGoBack: () => true,

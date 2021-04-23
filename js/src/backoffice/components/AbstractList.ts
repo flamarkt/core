@@ -3,11 +3,11 @@ import listItems from 'flarum/common/helpers/listItems';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import Placeholder from 'flarum/common/components/Placeholder';
+import Model from 'flarum/common/Model';
+import {ClassComponent} from 'mithril';
 
-/* global m */
-
-export default class AbstractList {
-    items(state) {
+export default class AbstractList implements ClassComponent {
+    items(state): Model[] {
         return [].concat(...state.pages.map(page => page.items));
     }
 
@@ -46,7 +46,7 @@ export default class AbstractList {
         ]);
     }
 
-    head() {
+    head(): ItemList {
         const columns = new ItemList();
 
         columns.add('actions', m('th', 'Actions'), -100);//TODO
@@ -58,11 +58,11 @@ export default class AbstractList {
         return m('tr', this.rowAttrs(model), this.columns(model).toArray());
     }
 
-    rowAttrs(model) {
+    rowAttrs(model): any {
         return {};
     }
 
-    columns(model) {
+    columns(model): ItemList {
         const columns = new ItemList();
 
         columns.add('actions', m('td', m('ul', listItems(this.actions(model).toArray()))), -100);
@@ -70,7 +70,7 @@ export default class AbstractList {
         return columns;
     }
 
-    actions(model) {
+    actions(model): ItemList {
         return new ItemList();
     }
 }

@@ -1,11 +1,15 @@
 import Page from 'flarum/common/components/Page';
 import LinkButton from 'flarum/common/components/LinkButton';
-import OrderListState from '../../common/states/OrderListState';
-import OrderList from '../components/OrderList';
+import ProductList from '../components/ProductList';
+import ProductListState from '../../common/states/ProductListState';
 
-export default class OrderListPage extends Page {
-    oninit() {
-        this.state = new OrderListState();
+export default class ProductIndexPage extends Page {
+    state!: ProductListState;
+
+    oninit(vnode) {
+        super.oninit(vnode);
+
+        this.state = new ProductListState();
         this.state.refresh();
     }
 
@@ -14,12 +18,12 @@ export default class OrderListPage extends Page {
             m('.Form-group', [
                 LinkButton.component({
                     className: 'Button',
-                    href: app.route('orders.show', {
+                    href: app.route('products.show', {
                         id: 'new',
                     }),
-                }, 'New order' /* TODO */),
+                }, 'New product' /* TODO */),
             ]),
-            m(OrderList, {
+            m(ProductList, {
                 state: this.state,
             }),
         ]);

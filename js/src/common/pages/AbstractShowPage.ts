@@ -1,6 +1,7 @@
 import Page from 'flarum/common/components/Page';
+import Model from 'flarum/common/Model';
 
-export default class AbstractShowPage extends Page {
+export default abstract class AbstractShowPage extends Page {
     oninit(vnode) {
         super.oninit(vnode);
 
@@ -31,21 +32,21 @@ export default class AbstractShowPage extends Page {
         }
     }
 
-    newRecord() {
+    newRecord(): Model | null {
         return null;
     }
 
-    findType() {
+    findType(): string {
         return '';
     }
 
-    requestParams() {
+    requestParams(): any {
         return {
             bySlug: true,
         };
     }
 
-    show(model) {
+    show(model: Model) {
         //
     }
 }

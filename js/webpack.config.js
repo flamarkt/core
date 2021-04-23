@@ -1,35 +1,29 @@
-//const fs = require('fs');
-//const path = require('path');
 const baseConfig = require('flarum-webpack-config');
 
-// Re-write the entry function to also parse the "embed" file
-/*config.entry = () => {
-    const entries = {};
+function config() {
+    const config = baseConfig();
 
-    for (const app of ['forum', 'admin', 'backoffice']) {
-        const file = path.resolve(process.cwd(), app + '.js');
-        if (fs.existsSync(file)) {
-            entries[app] = file;
-        }
+    // Enable Typescript same way as Flarum Core
+    config.resolve = {
+        extensions: ['.ts', '.tsx', '.js', '.json'],
     }
+    config.module.rules[0].test = /\.(tsx?|js)$/;
+    config.module.rules[0].use.options.presets.push('@babel/preset-typescript');
 
-    return entries;
-};*/
+    return config;
+}
 
 const backofficeConfig = {
-    ...baseConfig(),
+    ...config(),
     entry: {
         'backoffice': './backoffice.js',
     },
-    /*output: {
-        library: "flarum.extensions['flamarkt-core']",
-    },*/
 };
 
 // Use a named module because we will inject this file at the top of the assets without a wrapping extension
 backofficeConfig.output.library = "flarum.extensions['flamarkt-core']";
 
 module.exports = [
-    baseConfig(),
+    config(),
     backofficeConfig,
 ];

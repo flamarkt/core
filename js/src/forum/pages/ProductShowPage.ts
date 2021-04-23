@@ -2,16 +2,15 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import formatPrice from '../../common/helpers/formatPrice';
-
-/* global m */
+import Product from '../../common/models/Product';
 
 export default class ProductShowPage extends AbstractShowPage {
-    oninit(vnode) {
-        this.product = null;
-        this.cartQuantity = '1';
-        this.savingQuantity = false;
+    product: Product | null = null;
+    cartQuantity: number = 1;
+    savingQuantity: boolean = false;
 
-        app.history.push('product');
+    oninit(vnode) {
+        //app.history.push('product');
 
         this.bodyClass = 'App--product';
 
@@ -26,7 +25,7 @@ export default class ProductShowPage extends AbstractShowPage {
         this.product = product;
         this.cartQuantity = product.cartQuantity() || '1';
 
-        app.history.push('product', product.title());
+        //app.history.push('product', product.title());
         app.setTitle(product.title());
         app.setTitleCount(0);
     }
@@ -38,9 +37,9 @@ export default class ProductShowPage extends AbstractShowPage {
             //TODO: different layout for quantity already in cart
             m('input.FormControl', {
                 type: 'number',
-                value: this.cartQuantity,
+                value: this.cartQuantity + '',
                 oninput: event => {
-                    this.cartQuantity = event.target.value;
+                    this.cartQuantity = parseInt(event.target.value);
                 },
             }),
             Button.component({
@@ -50,12 +49,14 @@ export default class ProductShowPage extends AbstractShowPage {
                 onclick: () => {
                     this.savingQuantity = true;
 
+                    // @ts-ignore
                     this.product.save({
                         cartQuantity: this.cartQuantity,
                     }).then(() => {
                         this.savingQuantity = false;
 
-                        this.cartQuantity = this.product.cartQuantity() || '1';
+                        // @ts-ignore
+                        this.cartQuantity = this.product.cartQuantity() || 1;
 
                         m.redraw();
                     }).catch(error => {

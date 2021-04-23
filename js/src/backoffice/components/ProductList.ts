@@ -1,8 +1,7 @@
 import Button from 'flarum/common/components/Button';
 import LinkButton from 'flarum/common/components/LinkButton';
 import AbstractList from './AbstractList';
-
-/* global m */
+import Product from '../../common/models/Product';
 
 export default class ProductList extends AbstractList {
     head() {
@@ -13,7 +12,7 @@ export default class ProductList extends AbstractList {
         return columns;
     }
 
-    columns(product) {
+    columns(product: Product) {
         const columns = super.columns(product);
 
         columns.add('title', m('td', product.title()));
@@ -21,7 +20,7 @@ export default class ProductList extends AbstractList {
         return columns;
     }
 
-    actions(product) {
+    actions(product: Product) {
         const actions = super.actions(product);
 
         actions.add('edit', LinkButton.component({

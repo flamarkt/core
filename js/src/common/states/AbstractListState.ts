@@ -1,29 +1,37 @@
-export class Page {
-    constructor(number, items, links = {}) {
+import Model from 'flarum/common/Model';
+
+export class Page<T extends Model> {
+    number: number;
+    items: T[];
+    links: any;
+
+    constructor(number: number, items: T[], links: any = {}) {
         this.number = number;
         this.items = items;
         this.links = links;
     }
 }
 
-export default class AbstractListState {
-    constructor(params = {}) {
+export default class AbstractListState<T extends Model> {
+    params: any = {};
+    pages: Page<T>[] = [];
+    loading: boolean = true;
+    moreResults: boolean = false;
+
+    constructor(params: any = {}) {
         this.params = params;
-        this.pages = [];
-        this.loading = true;
-        this.moreResults = false;
     }
 
-    type() {
+    type(): string {
         return '';
     }
 
-    limit() {
+    limit(): number {
         return 20;
     }
 
     requestParams() {
-        const params = {filter: {}};
+        const params: any = {filter: {}};
 
         params.sort = this.sortMap()[this.params.sort];
 
@@ -35,7 +43,7 @@ export default class AbstractListState {
     }
 
     sortMap() {
-        const map = {};
+        const map: any = {};
 
         map.latest = '-createdAt';
         map.oldest = 'createdAt';
@@ -57,10 +65,10 @@ export default class AbstractListState {
             this.clear();
         }
 
-        return this.loadResults().then(
+        return this.loadResults(0).then(
             results => {
-                this.albums = [];
-                this.parseResults(results);
+                this.pages = [];
+                this.parseResults(results, 0);
             },
             () => {
                 this.loading = false;

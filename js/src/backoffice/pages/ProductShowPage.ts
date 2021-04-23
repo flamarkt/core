@@ -1,16 +1,14 @@
-import Button from 'flarum/common/components/Button';
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import Button from 'flarum/common/components/Button'
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-
-/* global m */
+import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import Product from '../../common/models/Product';
 
 export default class ProductShowPage extends AbstractShowPage {
-    oninit(vnode) {
-        this.product = null;
-        this.saving = false;
-
-        super.oninit(vnode);
-    }
+    product: Product | null = null;
+    saving: boolean = false;
+    title: string = '';
+    description: string = '';
+    price: string = '';
 
     newRecord() {
         return app.store.createRecord('flamarkt-products');
@@ -20,13 +18,14 @@ export default class ProductShowPage extends AbstractShowPage {
         return 'flamarkt/products';
     }
 
-    show(product) {
+    show(product: Product) {
         this.product = product;
         this.title = product.title() || '';
         this.description = product.description() || '';
-        this.price = product.price() || '';
+        this.price = product.price() + '';
 
         //app.history.push('product', product.title());
+        // @ts-ignore
         app.setTitle(product.title());
         app.setTitleCount(0);
     }
@@ -91,6 +90,7 @@ export default class ProductShowPage extends AbstractShowPage {
 
         this.saving = true;
 
+        // @ts-ignore
         this.product.save(this.data()).then(product => {
             this.product = product;
 

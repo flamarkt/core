@@ -1,10 +1,9 @@
 import Button from 'flarum/common/components/Button';
 import LinkButton from 'flarum/common/components/LinkButton';
 import AbstractList from './AbstractList';
+import Order from '../../common/models/Order';
 import username from 'flarum/common/helpers/username';
 import humanTime from 'flarum/common/helpers/humanTime';
-
-/* global m */
 
 export default class OrderList extends AbstractList {
     head() {
@@ -16,7 +15,7 @@ export default class OrderList extends AbstractList {
         return columns;
     }
 
-    columns(order) {
+    columns(order: Order) {
         const columns = super.columns(order);
 
         columns.add('date', m('td', humanTime(order.createdAt())));
@@ -25,7 +24,7 @@ export default class OrderList extends AbstractList {
         return columns;
     }
 
-    actions(order) {
+    actions(order: Order) {
         const actions = super.actions(order);
 
         actions.add('edit', LinkButton.component({

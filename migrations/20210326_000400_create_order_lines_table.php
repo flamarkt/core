@@ -9,9 +9,11 @@ return [
             $table->increments('id');
             $table->unsignedInteger('order_id');
             $table->unsignedInteger('product_id')->nullable();
+            $table->unsignedInteger('number');
+            $table->string('group')->nullable();
+            $table->string('type')->nullable();
             $table->string('label')->nullable();
             $table->text('comment')->nullable();
-            $table->unsignedInteger('order'); //TODO: rename to number?
             $table->unsignedInteger('price_unit')->nullable();
             $table->unsignedInteger('quantity')->nullable();
             $table->unsignedInteger('price_total');

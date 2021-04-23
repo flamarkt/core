@@ -3,8 +3,6 @@ import ItemList from 'flarum/common/utils/ItemList';
 import LinkButton from 'flarum/common/components/LinkButton';
 import ExtensionLinkButton from 'flarum/admin/components/ExtensionLinkButton';
 
-/* global m */
-
 export default class BackofficeNav extends AdminNav {
     oninit(vnode) {
         super.oninit(vnode);

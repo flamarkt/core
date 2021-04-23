@@ -1,4 +1,4 @@
-import Model from 'flarum/common/Model';
+import Model from './Model';
 
 export default class Cart extends Model {
     productCount = Model.attribute('productCount');

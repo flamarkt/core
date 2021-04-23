@@ -2,6 +2,8 @@
     "name": "@flamarkt/core",
     "private": true,
     "dependencies": {
+        "@babel/preset-typescript": "^7.13.0",
+        "@types/mithril": "^2.0.7",
         "flarum": "^0.1.0-beta.16",
         "flarum-webpack-config": "^0.1.0-beta.10",
         "webpack": "^4.0.0",
