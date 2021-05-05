@@ -3,7 +3,7 @@ import LinkButton from 'flarum/common/components/LinkButton';
 import OrderListState from '../../common/states/OrderListState';
 import OrderList from '../components/OrderList';
 
-export default class OrderListPage extends Page {
+export default class OrderIndexPage extends Page {
     state!: OrderListState;
 
     oninit(vnode) {

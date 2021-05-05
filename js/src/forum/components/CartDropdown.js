@@ -21,7 +21,7 @@ export default class CartDropdown extends Dropdown {
             'data-toggle': 'dropdown',
             onclick: this.onclick.bind(this),
             title: this.attrs.label,
-            href: app.route('cart'),
+            href: app.route('flamarkt.cart'),
         }, this.getButtonContent(children));
     }
 
@@ -53,7 +53,7 @@ export default class CartDropdown extends Dropdown {
     }
 
     goToRoute() {
-        m.route.set(app.route('cart'));
+        m.route.set(app.route('flamarkt.cart'));
     }
 
     menuClick(e) {

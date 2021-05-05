@@ -29,6 +29,8 @@ return [
         ->js(__DIR__ . '/js/dist/forum.js')
         ->css(__DIR__ . '/resources/less/forum.less')
         ->route('/cart', 'flamarkt.cart')
+        ->route('/account', 'flamarkt.account')
+        ->route('/account/orders', 'flamarkt.account.orders')
         ->route('/orders/{id:[0-9]+}', 'flamarkt.orders.show')
         ->route('/products', 'flamarkt.products.index')
         ->route('/products/{id:[0-9]+}', 'flamarkt.products.show'),

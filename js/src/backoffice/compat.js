@@ -1,13 +1,13 @@
 import AbstractList from './components/AbstractList';
 import BackofficeNav from './components/BackofficeNav';
 import ProductList from './components/ProductList';
-import OrderListPage from './pages/OrderListPage';
+import OrderIndexPage from './pages/OrderIndexPage';
 import ProductShowPage from './pages/ProductShowPage';
 
 export const backoffice = {
     'components/AbstractList': AbstractList,
     'components/BackofficeNav': BackofficeNav,
     'components/ProductList': ProductList,
-    'pages/OrderListPage': OrderListPage,
+    'pages/OrderIndexPage': OrderIndexPage,
     'pages/ProductShowPage': ProductShowPage,
 }

@@ -8,7 +8,7 @@ export class Page<T extends Model> {
     constructor(number: number, items: T[], links: any = {}) {
         this.number = number;
         this.items = items;
-        this.links = links;
+        this.links = links || {};
     }
 }
 
@@ -31,7 +31,7 @@ export default class AbstractListState<T extends Model> {
     }
 
     requestParams() {
-        const params: any = {filter: {}};
+        const params: any = {filter: this.params.filter || {}};
 
         params.sort = this.sortMap()[this.params.sort];
 
@@ -106,7 +106,7 @@ export default class AbstractListState<T extends Model> {
             this.pages.push(new Page(number, results, results.payload.links));
         }
 
-        this.moreResults = !!results.payload.links.next;
+        this.moreResults = results.payload.links && !!results.payload.links.next;
 
         this.loading = false;
 

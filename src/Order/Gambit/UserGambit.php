@@ -49,6 +49,6 @@ class UserGambit extends AbstractRegexGambit implements FilterInterface
             $ids[] = $this->users->getIdForUsername($username);
         }
 
-        $query->whereIn('orders.user_id', $ids, 'and', $negate);
+        $query->whereIn('flamarkt_orders.user_id', $ids, 'and', $negate);
     }
 }

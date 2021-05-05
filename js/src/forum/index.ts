@@ -16,6 +16,10 @@ import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
 import CartDropdown from './components/CartDropdown';
 import CartState from './states/CartState';
 import CartPage from './pages/CartPage';
+import AccountPage from './pages/AccountPage';
+import OrderShowPage from './pages/OrderShowPage';
+import OrderIndexPage from './pages/OrderIndexPage';
+import ActiveLinkButton from "./components/ActiveLinkButton";
 
 export {
     common,
@@ -28,11 +32,15 @@ app.initializers.add('flamarkt-core', () => {
     app.store.models['flamarkt-order-lines'] = OrderLine;
     app.store.models['flamarkt-products'] = Product;
 
+    // @ts-ignore
     Forum.prototype.cart = Model.hasOne('cart');
 
-    app.routes['cart'] = {path: '/cart', component: CartPage};
-    app.routes['products.index'] = {path: '/products', component: ProductIndexPage};
-    app.routes['products.show'] = {path: '/products/:id', component: ProductShowPage};
+    app.routes['flamarkt.account'] = {path: '/account', component: AccountPage};
+    app.routes['flamarkt.account.orders'] = {path: '/account/orders', component: OrderIndexPage};
+    app.routes['flamarkt.cart'] = {path: '/cart', component: CartPage};
+    app.routes['flamarkt.products.index'] = {path: '/products', component: ProductIndexPage};
+    app.routes['flamarkt.products.show'] = {path: '/products/:id', component: ProductShowPage};
+    app.routes['flamarkt.orders.show'] = {path: '/orders/:id', component: OrderShowPage};
 
     app.cart = new CartState();
 
@@ -47,10 +55,22 @@ app.initializers.add('flamarkt-core', () => {
     });
 
     extend(IndexPage.prototype, 'navItems', items => {
-        items.add('flamarkt-products', LinkButton.component({
+        items.add('flamarkt-products', ActiveLinkButton.component({
             icon: 'fas fa-shopping-cart',
-            href: app.route('products.index'),
+            href: app.route('flamarkt.products.index'),
+            activeRoutes: [
+                'products.*',
+            ],
         }, 'Shop' /* TODO */));
+
+        items.add('flamarkt-account', ActiveLinkButton.component({
+            icon: 'fas fa-user',
+            href: app.route('flamarkt.account'),
+            activeRoutes: [
+                'flamarkt.account.*',
+                'flamarkt.orders.show',
+            ],
+        }, 'Account' /* TODO */));
     });
 
     extend(HeaderSecondary.prototype, 'items', function (items) {

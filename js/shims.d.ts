@@ -5,10 +5,17 @@ declare global {
     const m: Mithril.Static;
 }
 
-import Application from 'flarum/common/Application';
+//import Application from 'flarum/common/Application';
+import BaseForumApplication from 'flarum/forum/ForumApplication';
+import AdminApplication from 'flarum/admin/AdminApplication';
+import Cart from './src/common/models/Cart';
 
 declare global {
-    const app: Application;
+    interface ForumApplication extends BaseForumApplication {
+        cart: Cart
+    }
+
+    const app: ForumApplication & AdminApplication;
 }
 
 // Fix wrong signatures from Flarum

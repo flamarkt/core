@@ -3,6 +3,7 @@ import Button from 'flarum/common/components/Button';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import formatPrice from '../../common/helpers/formatPrice';
 import Product from '../../common/models/Product';
+import ItemList from "flarum/common/utils/ItemList";
 
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
@@ -28,6 +29,17 @@ export default class ProductShowPage extends AbstractShowPage {
         //app.history.push('product', product.title());
         app.setTitle(product.title());
         app.setTitleCount(0);
+    }
+
+    breadcrumbItems() {
+        //const items = super.breadcrumbItems();
+        const items = new ItemList(); //TODO
+
+        if (this.product) {
+            items.add('current', m('span.breadcrumb-current', this.product.title()));
+        }
+
+        return items;
     }
 
     view() {

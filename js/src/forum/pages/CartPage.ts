@@ -1,13 +1,14 @@
-import Page from 'flarum/common/components/Page';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
+import Cart from '../../common/models/Cart';
+import AbstractShopPage from './AbstractShopPage';
 
-export default class CartPage extends Page {
+export default class CartPage extends AbstractShopPage {
+    loading: boolean = true;
+    cart: Cart | null = null;
+
     oninit(vnode) {
         super.oninit(vnode);
-
-        this.loading = true;
-        this.cart = null;
 
         app.request({
             method: 'GET',
@@ -26,14 +27,18 @@ export default class CartPage extends Page {
         });
     }
 
-    view() {
+    content() {
         if (this.loading) {
             return LoadingIndicator.component();
         }
 
+        if (!this.cart) {
+            return m('.container', 'No cart');
+        }
+
         const products = this.cart.products() || [];
 
-        return m('container', [
+        return m('.container', [
             m('h1', 'Cart'),
             m('table', [
                 m('thead', m('tr', [
