@@ -1,11 +1,12 @@
-import Button from 'flarum/common/components/Button'
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Product from '../../common/models/Product';
+import SubmitButton from "../components/SubmitButton";
 
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
     saving: boolean = false;
+    dirty: boolean = false;
     title: string = '';
     description: string = '';
     price: string = '';
@@ -39,26 +40,28 @@ export default class ProductShowPage extends AbstractShowPage {
             onsubmit: this.onsubmit.bind(this),
         }, m('.container', [
             m('.Form-group', [
-                m('label', 'Title'),
+                m('label', app.translator.trans('flamarkt-core.backoffice.products.field.title')),
                 m('input.FormControl', {
                     type: 'text',
                     value: this.title,
                     oninput: event => {
                         this.title = event.target.value;
+                        this.dirty = true;
                     },
                 }),
             ]),
             m('.Form-group', [
-                m('label', 'Description'),
+                m('label', app.translator.trans('flamarkt-core.backoffice.products.field.description')),
                 m('textarea.FormControl', {
                     value: this.description,
                     oninput: event => {
                         this.description = event.target.value;
+                        this.dirty = true;
                     },
                 }),
             ]),
             m('.Form-group', [
-                m('label', 'Price'),
+                m('label', app.translator.trans('flamarkt-core.backoffice.products.field.price')),
                 m('input.FormControl', {
                     type: 'number',
                     value: this.price,
@@ -68,11 +71,11 @@ export default class ProductShowPage extends AbstractShowPage {
                 }),
             ]),
             m('.Form-group', [
-                Button.component({
-                    type: 'submit',
-                    className: 'Button Button--primary',
+                SubmitButton.component({
                     loading: this.saving,
-                }, 'Save'),
+                    dirty: this.dirty,
+                    exists: this.product.exists,
+                }),
             ]),
         ]));
     }
@@ -94,10 +97,11 @@ export default class ProductShowPage extends AbstractShowPage {
         this.product.save(this.data()).then(product => {
             this.product = product;
 
-            //TODO: route to new product
-
             this.saving = false;
+            this.dirty = false;
             m.redraw();
+
+            m.route.set(app.route.product(product));
         }).catch(error => {
             this.saving = false;
             m.redraw();

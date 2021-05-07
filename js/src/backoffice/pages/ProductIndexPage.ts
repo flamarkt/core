@@ -14,18 +14,18 @@ export default class ProductIndexPage extends Page {
     }
 
     view() {
-        return m('.ProductIndexPage', [
+        return m('.ProductIndexPage', m('.container', [
             m('.Form-group', [
                 LinkButton.component({
                     className: 'Button',
                     href: app.route('products.show', {
                         id: 'new',
                     }),
-                }, 'New product' /* TODO */),
+                }, app.translator.trans('flamarkt-core.backoffice.products.new')),
             ]),
             m(ProductList, {
                 state: this.state,
             }),
-        ]);
+        ]));
     }
 }

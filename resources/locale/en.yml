@@ -1,2 +1,39 @@
 flamarkt-core:
-    test: Hello
+    admin:
+        settingsInBackoffice: Settings in backoffice
+    backoffice:
+        nav:
+            dashboard: Dashboard
+            users: Customers
+            products: Products
+            orders: Orders
+            searchPlaceholder: => core.admin.nav.search_placeholder
+        users:
+            new: Create customer
+            head:
+                email: Email
+            field:
+                username: Username
+                email: Email
+        orders:
+            new: Create manual order
+            head:
+                date: Date
+                user: Customer
+        products:
+            new: Create product
+            head:
+                title: Title
+            field:
+                title: Title
+                description: Description
+                price: Price
+    forum:
+        nav:
+            backoffice: Backoffice
+            shop: Shop
+            account: Account
+        product:
+            addToCart: Add to cart
+            updateCartQuantity: Update cart
+            removeFromCart: Remove from cart

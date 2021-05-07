@@ -4,6 +4,7 @@ import CartList from './CartList';
 import formatPrice from '../../common/helpers/formatPrice';
 
 // Based on Flarum's NotificationsDropdown
+// @ts-ignore
 export default class CartDropdown extends Dropdown {
     static initAttrs(attrs) {
         attrs.className = attrs.className || 'CartDropdown';
@@ -35,11 +36,10 @@ export default class CartDropdown extends Dropdown {
     }
 
     getMenu() {
-        return (
-            <div className={'Dropdown-menu ' + this.attrs.menuClassName} onclick={this.menuClick.bind(this)}>
-                {this.showing ? CartList.component({state: this.attrs.state}) : ''}
-            </div>
-        );
+        return m('.Dropdown-menu', {
+            className: this.attrs.menuClassName,
+            onclick: this.menuClick.bind(this)
+        }, this.showing ? CartList.component({state: this.attrs.state}) : null);
     }
 
     onclick(event) {

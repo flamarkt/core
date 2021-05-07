@@ -12,6 +12,11 @@ export default class ActiveLinkButton extends LinkButton {
         return m.route.get() === attrs.href || ActiveLinkButton.activeRoutes(attrs).some(routeName => {
             const currentRouteName = (app.current.data as any).routeName;
 
+            // In the admin panel, this is called before a first page sets routeName apparently
+            if (!currentRouteName) {
+                return false;
+            }
+
             const matchAllIndex = routeName.indexOf('*');
 
             if (matchAllIndex !== -1) {

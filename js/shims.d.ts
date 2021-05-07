@@ -5,17 +5,24 @@ declare global {
     const m: Mithril.Static;
 }
 
-//import Application from 'flarum/common/Application';
-import BaseForumApplication from 'flarum/forum/ForumApplication';
+import ForumApplication from 'flarum/forum/ForumApplication';
 import AdminApplication from 'flarum/admin/AdminApplication';
+import User from 'flarum/common/models/User';
 import Cart from './src/common/models/Cart';
+import Product from './src/common/models/Product';
+import Order from './src/common/models/Order';
+
+export interface AdditionalApplication {
+    cart: Cart
+    route: {
+        product(product: Product),
+        user(user: User),
+        order(order: Order),
+    }
+}
 
 declare global {
-    interface ForumApplication extends BaseForumApplication {
-        cart: Cart
-    }
-
-    const app: ForumApplication & AdminApplication;
+    const app: ForumApplication & AdminApplication & AdditionalApplication;
 }
 
 // Fix wrong signatures from Flarum
@@ -26,9 +33,17 @@ declare module 'flarum/common/Translator' {
     }
 }
 
-import User from 'flarum/common/models/User';
-
 declare module 'flarum/common/helpers/username' {
     // Allow passing null or undefined
     export default function username(user: User | null | undefined | false);
+}
+
+declare module 'flarum/common/models/User' {
+    export default interface User {
+        slug(): string
+
+        username(value?: string): string
+
+        email(value?: string): string
+    }
 }

@@ -5,6 +5,8 @@ namespace Flamarkt\Core;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
+use Flarum\Frontend\Document;
+use Illuminate\Support\Arr;
 
 return [
     (new Extend\ServiceProvider())
@@ -14,7 +16,18 @@ return [
         ->register(Product\ProductServiceProvider::class),
 
     (new Extend\Frontend('admin'))
-        ->js(__DIR__ . '/js/dist/admin.js'),
+        ->js(__DIR__ . '/js/dist/admin.js')
+        ->content(function (Document $document) {
+            if (!$document->payload['extensions']) {
+                return;
+            }
+
+            foreach ($document->payload['extensions'] as $key => $attributes) {
+                if (Arr::get($attributes, 'extra.flamarkt-backoffice.hideFromAdmin')) {
+                    unset($document->payload['extensions'][$key]);
+                }
+            }
+        }),
 
     (new Extend\Frontend('backoffice'))
         //->js(__DIR__ . '/js/dist/backoffice.js')
@@ -23,7 +36,10 @@ return [
         ->route('/orders', 'orders.index')
         ->route('/orders/{id:[0-9]+|new}', 'orders.show')
         ->route('/products', 'products.index')
-        ->route('/products/{id:[0-9]+|new}', 'products.show'),
+        ->route('/products/{id:[0-9]+|new}', 'products.show')
+        ->route('/users', 'users.index')
+        ->route('/users/{id:[a-zA-Z0-9_-]+|new}', 'users.show')
+        ->route('/extension/{id:[a-zA-Z0-9_-]+}', 'extension'),
 
     (new Extend\Frontend('forum'))
         ->js(__DIR__ . '/js/dist/forum.js')

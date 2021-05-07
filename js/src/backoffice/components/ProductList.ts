@@ -7,7 +7,7 @@ export default class ProductList extends AbstractList {
     head() {
         const columns = super.head();
 
-        columns.add('title', m('th', 'Title'));//TODO
+        columns.add('title', m('th', app.translator.trans('flamarkt-core.backoffice.products.head.title')), 10);
 
         return columns;
     }
@@ -15,7 +15,7 @@ export default class ProductList extends AbstractList {
     columns(product: Product) {
         const columns = super.columns(product);
 
-        columns.add('title', m('td', product.title()));
+        columns.add('title', m('td', product.title()), 10);
 
         return columns;
     }
@@ -26,9 +26,7 @@ export default class ProductList extends AbstractList {
         actions.add('edit', LinkButton.component({
             className: 'Button Button--icon',
             icon: 'fas fa-pen',
-            href: app.route('products.show', {
-                id: product.id(),
-            }),
+            href: app.route.product(product),
         }));
 
         actions.add('hide', Button.component({

@@ -55,7 +55,7 @@ export default class ProductShowPage extends AbstractShowPage {
                 },
             }),
             Button.component({
-                className: 'Button Button--primary',
+                className: 'Button Button--primary Button--block',
                 disabled: this.cartQuantity === this.product.cartQuantity(),
                 loading: this.savingQuantity,
                 onclick: () => {
@@ -79,7 +79,31 @@ export default class ProductShowPage extends AbstractShowPage {
                         throw error;
                     });
                 },
-            }, 'Add to cart'),
+            }, app.translator.trans(this.product.cartQuantity() ? 'flamarkt-core.forum.product.updateCartQuantity' : 'flamarkt-core.forum.product.addToCart')),
+            this.product.cartQuantity() ? Button.component({
+                className: 'Button Button--block',
+                loading: this.savingQuantity,
+                onclick: () => {
+                    this.savingQuantity = true;
+
+                    // @ts-ignore
+                    this.product.save({
+                        cartQuantity: 0,
+                    }).then(() => {
+                        this.savingQuantity = false;
+
+                        this.cartQuantity = 1;
+
+                        m.redraw();
+                    }).catch(error => {
+                        this.savingQuantity = false;
+
+                        m.redraw();
+
+                        throw error;
+                    });
+                },
+            }, app.translator.trans('flamarkt-core.forum.product.removeFromCart')) : null,
         ]) : LoadingIndicator.component({
             className: 'LoadingIndicator--block',
         }));

@@ -38,6 +38,10 @@
                 "color": "#fff"
             }
         },
+        "flamarkt-backoffice": {
+            "settingsInBackoffice": true,
+            "showInBackoffice": true
+        },
         "branch-alias": {
             "dev-main": "0.1.x-dev"
         }

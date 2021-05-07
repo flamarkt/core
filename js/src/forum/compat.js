@@ -1,4 +1,3 @@
-import ActiveLinkButton from './components/ActiveLinkButton';
 import CartDropdown from './components/CartDropdown';
 import AbstractAccountPage from './pages/AbstractAccountPage';
 import AbstractShopPage from './pages/AbstractShopPage';
@@ -10,7 +9,6 @@ import ProductShowPage from './pages/ProductShowPage';
 import AccountControls from './utils/AccountControls';
 
 export const forum = {
-    'components/ActiveLinkButton': ActiveLinkButton,
     'components/CartDropdown': CartDropdown,
     'pages/AbstractAccountPage': AbstractAccountPage,
     'pages/AbstractShopPage': AbstractShopPage,

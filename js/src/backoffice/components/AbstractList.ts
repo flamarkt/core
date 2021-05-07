@@ -36,7 +36,7 @@ export default class AbstractList implements ClassComponent {
     view(vnode) {
         const {state} = vnode.attrs;
 
-        return m('table', [
+        return m('table.Table', [
             m('thead', this.head().toArray()),
             m('tbody', [
                 this.topRow(state),
@@ -65,7 +65,7 @@ export default class AbstractList implements ClassComponent {
     columns(model): ItemList {
         const columns = new ItemList();
 
-        columns.add('actions', m('td', m('ul', listItems(this.actions(model).toArray()))), -100);
+        columns.add('actions', m('td', m('ul.Table-actions', listItems(this.actions(model).toArray()))), -100);
 
         return columns;
     }

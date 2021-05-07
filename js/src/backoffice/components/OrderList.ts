@@ -9,8 +9,8 @@ export default class OrderList extends AbstractList {
     head() {
         const columns = super.head();
 
-        columns.add('date', m('th', 'Date'));//TODO
-        columns.add('user', m('th', 'User'));
+        columns.add('date', m('th', app.translator.trans('flamarkt-core.backoffice.orders.head.date')), 20);
+        columns.add('user', m('th', app.translator.trans('flamarkt-core.backoffice.orders.head.user')), 10);
 
         return columns;
     }
@@ -18,8 +18,8 @@ export default class OrderList extends AbstractList {
     columns(order: Order) {
         const columns = super.columns(order);
 
-        columns.add('date', m('td', humanTime(order.createdAt())));
-        columns.add('user', m('td', username(order.user())));
+        columns.add('date', m('td', humanTime(order.createdAt())), 20);
+        columns.add('user', m('td', username(order.user())), 10);
 
         return columns;
     }
@@ -30,9 +30,7 @@ export default class OrderList extends AbstractList {
         actions.add('edit', LinkButton.component({
             className: 'Button Button--icon',
             icon: 'fas fa-pen',
-            href: app.route('orders.show', {
-                id: order.id(),
-            }),
+            href: app.route.order(order),
         }));
 
         actions.add('hide', Button.component({

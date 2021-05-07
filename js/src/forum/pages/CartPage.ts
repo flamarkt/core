@@ -54,6 +54,11 @@ export default class CartPage extends AbstractShopPage {
                             value: product.cartQuantity(),
                         }),
                     ]),
+                    m('td'),
+                    m('td', Button.component({
+                        className: 'Button Button--icon',
+                        icon: 'fas fa-times',
+                    })),
                 ]))),
             ]),
             m('.Form-group', Button.component({

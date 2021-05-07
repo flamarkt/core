@@ -8,7 +8,7 @@ interface BreadcrumbAttrs extends ComponentAttrs {
 
 export default class Breadcrumb extends Component<BreadcrumbAttrs> {
     view() {
-        return m('ul.breadcrumb', listItems(this.items().toArray()));
+        return m('ul.Breadcrumb', listItems(this.items().toArray()));
     }
 
     items(): ItemList {

@@ -19,7 +19,7 @@ import CartPage from './pages/CartPage';
 import AccountPage from './pages/AccountPage';
 import OrderShowPage from './pages/OrderShowPage';
 import OrderIndexPage from './pages/OrderIndexPage';
-import ActiveLinkButton from "./components/ActiveLinkButton";
+import ActiveLinkButton from "../common/components/ActiveLinkButton";
 
 export {
     common,
@@ -47,10 +47,10 @@ app.initializers.add('flamarkt-core', () => {
     extend(SessionDropdown.prototype, 'items', items => {
         if (app.forum.attribute('backofficeUrl')) {
             items.add('flamarkt-backoffice', LinkButton.component({
-                icon: 'fas fa-wrench',
+                icon: 'fas fa-shopping-cart',
                 href: app.forum.attribute('backofficeUrl'),
                 target: '_blank',
-            }, 'Backoffice' /* TODO */));
+            }, app.translator.trans('flamarkt-core.forum.nav.backoffice')));
         }
     });
 
@@ -61,7 +61,7 @@ app.initializers.add('flamarkt-core', () => {
             activeRoutes: [
                 'products.*',
             ],
-        }, 'Shop' /* TODO */));
+        }, app.translator.trans('flamarkt-core.forum.nav.shop')));
 
         items.add('flamarkt-account', ActiveLinkButton.component({
             icon: 'fas fa-user',
@@ -70,10 +70,10 @@ app.initializers.add('flamarkt-core', () => {
                 'flamarkt.account.*',
                 'flamarkt.orders.show',
             ],
-        }, 'Account' /* TODO */));
+        }, app.translator.trans('flamarkt-core.forum.nav.account')));
     });
 
     extend(HeaderSecondary.prototype, 'items', function (items) {
-        items.add('flamarkt-cart', CartDropdown.component({state: app.cart}), 10);
+        items.add('flamarkt-cart', CartDropdown.component({state: app.cart}), 15);
     })
 });

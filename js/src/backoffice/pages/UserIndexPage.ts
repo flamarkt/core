@@ -1,29 +1,29 @@
 import Page from 'flarum/common/components/Page';
 import LinkButton from 'flarum/common/components/LinkButton';
-import OrderListState from '../../common/states/OrderListState';
-import OrderList from '../components/OrderList';
+import UserListState from '../states/UserListState';
+import UserList from '../components/UserList';
 
-export default class OrderIndexPage extends Page {
-    state!: OrderListState;
+export default class UserIndexPage extends Page {
+    state!: UserListState;
 
     oninit(vnode) {
         super.oninit(vnode);
 
-        this.state = new OrderListState();
+        this.state = new UserListState();
         this.state.refresh();
     }
 
     view() {
-        return m('.OrderIndexPage', m('.container', [
+        return m('.UserIndexPage', m('.container', [
             m('.Form-group', [
                 LinkButton.component({
                     className: 'Button',
-                    href: app.route('orders.show', {
+                    href: app.route('users.show', {
                         id: 'new',
                     }),
-                }, app.translator.trans('flamarkt-core.backoffice.orders.new')),
+                }, app.translator.trans('flamarkt-core.backoffice.users.new')),
             ]),
-            m(OrderList, {
+            m(UserList, {
                 state: this.state,
             }),
         ]));

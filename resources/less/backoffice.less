@@ -1,0 +1,31 @@
+.Table {
+    width: 100%;
+
+    th, td {
+        border-collapse: collapse;
+        text-align: left;
+        padding: 6px 15px;
+    }
+
+    th {
+        border-bottom: 2px solid #666;
+    }
+
+    tr:nth-child(odd) {
+        background: #f6f6f6;
+    }
+}
+
+.Table-actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    > li {
+        display: inline-block;
+
+        &:not(:first-child) {
+            margin-left: 10px;
+        }
+    }
+}

@@ -8,17 +8,18 @@ import Select from 'flarum/common/components/Select';
 interface OrderLineAttrs extends Attributes {
     line: OrderLine
     sortable?: boolean
-    control: Vnode,
+    control: Vnode
+    onchange: () => void
 }
 
 export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
     view(vnode: Vnode<OrderLineAttrs>) {
-        const {line, control, sortable} = vnode.attrs;
+        const {line, control, onchange, sortable} = vnode.attrs;
 
-        return m('tr', this.columns(line, control, sortable).toArray());
+        return m('tr', this.columns(line, control, onchange, sortable).toArray());
     }
 
-    columns(line: OrderLine, control: Vnode, sortable?: boolean): ItemList {
+    columns(line: OrderLine, control: Vnode, onchange: () => void, sortable?: boolean): ItemList {
         const columns = new ItemList();
 
         columns.add('handle', m('td', sortable ? m(SortableHandle) : null));
@@ -28,6 +29,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 line.pushAttributes({
                     group: value,
                 });
+                onchange();
             },
             options: {
                 _none: 'None',
@@ -40,13 +42,14 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 line.pushAttributes({
                     type: value,
                 });
+                onchange();
             },
             options: {
                 product: 'Product',
                 manual: 'Manual',
             },
         })));
-        columns.add('info', m('td', this.fields(line).toArray()));
+        columns.add('info', m('td', this.fields(line, onchange).toArray()));
         columns.add('quantity', m('td', line.quantity()));
         columns.add('priceUnit', m('td', line.priceUnit() ? formatPrice(line.priceUnit()) : null));
         columns.add('priceTotal', m('td', line.priceTotal() ? formatPrice(line.priceTotal()) : null));
@@ -67,7 +70,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
         return line.type() === 'product' || line.type() === 'manual';
     }
 
-    fields(line: OrderLine): ItemList {
+    fields(line: OrderLine, onchange: () => void): ItemList {
         const fields = new ItemList();
 
         if (this.showInfoProduct(line)) {
@@ -86,6 +89,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                         line.pushAttributes({
                             label: event.target.value,
                         });
+                        onchange();
                     },
                 }),
             ]));
@@ -100,6 +104,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                         line.pushAttributes({
                             comment: event.target.value,
                         });
+                        onchange();
                     },
                 }),
             ]));

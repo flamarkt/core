@@ -5,8 +5,11 @@ import HeaderSecondary from './components/HeaderSecondary';
 import BackofficeNav from './components/BackofficeNav';
 import routes from './routes';
 import History from 'flarum/forum/utils/History';
+import ExtensionData from 'flarum/admin/utils/ExtensionData';
 
 export default class BackofficeApplication extends Application {
+    extensionData = new ExtensionData();
+
     history = {
         canGoBack: () => true,
         getPrevious: () => {
@@ -16,6 +19,7 @@ export default class BackofficeApplication extends Application {
             window.location = this.backUrl();
         },
     };
+
     //history = new History();
 
     constructor() {
