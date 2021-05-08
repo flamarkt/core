@@ -2,6 +2,7 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import User from 'flarum/common/models/User';
 import SubmitButton from '../components/SubmitButton';
+import ItemList from 'flarum/common/utils/ItemList';
 
 export default class UserShowPage extends AbstractShowPage {
     user: User | null = null;
@@ -35,37 +36,45 @@ export default class UserShowPage extends AbstractShowPage {
 
         return m('form.UserShowPage', {
             onsubmit: this.onsubmit.bind(this),
-        }, m('.container', [
-            m('.Form-group', [
-                m('label', app.translator.trans('flamarkt-core.backoffice.users.field.username')),
-                m('input.FormControl', {
-                    type: 'text',
-                    value: this.username,
-                    oninput: event => {
-                        this.username = event.target.value;
-                        this.dirty = true;
-                    },
-                }),
-            ]),
-            m('.Form-group', [
-                m('label', app.translator.trans('flamarkt-core.backoffice.users.field.email')),
-                m('input.FormControl', {
-                    type: 'email',
-                    value: this.email,
-                    oninput: event => {
-                        this.email = event.target.value;
-                        this.dirty = true;
-                    },
-                }),
-            ]),
-            m('.Form-group', [
-                SubmitButton.component({
-                    loading: this.saving,
-                    dirty: this.dirty,
-                    exists: this.user.exists,
-                }),
-            ]),
+        }, m('.container', this.fields().toArray()));
+    }
+
+    fields(): ItemList {
+        const fields = new ItemList();
+
+        fields.add('username', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.users.field.username')),
+            m('input.FormControl', {
+                type: 'text',
+                value: this.username,
+                oninput: event => {
+                    this.username = event.target.value;
+                    this.dirty = true;
+                },
+            }),
         ]));
+
+        fields.add('email', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.users.field.email')),
+            m('input.FormControl', {
+                type: 'email',
+                value: this.email,
+                oninput: event => {
+                    this.email = event.target.value;
+                    this.dirty = true;
+                },
+            }),
+        ]));
+
+        fields.add('submit', m('.Form-group', [
+            SubmitButton.component({
+                loading: this.saving,
+                dirty: this.dirty,
+                exists: this.user.exists,
+            }),
+        ]), -10);
+
+        return fields;
     }
 
     data() {
