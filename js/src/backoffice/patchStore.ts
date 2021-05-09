@@ -8,6 +8,11 @@ export default function () {
      * The same code is used in fof/taxonomies
      */
     override(Model, 'getIdentifier', function (original, model) {
+        // Allow passing null relationships in save()
+        if (!model) {
+            return null;
+        }
+
         if (model.verbatim) {
             delete model.verbatim;
 

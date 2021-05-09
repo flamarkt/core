@@ -4,9 +4,9 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import Placeholder from 'flarum/common/components/Placeholder';
 import Model from 'flarum/common/Model';
-import {ClassComponent} from 'mithril';
+import Component from 'flarum/common/Component';
 
-export default class AbstractList implements ClassComponent {
+export default class AbstractList extends Component {
     items(state): Model[] {
         return [].concat(...state.pages.map(page => page.items));
     }

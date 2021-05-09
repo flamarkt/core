@@ -1,7 +1,8 @@
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Product from '../../common/models/Product';
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from '../components/SubmitButton';
+import ItemList from 'flarum/common/utils/ItemList';
 
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
@@ -38,46 +39,55 @@ export default class ProductShowPage extends AbstractShowPage {
 
         return m('form.ProductShowPage', {
             onsubmit: this.onsubmit.bind(this),
-        }, m('.container', [
-            m('.Form-group', [
-                m('label', app.translator.trans('flamarkt-core.backoffice.products.field.title')),
-                m('input.FormControl', {
-                    type: 'text',
-                    value: this.title,
-                    oninput: event => {
-                        this.title = event.target.value;
-                        this.dirty = true;
-                    },
-                }),
-            ]),
-            m('.Form-group', [
-                m('label', app.translator.trans('flamarkt-core.backoffice.products.field.description')),
-                m('textarea.FormControl', {
-                    value: this.description,
-                    oninput: event => {
-                        this.description = event.target.value;
-                        this.dirty = true;
-                    },
-                }),
-            ]),
-            m('.Form-group', [
-                m('label', app.translator.trans('flamarkt-core.backoffice.products.field.price')),
-                m('input.FormControl', {
-                    type: 'number',
-                    value: this.price,
-                    oninput: event => {
-                        this.price = event.target.value;
-                    },
-                }),
-            ]),
-            m('.Form-group', [
-                SubmitButton.component({
-                    loading: this.saving,
-                    dirty: this.dirty,
-                    exists: this.product.exists,
-                }),
-            ]),
+        }, m('.container', this.fields().toArray()));
+    }
+
+    fields(): ItemList {
+        const fields = new ItemList();
+
+        fields.add('title', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.products.field.title')),
+            m('input.FormControl', {
+                type: 'text',
+                value: this.title,
+                oninput: event => {
+                    this.title = event.target.value;
+                    this.dirty = true;
+                },
+            }),
         ]));
+
+        fields.add('description', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.products.field.description')),
+            m('textarea.FormControl', {
+                value: this.description,
+                oninput: event => {
+                    this.description = event.target.value;
+                    this.dirty = true;
+                },
+            }),
+        ]));
+
+        fields.add('price', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.products.field.price')),
+            m('input.FormControl', {
+                type: 'number',
+                value: this.price,
+                oninput: event => {
+                    this.price = event.target.value;
+                },
+            }),
+        ]));
+
+        fields.add('submit', m('.Form-group', [
+            SubmitButton.component({
+                loading: this.saving,
+                dirty: this.dirty,
+                exists: this.product.exists,
+            }),
+        ]), -10);
+
+        return fields;
     }
 
     data() {
