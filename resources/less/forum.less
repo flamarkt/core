@@ -14,3 +14,36 @@
         }
     }
 }
+
+// We have a .container class on some pages but it's not really used yet
+// But is impacted by Flarum global style since it's intended for full width
+// We just cancel the effects for now
+.sideNavOffset .container {
+    width: auto;
+    margin: 0;
+}
+
+.CartPage-section {
+    border: 2px solid #f6f6f6;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.CartTable {
+    min-width: 100%;
+
+    th, td {
+        border-collapse: collapse;
+        text-align: left;
+        padding: 10px 15px;
+    }
+
+    thead th {
+        border-bottom: 2px solid #666;
+    }
+
+    tbody tr:nth-child(odd) {
+        background: #f6f6f6;
+    }
+}

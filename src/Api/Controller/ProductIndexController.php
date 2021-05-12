@@ -16,6 +16,14 @@ class ProductIndexController extends AbstractListController
 {
     public $serializer = ProductSerializer::class;
 
+    public $sortFields = [
+        'createdAt',
+    ];
+
+    public $sort = [
+        'createdAt' => 'desc',
+    ];
+
     protected $filterer;
     protected $searcher;
     protected $url;

@@ -29,6 +29,8 @@ class OrderPayment extends AbstractModel
 
     protected $casts = [
         'amount' => 'int',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function product(): Relations\BelongsTo

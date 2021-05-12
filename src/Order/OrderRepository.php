@@ -126,33 +126,6 @@ class OrderRepository
 
         $order = new Order();
 
-        $cartId = Arr::get($data, 'data.relationships.cart.data.id');
-
-        if ($cartId) {
-            $cart = $this->cartRepository->findOrFail($cartId, $actor);
-
-            $order->user()->associate($actor);
-            $order->save();
-
-            $total = 0;
-
-            foreach ($cart->products as $product) {
-                $line = new OrderLine();
-                $line->product()->associate($product);
-                $line->quantity = $product->pivot->quantity;
-                $line->price_unit = $product->price;
-                $line->price_total = $product->pivot->quantity * $product->price;
-
-                $total += $line->price_total;
-
-                $order->lines()->save($line);
-            }
-
-            $order->price_total = $total;
-        } else {
-            throw new \Exception('Not implemented'); //TODO
-        }
-
         return $this->save($order, $actor, $data);
     }
 

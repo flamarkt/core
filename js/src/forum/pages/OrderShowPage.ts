@@ -1,7 +1,7 @@
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
-import formatPrice from "../../common/helpers/formatPrice";
+import OrderTable from '../components/OrderTable';
 
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null = null;
@@ -22,20 +22,11 @@ export default class OrderShowPage extends AbstractShowPage {
             return LoadingIndicator.component();
         }
 
-        return m('.OrderShowPage', [
+        return m('.OrderShowPage', m('.container', [
             m('h1', this.order.number()),
-            m('table', [
-                m('thead', m('tr', [
-                    m('th'),
-                ])),
-                m('tbody', (this.order.lines() || []).map(line => m('tr', [
-                    m('td', line.number()),
-                    m('td', formatPrice(line.priceUnit())),
-                    m('td', line.quantity()),
-                    m('td', formatPrice(line.priceTotal())),
-                ]))),
-            ]),
-        ]);
+            OrderTable.component({
+                order: this.order,
+            }),
+        ]));
     }
-
 }

@@ -20,6 +20,14 @@ class OrderIndexController extends AbstractListController
         'user',
     ];
 
+    public $sortFields = [
+        'createdAt',
+    ];
+
+    public $sort = [
+        'createdAt' => 'desc',
+    ];
+
     protected $filterer;
     protected $searcher;
     protected $url;

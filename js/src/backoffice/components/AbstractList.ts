@@ -37,7 +37,7 @@ export default class AbstractList extends Component {
         const {state} = vnode.attrs;
 
         return m('table.Table', [
-            m('thead', this.head().toArray()),
+            m('thead', m('tr', this.head().toArray())),
             m('tbody', [
                 this.topRow(state),
                 this.items(state).map(model => this.row(model)),

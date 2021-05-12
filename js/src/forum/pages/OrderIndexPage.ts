@@ -10,7 +10,7 @@ export default class OrderIndexPage extends AbstractShopPage {
 
         this.state = new OrderListState({
             filter: {
-                user: app.session.user ? app.session.user.id() : 0,
+                user: app.session.user ? app.session.user.username() : 0,
             },
         });
         this.state.refresh();
