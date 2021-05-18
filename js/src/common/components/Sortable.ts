@@ -1,17 +1,25 @@
-import {ClassComponent, Vnode} from 'mithril';
+import {ClassComponent, Vnode, VnodeDOM} from 'mithril';
+
+interface SortableAttrs {
+    containerTag?: string
+    placeholderTag?: string
+    disabled?: boolean
+    direction?: 'vertical' | 'horizontal'
+    onsort: (origin: number, destination: number) => void,
+}
 
 /**
  * A sortable implementation inspired by html5sortable, but designed to work with Mithril
  * The sortable children must be a flat array of vnodes and be keyed
  */
-export default class Sortable implements ClassComponent {
+export default class Sortable implements ClassComponent<SortableAttrs> {
     sortingIndex: number | null = null;
     showPlaceholderForIndex: number = 0;
 
     dragoverenterhandler!: (event: DragEvent) => void;
     drophandler!: (event: DragEvent) => void;
 
-    oncreate(vnode) {
+    oncreate(vnode: VnodeDOM<SortableAttrs>) {
         // We need to handle both dragover and dragenter to prevent inputs from showing a cursor when hovered
         // We also need this event to handle mouse movement because stopping propagation seems to stop mousemove event
         this.dragoverenterhandler = event => {
@@ -24,8 +32,8 @@ export default class Sortable implements ClassComponent {
                 let targetIndex = 0;
 
                 // We will show the placeholder above or below the hovered item using the middle height as criteria
-                vnode.dom.childNodes.forEach(element => {
-                    const index = parseInt(element.dataset.index);
+                (vnode.dom.childNodes as any as HTMLElement[]).forEach(element => {
+                    const index = parseInt(element.dataset.index || '');
 
                     // Ignore elements without an index (those will be the placeholders)
                     if (isNaN(index)) {
@@ -34,19 +42,30 @@ export default class Sortable implements ClassComponent {
 
                     const position = element.getBoundingClientRect();
 
-                    // Ignore invisible elements
-                    if (!position.height) {
-                        return;
-                    }
+                    if (vnode.attrs.direction === 'horizontal') {
+                        // Ignore invisible elements
+                        if (!position.width) {
+                            return;
+                        }
 
-                    const middleY = position.top + (position.height / 2);
+                        const middleX = position.left + (position.width / 2);
 
-                    if (event.pageY > middleY + window.scrollY) {
-                        targetIndex = index + 1;
+                        if (event.pageX > middleX + window.scrollX) {
+                            targetIndex = index + 1;
+                        }
+                    } else {
+                        // Ignore invisible elements
+                        if (!position.height) {
+                            return;
+                        }
+
+                        const middleY = position.top + (position.height / 2);
+
+                        if (event.pageY > middleY + window.scrollY) {
+                            targetIndex = index + 1;
+                        }
                     }
                 });
-
-                //console.log(event.pageY);
 
                 if (targetIndex !== this.showPlaceholderForIndex) {
                     this.showPlaceholderForIndex = targetIndex;
@@ -88,10 +107,10 @@ export default class Sortable implements ClassComponent {
         document.removeEventListener('drop', this.drophandler);
     }
 
-    view(vnode) {
+    view(vnode: Vnode<SortableAttrs>) {
         const children: Vnode[] = [];
 
-        vnode.children.forEach((content, index) => {
+        (vnode.children as Vnode<any>[]).forEach((content, index) => {
             if (this.sortingIndex !== null && this.showPlaceholderForIndex === index) {
                 children.push(this.placeholder(vnode));
             }
@@ -107,7 +126,7 @@ export default class Sortable implements ClassComponent {
             content.attrs['data-index'] = index;
             content.attrs.ondragstart = event => {
                 if (event.target.classList.contains('js-handle') && !vnode.attrs.disabled) {
-                    const element = Array.from(vnode.dom.childNodes as HTMLElement[]).find(elem => elem.dataset.index === index + '');
+                    const element = Array.from((vnode as any as VnodeDOM).dom.childNodes as any as HTMLElement[]).find(elem => elem.dataset.index === index + '');
 
                     // This should usually not happen since all referenced indexes should exist
                     // But this pleases typescript
@@ -118,7 +137,7 @@ export default class Sortable implements ClassComponent {
                     const position = element.getBoundingClientRect();
 
                     event.dataTransfer.effectAllowed = 'move';
-                    event.dataTransfer.setData('text/plain', index);
+                    event.dataTransfer.setData('text/plain', index + ''); // Cast to string
                     event.dataTransfer.setDragImage(element, event.pageX - position.left - window.scrollX, event.pageY - position.top - window.scrollY);
 
                     this.sortingIndex = index;
@@ -131,16 +150,16 @@ export default class Sortable implements ClassComponent {
             children.push(content);
         });
 
-        if (this.sortingIndex !== null && this.showPlaceholderForIndex === vnode.children.length) {
+        if (this.sortingIndex !== null && this.showPlaceholderForIndex === (vnode.children as Vnode[]).length) {
             return children.push(this.placeholder(vnode));
         }
 
         return m(vnode.attrs.containerTag || 'div', children);
     }
 
-    placeholder(vnode) {
+    placeholder(vnode: Vnode<SortableAttrs>): Vnode {
         return m(vnode.attrs.placeholderTag || 'div', {
-            className: 'FormulaireSortablePlaceholder',
+            className: 'SortablePlaceholder',
             key: 'placeholder',
         }, vnode.attrs.placeholderTag === 'tr' ? m('td', {
             colspan: 100,

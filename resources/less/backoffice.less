@@ -29,3 +29,23 @@
         }
     }
 }
+
+.SortablePlaceholder {
+    height: 30px;
+    border: 2px dashed #aaa;
+    border-radius: @border-radius;
+    margin-bottom: 10px;
+}
+
+.FormControl--editor {
+    height: auto;
+
+    .TextEditor-controls {
+        margin: 0; // Cancels the negative margins
+        padding: 10px 0 0;
+    }
+
+    .item-submit {
+        display: none;
+    }
+}

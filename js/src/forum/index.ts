@@ -49,7 +49,7 @@ app.initializers.add('flamarkt-core', () => {
             icon: 'fas fa-shopping-cart',
             href: app.route('flamarkt.products.index'),
             activeRoutes: [
-                'products.*',
+                'flamarkt.products.*',
             ],
         }, app.translator.trans('flamarkt-core.forum.nav.shop')));
 

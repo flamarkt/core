@@ -56,6 +56,7 @@ export default class OrderShowPage extends AbstractShowPage {
                 ])),
                 m(Sortable, {
                     containerTag: 'tbody',
+                    placeholderTag: 'tr',
                     onsort: (origin, destination) => {
                         this.lines.splice(destination, 0, ...this.lines.splice(origin, 1));
                         this.dirty = true;

@@ -3,6 +3,7 @@ import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Product from '../../common/models/Product';
 import SubmitButton from '../components/SubmitButton';
 import ItemList from 'flarum/common/utils/ItemList';
+import TextEditor from 'flarum/common/components/TextEditor';
 
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
@@ -11,6 +12,11 @@ export default class ProductShowPage extends AbstractShowPage {
     title: string = '';
     description: string = '';
     price: string = '';
+
+    // We can't use the TextEditor component without having a composer object where the editor can be written to
+    composer = {
+        editor: null,
+    };
 
     newRecord() {
         return app.store.createRecord('flamarkt-products');
@@ -54,18 +60,23 @@ export default class ProductShowPage extends AbstractShowPage {
                     this.title = event.target.value;
                     this.dirty = true;
                 },
+                disabled: this.saving,
             }),
         ]));
 
         fields.add('description', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.description')),
-            m('textarea.FormControl', {
+            m('.FormControl.FormControl--editor', TextEditor.component({
                 value: this.description,
-                oninput: event => {
-                    this.description = event.target.value;
+                onchange: value => {
+                    this.description = value;
                     this.dirty = true;
+
+                    m.redraw();
                 },
-            }),
+                disabled: this.saving,
+                composer: this.composer,
+            })),
         ]));
 
         fields.add('price', m('.Form-group', [
@@ -76,6 +87,7 @@ export default class ProductShowPage extends AbstractShowPage {
                 oninput: event => {
                     this.price = event.target.value;
                 },
+                disabled: this.saving,
             }),
         ]));
 
@@ -83,6 +95,7 @@ export default class ProductShowPage extends AbstractShowPage {
             SubmitButton.component({
                 loading: this.saving,
                 dirty: this.dirty,
+                // @ts-ignore
                 exists: this.product.exists,
             }),
         ]), -10);

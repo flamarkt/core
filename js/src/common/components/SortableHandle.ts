@@ -1,10 +1,16 @@
-import {ClassComponent} from 'mithril';
+import {ClassComponent, Vnode} from 'mithril';
 import icon from 'flarum/common/helpers/icon';
 
-export default class SortableHandle implements ClassComponent {
-    view(vnode) {
+interface SortableHandleAttrs {
+    elementTag?: string
+    className?: string
+    disabled?: boolean
+}
+
+export default class SortableHandle implements ClassComponent<SortableHandleAttrs> {
+    view(vnode: Vnode<SortableHandleAttrs>) {
         const attrs: any = {
-            className: vnode.attrs.className + ' js-handle',
+            className: (vnode.attrs.className ? vnode.attrs.className + ' ' : '') + 'js-handle',
         };
 
         if (vnode.attrs.disabled) {

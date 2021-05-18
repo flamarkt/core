@@ -9,7 +9,7 @@ return [
             $table->increments('id');
             $table->string('type')->nullable();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedInteger('price');
             $table->timestamps();
             $table->timestamp('hidden_at');

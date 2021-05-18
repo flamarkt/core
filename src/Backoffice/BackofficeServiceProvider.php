@@ -80,6 +80,19 @@ class BackofficeServiceProvider extends AbstractServiceProvider
                 $sources->addString(function () {
                     return $this->container->make(Formatter::class)->getJs();
                 });
+
+                // The markdown toolbar is only added to the forum but we want it available when using TextEditor in the backoffice
+                // TODO: remove if this is fixed in Flarum since the file would be included twice
+                $markdownJs = $paths->vendor . '/flarum/markdown/js/dist/forum.js';
+                if (file_exists($markdownJs)) {
+                    $sources->addString(function () {
+                        return 'var module={}';
+                    });
+                    $sources->addFile($markdownJs);
+                    $sources->addString(function () {
+                        return "flarum.extensions['flarum-markdown']=module.exports";
+                    });
+                }
             });
 
             $assets->css(function (SourceCollector $sources) use ($paths) {

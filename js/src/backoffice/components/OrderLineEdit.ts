@@ -14,9 +14,14 @@ interface OrderLineAttrs extends Attributes {
 
 export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
     view(vnode: Vnode<OrderLineAttrs>) {
-        const {line, control, onchange, sortable} = vnode.attrs;
+        const {line, control, onchange, sortable, style, ondragstart} = vnode.attrs;
 
-        return m('tr', this.columns(line, control, onchange, sortable).toArray());
+        return m('tr', {
+            // Copy over attrs from Sortable component
+            style,
+            'data-index': vnode.attrs['data-index'],
+            ondragstart,
+        }, this.columns(line, control, onchange, sortable).toArray());
     }
 
     columns(line: OrderLine, control: Vnode, onchange: () => void, sortable?: boolean): ItemList {

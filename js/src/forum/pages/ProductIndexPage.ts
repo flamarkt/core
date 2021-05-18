@@ -1,8 +1,8 @@
+import Page from 'flarum/common/components/Page';
 import ProductListState from '../../common/states/ProductListState';
-import Link from 'flarum/common/components/Link';
-import AbstractShopPage from './AbstractShopPage';
+import ProductIndexLayout from '../layouts/ProductIndexLayout';
 
-export default class ProductIndexPage extends AbstractShopPage {
+export default class ProductIndexPage extends Page {
     state!: ProductListState;
 
     oninit(vnode) {
@@ -12,22 +12,9 @@ export default class ProductIndexPage extends AbstractShopPage {
         this.state.refresh();
     }
 
-    breadcrumbItems() {
-        const items = super.breadcrumbItems();
-
-        items.add('current', m('span.breadcrumb-current', 'Products'));
-
-        return items;
-    }
-
-    content() {
-        return m('div', [
-            m('h1', 'Products'),
-            m('ul', this.state.pages.map(page => page.items.map(product => m('li', m(Link, {
-                href: app.route('flamarkt.products.show', {
-                    id: product.id(),
-                }),
-            }, product.title()))))),
-        ]);
+    view() {
+        return ProductIndexLayout.component({
+            state: this.state,
+        });
     }
 }

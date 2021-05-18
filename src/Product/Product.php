@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use Flamarkt\Core\Cart\Cart;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
+use Flarum\Formatter\Formatter;
 use Flarum\Foundation\EventGeneratorTrait;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @property int $id
@@ -37,6 +39,11 @@ class Product extends AbstractModel
         'updated_at' => 'datetime',
         'hidden_at' => 'datetime',
     ];
+
+    /**
+     * @var Formatter
+     */
+    protected static $formatter;
 
     public function users(): BelongsToMany
     {
@@ -95,5 +102,48 @@ class Product extends AbstractModel
     public static function setStateUser(User $user)
     {
         static::$stateUser = $user;
+    }
+
+    public function getDescriptionAttribute($value): ?string
+    {
+        if (!$value) {
+            return null;
+        }
+
+        return static::$formatter->unparse($value);
+    }
+
+    public function getParsedDescriptionAttribute(): ?string
+    {
+        return $this->attributes['description'];
+    }
+
+    public function setDescriptionAttribute(string $value = null)
+    {
+        $this->attributes['description'] = $value ? static::$formatter->parse($value, $this) : null;
+    }
+
+    public function setParsedDescriptionAttribute(string $value = null)
+    {
+        $this->attributes['description'] = $value;
+    }
+
+    public function formatDescription(ServerRequestInterface $request = null): ?string
+    {
+        if (!$this->attributes['description']) {
+            return null;
+        }
+
+        return static::$formatter->render($this->attributes['description'], $this, $request);
+    }
+
+    public static function getFormatter(): Formatter
+    {
+        return static::$formatter;
+    }
+
+    public static function setFormatter(Formatter $formatter)
+    {
+        static::$formatter = $formatter;
     }
 }

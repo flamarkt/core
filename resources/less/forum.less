@@ -47,3 +47,19 @@
         background: #f6f6f6;
     }
 }
+
+.ProductShowSections {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ProductShowSection {
+    width: 100%;
+}
+
+@media @tablet-up {
+    .ProductShowSection--gallery,
+    .ProductShowSection--gallery + .ProductShowSection--price {
+        width: 50%;
+    }
+}

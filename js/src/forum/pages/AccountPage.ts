@@ -1,10 +1,8 @@
-import AbstractAccountPage from './AbstractAccountPage';
-import AccountControls from '../utils/AccountControls';
+import Page from 'flarum/common/components/Page';
+import AccountLayout from '../layouts/AccountLayout';
 
-export default class AccountPage extends AbstractAccountPage {
-    content() {
-        return m('.AccountPage', m('.container', [
-            AccountControls.controls(app.session.user).toArray(),
-        ]));
+export default class AccountPage extends Page {
+    view() {
+        return AccountLayout.component();
     }
 }

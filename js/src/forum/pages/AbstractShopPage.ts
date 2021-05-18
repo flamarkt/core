@@ -6,6 +6,9 @@ import * as Mithril from 'mithril';
 import LinkButton from "flarum/common/components/LinkButton";
 import Breadcrumb from "../components/Breadcrumb";
 
+/**
+ * @deprecated replaced by Layout
+ */
 export default abstract class AbstractShopPage extends Page {
     view() {
         return m('.ShopPage', [

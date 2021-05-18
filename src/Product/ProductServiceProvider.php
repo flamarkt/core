@@ -15,4 +15,9 @@ class ProductServiceProvider extends AbstractServiceProvider
             return $oldFulltextGambits;
         });
     }
+
+    public function boot()
+    {
+        Product::setFormatter($this->container->make('flarum.formatter'));
+    }
 }

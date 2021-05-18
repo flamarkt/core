@@ -10,6 +10,7 @@ class ProductSerializer extends BasicProductSerializer
     {
         $attributes = parent::getDefaultAttributes($product) + [
                 'description' => $product->description,
+                'descriptionHtml' => $product->formatDescription($this->request),
                 'price' => $product->price,
             ];
 
