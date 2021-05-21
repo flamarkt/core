@@ -22,6 +22,9 @@ class OrderBuilderFactory
 
     public function build(User $actor, Cart $cart, array $data): Order
     {
+        $order = new Order();
+        $order->user()->associate($actor);
+
         $builder = new OrderBuilder();
 
         if ($cart->products->isEmpty()) {
@@ -38,10 +41,7 @@ class OrderBuilderFactory
             $line->price_total = $product->pivot->quantity * $product->price;
         }
 
-        $this->events->dispatch(new Ordering($builder, $actor, $cart, $data));
-
-        $order = new Order();
-        $order->user()->associate($actor);
+        $this->events->dispatch(new Ordering($builder, $order, $actor, $cart, $data));
 
         $saveLines = [];
 

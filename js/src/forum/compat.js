@@ -1,7 +1,12 @@
+import Breadcrumb from './components/Breadcrumb';
 import CartDropdown from './components/CartDropdown';
+import CartPageSection from './components/CartPageSection';
+import CartTable from './components/CartTable';
+import CartTableRow from './components/CartTableRow';
 import AbstractAccountLayout from './layouts/AbstractAccountLayout';
 import AbstractShopLayout from './layouts/AbstractShopLayout';
 import AccountLayout from './layouts/AccountLayout';
+import CartLayout from './layouts/CartLayout';
 import ProductIndexLayout from './layouts/ProductIndexLayout';
 import ProductShowLayout from './layouts/ProductShowLayout';
 import AbstractAccountPage from './pages/AbstractAccountPage';
@@ -14,10 +19,15 @@ import ProductShowPage from './pages/ProductShowPage';
 import AccountControls from './utils/AccountControls';
 
 export const forum = {
+    'components/Breadcrumb': Breadcrumb,
     'components/CartDropdown': CartDropdown,
+    'components/CartPageSection': CartPageSection,
+    'components/CartTable': CartTable,
+    'components/CartTableRow': CartTableRow,
     'layouts/AbstractAccountLayout': AbstractAccountLayout,
     'layouts/AbstractShopLayout': AbstractShopLayout,
     'layouts/AccountLayout': AccountLayout,
+    'layouts/CartLayout': CartLayout,
     'layouts/ProductIndexLayout': ProductIndexLayout,
     'layouts/ProductShowLayout': ProductShowLayout,
     'pages/AbstractAccountPage': AbstractAccountPage,

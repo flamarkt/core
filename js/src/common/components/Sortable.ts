@@ -151,7 +151,7 @@ export default class Sortable implements ClassComponent<SortableAttrs> {
         });
 
         if (this.sortingIndex !== null && this.showPlaceholderForIndex === (vnode.children as Vnode[]).length) {
-            return children.push(this.placeholder(vnode));
+            children.push(this.placeholder(vnode));
         }
 
         return m(vnode.attrs.containerTag || 'div', children);

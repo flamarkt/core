@@ -6,6 +6,7 @@ use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Frontend\Document;
+use Flarum\User\User;
 use Illuminate\Support\Arr;
 
 return [
@@ -111,4 +112,8 @@ return [
     (new Extend\ModelVisibility(Product\Product::class))
         ->scope(Product\Scope\View::class)
         ->scope(Product\Scope\Enumerate::class, 'viewEnumerate'),
+
+    (new Extend\Model(User::class))
+        ->hasMany('carts', Cart\Cart::class)
+        ->hasMany('orders', Order\Order::class),
 ];

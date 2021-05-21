@@ -15,7 +15,7 @@ export default class AbstractList extends Component {
         return null;
     }
 
-    bottomRow(state) {
+    bottomRowContent(state) {
         if (state.loading) {
             return LoadingIndicator.component();
         } else if (state.moreResults) {
@@ -30,7 +30,14 @@ export default class AbstractList extends Component {
                 text: app.translator.trans('empty'),
             });
         }
+    }
 
+    bottomRow(state) {
+        const content = this.bottomRowContent(state);
+
+        return content ? m('tr', m('td', {
+            colspan: 100,
+        }, content)) : null;
     }
 
     view(vnode) {

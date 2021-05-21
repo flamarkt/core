@@ -128,6 +128,8 @@ export default class ProductShowPage extends AbstractShowPage {
         }).catch(error => {
             this.saving = false;
             m.redraw();
+
+            throw error;
         });
     }
 }
