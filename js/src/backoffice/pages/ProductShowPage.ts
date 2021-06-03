@@ -51,6 +51,12 @@ export default class ProductShowPage extends AbstractShowPage {
     fields(): ItemList {
         const fields = new ItemList();
 
+        // We need to patch our way through the global app object because of https://github.com/flarum/markdown/pull/28
+        // which made the markdown toolbar only work globally
+        // TODO: remove when possible
+        // @ts-ignore
+        app.composer = this.composer;
+
         fields.add('title', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.title')),
             m('input.FormControl', {
