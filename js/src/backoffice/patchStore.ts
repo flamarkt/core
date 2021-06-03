@@ -7,7 +7,7 @@ export default function () {
      * To work around this, we override this method that will allow us to pass down raw objects directly in the model during save
      * The same code is used in fof/taxonomies
      */
-    override(Model, 'getIdentifier', function (original, model) {
+    override(Model, 'getIdentifier', function (original: (model: Model) => any, model: Model | any) {
         // Allow passing null relationships in save()
         if (!model) {
             return null;

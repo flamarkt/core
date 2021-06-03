@@ -6,6 +6,7 @@ use Flamarkt\Core\Api\Serializer\CartSerializer;
 use Flamarkt\Core\Cart\Cart;
 use Flamarkt\Core\Product\Product;
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Http\RequestUtil;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -24,7 +25,7 @@ class CartSessionController extends AbstractShowController
          */
         $cart = $request->getAttribute('cart');
 
-        Product::setStateUser($request->getAttribute('actor'));
+        Product::setStateUser(RequestUtil::getActor($request));
         Product::setStateCart($cart);
 
         $cart->load([

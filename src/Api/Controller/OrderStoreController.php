@@ -7,6 +7,7 @@ use Flamarkt\Core\Cart\CartRepository;
 use Flamarkt\Core\Order\OrderBuilderFactory;
 use Flamarkt\Core\Order\OrderRepository;
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Http\RequestUtil;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -34,7 +35,7 @@ class OrderStoreController extends AbstractCreateController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $data = $request->getParsedBody();
 
         $cartId = Arr::get($data, 'data.relationships.cart.data.id');

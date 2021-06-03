@@ -1,5 +1,5 @@
 import Component from 'flarum/common/Component';
-import LinkButton from "flarum/common/components/LinkButton";
+import LinkButton from 'flarum/common/components/LinkButton';
 
 export default class CartList extends Component {
     view() {

@@ -3,10 +3,10 @@
 namespace Flamarkt\Core\Api\Controller;
 
 use Flamarkt\Core\Api\Serializer\OrderSerializer;
-use Flamarkt\Core\Order\Order;
 use Flamarkt\Core\Order\OrderFilterer;
 use Flamarkt\Core\Order\OrderSearcher;
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
 use Flarum\Query\QueryCriteria;
 use Psr\Http\Message\ServerRequestInterface;
@@ -41,7 +41,7 @@ class OrderIndexController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $filters = $this->extractFilter($request);
         $sort = $this->extractSort($request);
 
@@ -64,6 +64,8 @@ class OrderIndexController extends AbstractListController
             $results->areMoreResults() ? null : 0
         );
 
-        return $results->getResults()->load($include);
+        $this->loadRelations($results->getResults(), $include);
+
+        return $results->getResults();
     }
 }

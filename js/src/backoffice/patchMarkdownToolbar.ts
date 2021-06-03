@@ -1,3 +1,4 @@
+import {Vnode} from 'mithril';
 import {extend} from 'flarum/common/extend';
 import TextEditor from 'flarum/common/components/TextEditor';
 
@@ -14,7 +15,7 @@ export default function () {
         }
 
         if (items.has('markdown')) {
-            extend(items.get('markdown').children[0].tag.prototype, 'view', function (vdom) {
+            extend(items.get('markdown').children[0].tag.prototype, 'view', function (vdom: Vnode) {
                 // TODO: this will break in Flarum 1.0 because the button is sometimes wrapped in the Tooltip component
                 // also the upstream fix likely ships with 1.0
                 vdom.attrs.type = 'button';

@@ -8,16 +8,37 @@ declare global {
 import ForumApplication from 'flarum/forum/ForumApplication';
 import AdminApplication from 'flarum/admin/AdminApplication';
 import User from 'flarum/common/models/User';
-import Cart from './src/common/models/Cart';
+import CartState from './src/forum/states/CartState';
 import Product from './src/common/models/Product';
 import Order from './src/common/models/Order';
 
 export interface AdditionalApplication {
-    cart: Cart
+    cart: CartState
     route: {
-        product(product: Product),
-        user(user: User),
-        order(order: Order),
+        product(product: Product): string,
+        user(user: User): string,
+        order(order: Order): string,
+    }
+}
+
+declare module 'flarum/common/Store' {
+    interface StoreModels {
+        [key: string]: any
+    }
+
+    export default interface Store {
+        models: StoreModels
+    }
+}
+
+declare module 'flarum/forum/ForumApplication' {
+    export default interface ForumApplication {
+        cart: CartState
+        route: {
+            product(product: Product): string,
+            user(user: User): string,
+            order(order: Order): string,
+        }
     }
 }
 
@@ -25,17 +46,9 @@ declare global {
     const app: ForumApplication & AdminApplication & AdditionalApplication;
 }
 
-// Fix wrong signatures from Flarum
-declare module 'flarum/common/Translator' {
-    export default interface Translator {
-        // Make second parameter optional
-        trans(id: any, parameters?: any): any;
-    }
-}
-
 declare module 'flarum/common/helpers/username' {
     // Allow passing null or undefined
-    export default function username(user: User | null | undefined | false);
+    export default function username(user: User | null | undefined | false): any;
 }
 
 declare module 'flarum/common/models/User' {

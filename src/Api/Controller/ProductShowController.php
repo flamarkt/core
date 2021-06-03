@@ -6,6 +6,7 @@ use Flamarkt\Core\Api\Serializer\ProductSerializer;
 use Flamarkt\Core\Product\Product;
 use Flamarkt\Core\Product\ProductRepository;
 use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Http\RequestUtil;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -23,7 +24,7 @@ class ProductShowController extends AbstractShowController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $product = $this->repository->findOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 

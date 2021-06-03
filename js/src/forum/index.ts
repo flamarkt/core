@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import {extend} from 'flarum/common/extend';
 import SessionDropdown from 'flarum/forum/components/SessionDropdown';
 import LinkButton from 'flarum/common/components/LinkButton';

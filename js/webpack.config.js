@@ -1,17 +1,4 @@
-const baseConfig = require('flarum-webpack-config');
-
-function config() {
-    const config = baseConfig();
-
-    // Enable Typescript same way as Flarum Core
-    config.resolve = {
-        extensions: ['.ts', '.tsx', '.js', '.json'],
-    }
-    config.module.rules[0].test = /\.(tsx?|js)$/;
-    config.module.rules[0].use.options.presets.push('@babel/preset-typescript');
-
-    return config;
-}
+const config = require('flarum-webpack-config');
 
 const backofficeConfig = {
     ...config(),

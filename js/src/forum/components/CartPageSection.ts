@@ -1,7 +1,13 @@
-import Component from 'flarum/common/Component';
+import * as Mithril from 'mithril';
+import Component, {ComponentAttrs} from 'flarum/common/Component';
 
-export default class CartPageSection extends Component {
-    view(vnode) {
+interface CartPageSectionAttrs extends ComponentAttrs {
+    className: string
+    title: string
+}
+
+export default class CartPageSection extends Component<CartPageSectionAttrs> {
+    view(vnode: Mithril.Vnode<CartPageSectionAttrs, this>) {
         return m('section', {
             className: 'CartPage-section ' + vnode.attrs.className,
         }, [

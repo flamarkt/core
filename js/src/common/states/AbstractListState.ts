@@ -77,7 +77,7 @@ export default class AbstractListState<T extends Model> {
         );
     }
 
-    loadResults(offset) {
+    loadResults(offset: number) {
         const preloaded = app.preloadedApiDocument();
 
         if (preloaded) {
@@ -101,7 +101,7 @@ export default class AbstractListState<T extends Model> {
             });
     }
 
-    parseResults(results, number) {
+    parseResults(results: any, number: number) {
         if (results.length) {
             this.pages.push(new Page(number, results, results.payload.links));
         }
@@ -115,7 +115,7 @@ export default class AbstractListState<T extends Model> {
         return results;
     }
 
-    remove(model) {
+    remove(model: T) {
         this.pages.forEach(page => {
             const index = page.items.indexOf(model);
 
@@ -125,7 +125,7 @@ export default class AbstractListState<T extends Model> {
         });
     }
 
-    add(model) {
+    add(model: T) {
         this.pages[0].items.unshift(model);
     }
 }

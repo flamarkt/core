@@ -124,8 +124,12 @@ export default class Sortable implements ClassComponent<SortableAttrs> {
             }
 
             content.attrs['data-index'] = index;
-            content.attrs.ondragstart = event => {
-                if (event.target.classList.contains('js-handle') && !vnode.attrs.disabled) {
+            content.attrs.ondragstart = (event: DragEvent) => {
+                if (!event.target || !event.dataTransfer) {
+                    return;
+                }
+
+                if ((event.target as HTMLElement).classList.contains('js-handle') && !vnode.attrs.disabled) {
                     const element = Array.from((vnode as any as VnodeDOM).dom.childNodes as any as HTMLElement[]).find(elem => elem.dataset.index === index + '');
 
                     // This should usually not happen since all referenced indexes should exist
@@ -143,6 +147,7 @@ export default class Sortable implements ClassComponent<SortableAttrs> {
                     this.sortingIndex = index;
                     this.showPlaceholderForIndex = index;
                 } else {
+                    // @ts-ignore Mithril event redraw
                     event.redraw = false;
                 }
             };

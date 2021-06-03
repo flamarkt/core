@@ -1,8 +1,10 @@
+import * as Mithril from 'mithril';
+import {ComponentAttrs} from 'flarum/common/Component';
 import Page from 'flarum/common/components/Page';
 import Model from 'flarum/common/Model';
 
 export default abstract class AbstractShowPage extends Page {
-    oninit(vnode) {
+    oninit(vnode: Mithril.Vnode<ComponentAttrs>) {
         super.oninit(vnode);
 
         this.load();
@@ -19,7 +21,7 @@ export default abstract class AbstractShowPage extends Page {
             if (newRecord) {
                 this.show(newRecord);
             }
-        } else if (preloaded) {
+        } else if (preloaded instanceof Model) {
             this.show(preloaded);
         } else {
             const params = this.requestParams();

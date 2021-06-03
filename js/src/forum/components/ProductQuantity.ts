@@ -1,3 +1,4 @@
+import * as Mithril from 'mithril';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Product from '../../common/models/Product';
@@ -10,7 +11,7 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
     cartQuantity: number = 1;
     savingQuantity: boolean = false;
 
-    oninit(vnode) {
+    oninit(vnode: Mithril.Vnode<ProductQuantityAttrs, this>) {
         super.oninit(vnode);
 
         this.cartQuantity = this.attrs.product.cartQuantity() || 1;
@@ -24,8 +25,11 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
             m('input.FormControl', {
                 type: 'number',
                 value: this.cartQuantity + '',
-                oninput: event => {
-                    this.cartQuantity = parseInt(event.target.value);
+                oninput: (event: Event) => {
+                    // @ts-ignore we know target always exists
+                    const {value} = event.target;
+
+                    this.cartQuantity = parseInt(value);
                 },
             }),
             Button.component({

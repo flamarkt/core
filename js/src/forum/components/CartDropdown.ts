@@ -1,12 +1,26 @@
+import app from 'flarum/forum/app';
+import {ComponentAttrs} from 'flarum/common/Component';
 import Dropdown from 'flarum/common/components/Dropdown';
 import icon from 'flarum/common/helpers/icon';
 import CartList from './CartList';
 import formatPrice from '../../common/helpers/formatPrice';
+import CartState from '../states/CartState';
+
+interface CartDropdownAttrs extends ComponentAttrs {
+    className: string
+    buttonClassName: string
+    menuClassName: string
+    label: string
+    icon: string
+    state: CartState
+}
 
 // Based on Flarum's NotificationsDropdown
 // @ts-ignore
 export default class CartDropdown extends Dropdown {
-    static initAttrs(attrs) {
+    attrs!: CartDropdownAttrs
+
+    static initAttrs(attrs: CartDropdownAttrs) {
         attrs.className = attrs.className || 'CartDropdown';
         attrs.buttonClassName = attrs.buttonClassName || 'Button Button--flat';
         attrs.menuClassName = attrs.menuClassName || 'Dropdown-menu--right';
@@ -16,7 +30,7 @@ export default class CartDropdown extends Dropdown {
         super.initAttrs(attrs);
     }
 
-    getButton(children) {
+    getButton(children: any) {
         return m('a.Dropdown-toggle', {
             className: this.attrs.buttonClassName,
             'data-toggle': 'dropdown',
@@ -26,7 +40,7 @@ export default class CartDropdown extends Dropdown {
         }, this.getButtonContent(children));
     }
 
-    getButtonContent(children) {
+    getButtonContent(children: any) {
         const price = this.attrs.state.priceTotal() || 0;
 
         return [
@@ -42,7 +56,7 @@ export default class CartDropdown extends Dropdown {
         }, this.showing ? CartList.component({state: this.attrs.state}) : null);
     }
 
-    onclick(event) {
+    onclick(event: Event) {
         event.preventDefault();
 
         if (app.drawer.isOpen()) {

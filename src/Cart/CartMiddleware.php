@@ -2,7 +2,7 @@
 
 namespace Flamarkt\Core\Cart;
 
-use Flarum\User\User;
+use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Session\Session;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -25,10 +25,7 @@ class CartMiddleware implements MiddlewareInterface
          */
         $session = $request->getAttribute('session');
 
-        /**
-         * @var User $actor
-         */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         if ($actor->isGuest()) {
             // TODO: allow guests

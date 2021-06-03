@@ -1,4 +1,10 @@
-import LinkButton from "flarum/common/components/LinkButton";
+import {ComponentAttrs} from 'flarum/common/Component';
+import LinkButton from 'flarum/common/components/LinkButton';
+
+interface ActiveLinkButtonAttrs extends ComponentAttrs {
+    href: string
+    activeRoutes?: string[]
+}
 
 /**
  * A modified LinkButton that accepts a new activeRoutes attr that defines on which routes
@@ -8,7 +14,7 @@ import LinkButton from "flarum/common/components/LinkButton";
  */
 // @ts-ignore view method not type-hinted
 export default class ActiveLinkButton extends LinkButton {
-    static isActive(attrs) {
+    static isActive(attrs: ActiveLinkButtonAttrs) {
         return m.route.get() === attrs.href || ActiveLinkButton.activeRoutes(attrs).some(routeName => {
             const currentRouteName = (app.current.data as any).routeName;
 
@@ -28,7 +34,7 @@ export default class ActiveLinkButton extends LinkButton {
         });
     }
 
-    static activeRoutes(attrs): string[] {
+    static activeRoutes(attrs: ActiveLinkButtonAttrs): string[] {
         if (attrs.activeRoutes) {
             return attrs.activeRoutes;
         }

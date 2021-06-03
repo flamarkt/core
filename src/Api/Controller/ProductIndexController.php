@@ -7,6 +7,7 @@ use Flamarkt\Core\Product\Product;
 use Flamarkt\Core\Product\ProductFilterer;
 use Flamarkt\Core\Product\ProductSearcher;
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
 use Flarum\Query\QueryCriteria;
 use Psr\Http\Message\ServerRequestInterface;
@@ -37,7 +38,7 @@ class ProductIndexController extends AbstractListController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
         $filters = $this->extractFilter($request);
         $sort = $this->extractSort($request);
 
@@ -63,6 +64,8 @@ class ProductIndexController extends AbstractListController
         Product::setStateUser($actor);
         Product::setStateCart($request->getAttribute('cart'));
 
-        return $results->getResults()->load($include);
+        $this->loadRelations($results->getResults(), $include);
+
+        return $results->getResults();
     }
 }

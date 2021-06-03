@@ -10,7 +10,7 @@ class View
     public function __invoke(User $actor, Builder $query)
     {
         if (!$actor->can('backoffice')) {
-            $query->whereNull('deleted_at');
+            $query->whereNull('hidden_at');
         }
     }
 }
