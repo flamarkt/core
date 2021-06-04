@@ -1,6 +1,8 @@
 import {ClassComponent, Vnode, VnodeDOM} from 'mithril';
 
 interface SortableAttrs {
+    className?: string
+    handleClassName?: string | null
     containerTag?: string
     placeholderTag?: string
     disabled?: boolean
@@ -129,7 +131,15 @@ export default class Sortable implements ClassComponent<SortableAttrs> {
                     return;
                 }
 
-                if ((event.target as HTMLElement).classList.contains('js-handle') && !vnode.attrs.disabled) {
+                let {handleClassName} = vnode.attrs;
+
+                // By default we only handle moves that have this class name
+                // The check can be disabled by setting handleClassName to null
+                if (typeof handleClassName === 'undefined') {
+                    handleClassName = 'js-handle';
+                }
+
+                if ((!handleClassName || (event.target as HTMLElement).classList.contains(handleClassName)) && !vnode.attrs.disabled) {
                     const element = Array.from((vnode as any as VnodeDOM).dom.childNodes as any as HTMLElement[]).find(elem => elem.dataset.index === index + '');
 
                     // This should usually not happen since all referenced indexes should exist
@@ -159,7 +169,13 @@ export default class Sortable implements ClassComponent<SortableAttrs> {
             children.push(this.placeholder(vnode));
         }
 
-        return m(vnode.attrs.containerTag || 'div', children);
+        const attrs: any = {};
+
+        if (vnode.attrs.className) {
+            attrs.className = vnode.attrs.className;
+        }
+
+        return m(vnode.attrs.containerTag || 'div', attrs, children);
     }
 
     placeholder(vnode: Vnode<SortableAttrs>): Vnode {
