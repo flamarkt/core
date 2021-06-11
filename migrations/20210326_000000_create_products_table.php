@@ -12,7 +12,7 @@ return [
             $table->text('description')->nullable();
             $table->unsignedInteger('price');
             $table->timestamps();
-            $table->timestamp('hidden_at');
+            $table->timestamp('hidden_at')->nullable();
         });
     },
     'down' => function (Builder $schema) {

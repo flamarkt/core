@@ -1,0 +1,39 @@
+.ProductList {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ProductListItem {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.ProductListItem--link {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    color: inherit;
+
+    &:hover {
+        text-decoration: none;
+        background: #fafafa;
+    }
+}
+
+.ProductListItem--title {
+    display: block;
+    font-weight: bold;
+}
+
+@media @tablet-up {
+    .ProductListItem {
+        width: 30%;
+
+        &:not(:nth-child(3n)) {
+            border-right: 1px solid #dedede;
+        }
+    }
+}

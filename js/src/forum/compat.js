@@ -3,6 +3,10 @@ import CartDropdown from './components/CartDropdown';
 import CartPageSection from './components/CartPageSection';
 import CartTable from './components/CartTable';
 import CartTableRow from './components/CartTableRow';
+import OrderTable from './components/OrderTable';
+import OrderTableRow from './components/OrderTableRow';
+import ProductListItem from './components/ProductListItem';
+import ProductQuantity from './components/ProductQuantity';
 import AbstractAccountLayout from './layouts/AbstractAccountLayout';
 import AbstractShopLayout from './layouts/AbstractShopLayout';
 import AccountLayout from './layouts/AccountLayout';
@@ -24,6 +28,10 @@ export const forum = {
     'components/CartPageSection': CartPageSection,
     'components/CartTable': CartTable,
     'components/CartTableRow': CartTableRow,
+    'components/OrderTable': OrderTable,
+    'components/OrderTableRow': OrderTableRow,
+    'components/ProductListItem': ProductListItem,
+    'components/ProductQuantity': ProductQuantity,
     'layouts/AbstractAccountLayout': AbstractAccountLayout,
     'layouts/AbstractShopLayout': AbstractShopLayout,
     'layouts/AccountLayout': AccountLayout,

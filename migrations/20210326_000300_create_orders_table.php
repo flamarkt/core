@@ -11,7 +11,7 @@ return [
             $table->string('status');
             $table->unsignedInteger('price_total');
             $table->timestamps();
-            $table->timestamp('hidden_at');
+            $table->timestamp('hidden_at')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });

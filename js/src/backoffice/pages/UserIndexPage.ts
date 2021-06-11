@@ -2,6 +2,7 @@ import Page from 'flarum/common/components/Page';
 import LinkButton from 'flarum/common/components/LinkButton';
 import UserListState from '../states/UserListState';
 import UserList from '../components/UserList';
+import UserSortDropdown from '../components/UserSortDropdown';
 
 export default class UserIndexPage extends Page {
     state!: UserListState;
@@ -22,6 +23,9 @@ export default class UserIndexPage extends Page {
                         id: 'new',
                     }),
                 }, app.translator.trans('flamarkt-core.backoffice.users.new')),
+                m(UserSortDropdown, {
+                    state: this.state,
+                }),
             ]),
             m(UserList, {
                 state: this.state,

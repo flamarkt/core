@@ -19,6 +19,8 @@ class ProductIndexController extends AbstractListController
 
     public $sortFields = [
         'createdAt',
+        'title',
+        'price',
     ];
 
     public $sort = [

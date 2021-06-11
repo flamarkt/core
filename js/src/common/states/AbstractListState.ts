@@ -33,24 +33,15 @@ export default class AbstractListState<T extends Model> {
     requestParams() {
         const params: any = {filter: this.params.filter || {}};
 
-        params.sort = this.sortMap()[this.params.sort];
+        if (this.params.sort) {
+            params.sort = this.params.sort;
+        }
 
         if (this.params.q) {
             params.filter.q = this.params.q;
         }
 
         return params;
-    }
-
-    sortMap() {
-        const map: any = {};
-
-        map.latest = '-createdAt';
-        map.oldest = 'createdAt';
-        map.latestTake = '-takenAt';
-        map.oldestTake = 'takenAt';
-
-        return map;
     }
 
     clear() {

@@ -1,7 +1,7 @@
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import OrderLine from '../../common/models/OrderLine';
 import ItemList from 'flarum/common/utils/ItemList';
-import formatPrice from "../../common/helpers/formatPrice";
+import formatPrice from '../../common/helpers/formatPrice';
 
 interface OrderTableRowAttrs extends ComponentAttrs {
     line: OrderLine,
