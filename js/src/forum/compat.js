@@ -19,6 +19,7 @@ import AccountPage from './pages/AccountPage';
 import CartPage from './pages/CartPage';
 import OrderIndexPage from './pages/OrderIndexPage';
 import OrderShowPage from '../backoffice/pages/OrderShowPage';
+import ProductIndexPage from './pages/ProductIndexPage';
 import ProductShowPage from './pages/ProductShowPage';
 import AccountControls from './utils/AccountControls';
 
@@ -44,6 +45,7 @@ export const forum = {
     'pages/CartPage': CartPage,
     'pages/OrderIndexPage': OrderIndexPage,
     'pages/OrderShowPage': OrderShowPage,
+    'pages/ProductIndexPage': ProductIndexPage,
     'pages/ProductShowPage': ProductShowPage,
     'utils/AccountControls': AccountControls,
 }

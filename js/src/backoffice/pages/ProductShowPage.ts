@@ -62,8 +62,8 @@ export default class ProductShowPage extends AbstractShowPage {
             m('input.FormControl', {
                 type: 'text',
                 value: this.title,
-                oninput: event => {
-                    this.title = event.target.value;
+                oninput: (event: Event) => {
+                    this.title = (event.target as HTMLInputElement).value;
                     this.dirty = true;
                 },
                 disabled: this.saving,
@@ -74,7 +74,7 @@ export default class ProductShowPage extends AbstractShowPage {
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.description')),
             m('.FormControl.FormControl--editor', TextEditor.component({
                 value: this.description,
-                onchange: value => {
+                onchange: (value: string) => {
                     this.description = value;
                     this.dirty = true;
 
@@ -90,8 +90,8 @@ export default class ProductShowPage extends AbstractShowPage {
             m('input.FormControl', {
                 type: 'number',
                 value: this.price,
-                oninput: event => {
-                    this.price = event.target.value;
+                oninput: (event: Event) => {
+                    this.price = (event.target as HTMLInputElement).value;
                 },
                 disabled: this.saving,
             }),
@@ -117,7 +117,8 @@ export default class ProductShowPage extends AbstractShowPage {
         };
     }
 
-    onsubmit(event) {
+    // @ts-ignore event not type-hinted
+    onsubmit(event: Event) {
         event.preventDefault();
 
         this.saving = true;

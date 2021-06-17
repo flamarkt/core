@@ -31,6 +31,7 @@ export default class ProductIndexLayout extends AbstractShopLayout<ProductIndexL
 
         items.add('sort', m(ProductSortDropdown, {
             state: this.attrs.state,
+            updateUrl: true,
         }));
 
         return items;

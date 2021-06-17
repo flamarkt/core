@@ -9,12 +9,16 @@ export default class OrderIndexPage extends AbstractShopPage {
     oninit(vnode) {
         super.oninit(vnode);
 
-        this.state = new OrderListState({
+        this.state = this.initState();
+        this.state.refresh();
+    }
+
+    initState() {
+        return new OrderListState({
             filter: {
                 user: app.session.user ? app.session.user.username() : 0,
             },
         });
-        this.state.refresh();
     }
 
     content() {

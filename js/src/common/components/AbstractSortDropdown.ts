@@ -6,6 +6,7 @@ import AbstractListState from '../states/AbstractListState';
 
 export interface SortDropdownAttrs extends ComponentAttrs {
     state: AbstractListState<Model>
+    updateUrl?: boolean
 }
 
 export interface SortOptions {
@@ -45,13 +46,27 @@ export default abstract class AbstractSortDropdown<T extends SortDropdownAttrs> 
     }
 
     applySort(sort: string) {
+        // Clone params otherwise it causes a page refresh even without m.route.set
+        const params = {...m.route.param()};
+
         if (this.defaultSort() === sort) {
             delete this.attrs.state.params.sort;
+            delete params.sort;
         } else {
             this.attrs.state.params.sort = sort;
+            params.sort = sort;
         }
 
-        this.attrs.state.refresh();
+        if (this.attrs.updateUrl) {
+            delete params.key;
+
+            // @ts-ignore
+            const {routeName} = app.current.data;
+
+            m.route.set(app.route(routeName, params));
+        } else {
+            this.attrs.state.refresh();
+        }
     }
 
     abstract options(): SortOptions
