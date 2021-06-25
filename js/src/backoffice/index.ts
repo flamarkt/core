@@ -4,7 +4,8 @@ import OrderLine from '../common/models/OrderLine';
 import Product from '../common/models/Product';
 import {common} from '../common/compat';
 import {backoffice} from './compat';
-import patchStore from './patchStore';
+import patchModelHasOneNull from '../common/patchModelHasOneNull';
+import patchStoreAllowVerbatimRelationships from '../common/patchStoreAllowVerbatimRelationships';
 
 // The original AdminApplication still gets created, but we override it here
 // The boot method of the original will never be called
@@ -28,6 +29,9 @@ app.initializers.add('flamarkt-core', () => {
     app.store.models['flamarkt-products'] = Product;
 });
 
+// On one hand these need to run as early as possible because they need to override Model.hasOne which is used in other extension's extenders
+// But priority might need to be adjusted because it need to run as late as possible for the null catch to be the most outward override and therefore runs before other overrides
 app.initializers.add('flamarkt-core-patch', () => {
-    patchStore();
-}, -100);
+    patchModelHasOneNull();
+    patchStoreAllowVerbatimRelationships();
+}, 100);

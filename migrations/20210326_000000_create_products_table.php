@@ -7,10 +7,10 @@ return [
     'up' => function (Builder $schema) {
         $schema->create('flamarkt_products', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type')->nullable();
-            $table->string('title');
+            $table->string('type')->nullable()->index();
+            $table->string('title')->nullable()->index();
             $table->text('description')->nullable();
-            $table->unsignedInteger('price');
+            $table->unsignedInteger('price')->nullable();
             $table->timestamps();
             $table->timestamp('hidden_at')->nullable();
         });

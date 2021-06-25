@@ -16,7 +16,8 @@ import CartDropdown from './components/CartDropdown';
 import CartState from './states/CartState';
 import ActiveLinkButton from '../common/components/ActiveLinkButton';
 import routes from './routes';
-import patchStore from '../backoffice/patchStore';
+import patchModelHasOneNull from '../common/patchModelHasOneNull';
+import patchStoreAllowVerbatimRelationships from '../common/patchStoreAllowVerbatimRelationships';
 
 export {
     common,
@@ -71,5 +72,6 @@ app.initializers.add('flamarkt-core', () => {
 });
 
 app.initializers.add('flamarkt-core-patch', () => {
-    patchStore();
-}, -100);
+    patchModelHasOneNull();
+    patchStoreAllowVerbatimRelationships();
+}, 100);

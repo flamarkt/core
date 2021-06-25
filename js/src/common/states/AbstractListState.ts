@@ -117,6 +117,13 @@ export default class AbstractListState<T extends Model> {
     }
 
     add(model: T) {
+        // There should generally be a page, even if it's empty
+        // However if the list was never loaded/refreshed it might not exist
+        // We'll just push a first page if that happens
+        if (!this.pages.length) {
+            this.pages.push(new Page<T>(1, []));
+        }
+
         this.pages[0].items.unshift(model);
     }
 }

@@ -11,6 +11,7 @@ use Flarum\Foundation\EventGeneratorTrait;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -130,11 +131,14 @@ class Product extends AbstractModel
 
     public function formatDescription(ServerRequestInterface $request = null): ?string
     {
-        if (!$this->attributes['description']) {
+        // Use Arr::get because the key might not exist if the model was just created and never retrieved from database
+        $description = Arr::get($this->attributes, 'description');
+
+        if (!$description) {
             return null;
         }
 
-        return static::$formatter->render($this->attributes['description'], $this, $request);
+        return static::$formatter->render($description, $this, $request);
     }
 
     public static function getFormatter(): Formatter

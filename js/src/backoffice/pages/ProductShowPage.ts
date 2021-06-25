@@ -123,8 +123,11 @@ export default class ProductShowPage extends AbstractShowPage {
 
         this.saving = true;
 
-        // @ts-ignore
-        this.product.save(this.data()).then(product => {
+        // We can't use product.save() because Flarum updates the internal data object before saving
+        // Which interferes with the rendering of the Form that reads those values (including taxonomy fields and variants)
+        app.store.createRecord('flamarkt-products', {
+            id: this.product.id(),
+        }).save(this.data()).then(product => {
             this.product = product;
 
             this.saving = false;
