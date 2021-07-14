@@ -1,3 +1,4 @@
+import {Vnode} from 'mithril';
 import Page from 'flarum/common/components/Page';
 import LinkButton from 'flarum/common/components/LinkButton';
 import OrderListState from '../../common/states/OrderListState';
@@ -7,7 +8,7 @@ import OrderSortDropdown from '../../common/components/OrderSortDropdown';
 export default class OrderIndexPage extends Page {
     state!: OrderListState;
 
-    oninit(vnode) {
+    oninit(vnode: Vnode) {
         super.oninit(vnode);
 
         this.state = new OrderListState();

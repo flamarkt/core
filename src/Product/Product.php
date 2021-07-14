@@ -19,6 +19,8 @@ use Psr\Http\Message\ServerRequestInterface;
  * @property string $title
  * @property string $description
  * @property int $price
+ * @property string $availability_driver
+ * @property string $price_driver
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $hidden_at

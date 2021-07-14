@@ -1,3 +1,4 @@
+import {Vnode} from 'mithril';
 import Page from 'flarum/common/components/Page';
 import LinkButton from 'flarum/common/components/LinkButton';
 import UserListState from '../states/UserListState';
@@ -7,7 +8,7 @@ import UserSortDropdown from '../components/UserSortDropdown';
 export default class UserIndexPage extends Page {
     state!: UserListState;
 
-    oninit(vnode) {
+    oninit(vnode: Vnode) {
         super.oninit(vnode);
 
         this.state = new UserListState();

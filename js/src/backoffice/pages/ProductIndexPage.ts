@@ -1,3 +1,4 @@
+import {Vnode} from 'mithril';
 import Page from 'flarum/common/components/Page';
 import LinkButton from 'flarum/common/components/LinkButton';
 import ProductList from '../components/ProductList';
@@ -7,7 +8,7 @@ import ProductSortDropdown from '../../common/components/ProductSortDropdown';
 export default class ProductIndexPage extends Page {
     state!: ProductListState;
 
-    oninit(vnode) {
+    oninit(vnode: Vnode) {
         super.oninit(vnode);
 
         this.state = new ProductListState();

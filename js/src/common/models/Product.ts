@@ -5,7 +5,10 @@ export default class Product extends Model {
     description = Model.attribute<string | null>('description');
     descriptionHtml = Model.attribute<string | null>('descriptionHtml');
     price = Model.attribute<number | null>('price');
+    priceEdit = Model.attribute<number | null>('priceEdit');
     cartQuantity = Model.attribute<number | null>('cartQuantity');
+    canOrder = Model.attribute<number | null>('canOrder');
+    canEdit = Model.attribute<number | null>('canEdit');
 
     cartPriceTotalLocal(): number {
         if (!this.price || !this.cartQuantity) {

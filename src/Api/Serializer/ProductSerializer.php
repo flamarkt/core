@@ -2,16 +2,28 @@
 
 namespace Flamarkt\Core\Api\Serializer;
 
+use Flamarkt\Core\Product\AvailabilityManager;
+use Flamarkt\Core\Product\PriceManager;
 use Flamarkt\Core\Product\Product;
 
 class ProductSerializer extends BasicProductSerializer
 {
+    protected $availability;
+    protected $price;
+
+    public function __construct(AvailabilityManager $availability, PriceManager $price)
+    {
+        $this->availability = $availability;
+        $this->price = $price;
+    }
+
     protected function getDefaultAttributes($product): array
     {
         $attributes = parent::getDefaultAttributes($product) + [
                 'description' => $product->description,
                 'descriptionHtml' => $product->formatDescription($this->request),
-                'price' => $product->price,
+                'canOrder' => $this->availability->canOrder($product, $this->actor, $this->request),
+                'price' => $this->price->price($product, $this->actor, $this->request),
             ];
 
         // We can't pre-load the correct cart from here since we don't have access to the request
@@ -19,6 +31,17 @@ class ProductSerializer extends BasicProductSerializer
         if ($state = $product->cartState) {
             $attributes += [
                 'cartQuantity' => $state->quantity,
+            ];
+        }
+
+        if ($this->actor->can('backoffice')) {
+            $attributes += [
+                'canEdit' => true,
+                'priceEdit' => $product->price,
+                'availabilityDriver' => $product->availability_driver,
+                'priceDriver' => $product->price_driver,
+                'createdAt' => $this->formatDate($product->created_at),
+                'updatedAt' => $this->formatDate($product->updated_at),
             ];
         }
 

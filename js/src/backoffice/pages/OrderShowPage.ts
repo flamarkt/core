@@ -1,3 +1,4 @@
+import {Vnode} from 'mithril';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
@@ -5,7 +6,7 @@ import Order from '../../common/models/Order';
 import OrderLine from '../../common/models/OrderLine';
 import Sortable from '../../common/components/Sortable';
 import OrderLineEdit from '../components/OrderLineEdit';
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from '../components/SubmitButton';
 
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null = null;
@@ -14,7 +15,7 @@ export default class OrderShowPage extends AbstractShowPage {
     dirty: boolean = false;
     newLine!: OrderLine;
 
-    oninit(vnode) {
+    oninit(vnode: Vnode) {
         super.oninit(vnode);
 
         this.initNewLine();
@@ -114,20 +115,19 @@ export default class OrderShowPage extends AbstractShowPage {
                         verbatim: true,
                         type: 'flamarkt-product-lines',
                         id: line.id(),
-                        attributes: line.data.attributes,
+                        attributes: (line.data as any).attributes,
                     };
                 }),
             },
         };
     }
 
-    onsubmit(event) {
+    onsubmit(event: Event) {
         event.preventDefault();
 
         this.saving = true;
 
-        // @ts-ignore
-        this.order.save(this.data()).then(order => {
+        this.saveThroughNewRecord<Order>(this.order?.id(), this.data()).then(order => {
             this.order = order;
 
             this.saving = false;

@@ -6,6 +6,7 @@ import BackofficeNav from './components/BackofficeNav';
 import routes from './routes';
 import History from 'flarum/forum/utils/History';
 import ExtensionData from 'flarum/admin/utils/ExtensionData';
+import AdminApplication from 'flarum/admin/AdminApplication';
 
 export default class BackofficeApplication extends Application {
     extensionData = new ExtensionData();
@@ -53,5 +54,9 @@ export default class BackofficeApplication extends Application {
         m.mount(document.getElementById('header-primary'), HeaderPrimary);
         m.mount(document.getElementById('header-secondary'), HeaderSecondary);
         m.mount(document.getElementById('admin-navigation'), BackofficeNav);
+    }
+
+    getRequiredPermissions(permission) {
+        return AdminApplication.prototype.getRequiredPermissions.call(this, permission);
     }
 }

@@ -28,6 +28,14 @@ flamarkt-core:
                 title: Title
                 description: Description
                 price: Price
+                availabilityDriver: Availability Driver
+                priceDriver: Price Driver
+        settings:
+            defaultAvailabilityDriver: Default Availability Driver
+            defaultPriceDriver: Default Price Driver
+        permissions:
+            shop: Shop
+            backoffice: Use backoffice
     forum:
         nav:
             backoffice: Backoffice

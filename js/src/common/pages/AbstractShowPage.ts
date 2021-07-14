@@ -51,4 +51,25 @@ export default abstract class AbstractShowPage extends Page {
     show(model: Model) {
         //
     }
+
+    /**
+     * This method allows saving a model without the values changing in the store before a successful save
+     * It's important to use createRecord and model.pushData which don't update the store
+     * @param id
+     * @param attributes
+     */
+    saveThroughNewRecord<T extends Model = Model>(id: string, attributes: any): Promise<T> {
+        const record = this.newRecord();
+
+        if (!record) {
+            return Promise.reject();
+        }
+
+        if (id) {
+            record.pushData({id});
+            record.exists = true;
+        }
+
+        return record.save(attributes);
+    }
 }

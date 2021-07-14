@@ -22,11 +22,19 @@ class ForumAttributes
 
     public function __invoke(ForumSerializer $serializer): array
     {
-        return [
-            //TODO: condition to see
-            'backofficeUrl' => $this->url->to('backoffice')->base(),
+        $attributes = [
             'priceDecimals' => 2,
             'priceUnit' => 'CHF',
         ];
+
+        if ($serializer->getActor()->can('backoffice')) {
+            $attributes += [
+                'backofficeUrl' => $this->url->to('backoffice')->base(),
+                'flamarktAvailabilityDrivers' => array_keys(resolve('flamarkt.availability_drivers')),
+                'flamarktPriceDrivers' => array_keys(resolve('flamarkt.price_drivers')),
+            ];
+        }
+
+        return $attributes;
     }
 }

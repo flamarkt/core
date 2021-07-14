@@ -47,8 +47,8 @@ export default class UserShowPage extends AbstractShowPage {
             m('input.FormControl', {
                 type: 'text',
                 value: this.username,
-                oninput: event => {
-                    this.username = event.target.value;
+                oninput: (event: Event) => {
+                    this.username = (event.target as HTMLInputElement).value;
                     this.dirty = true;
                 },
             }),
@@ -59,8 +59,8 @@ export default class UserShowPage extends AbstractShowPage {
             m('input.FormControl', {
                 type: 'email',
                 value: this.email,
-                oninput: event => {
-                    this.email = event.target.value;
+                oninput: (event: Event) => {
+                    this.email = (event.target as HTMLInputElement).value;
                     this.dirty = true;
                 },
             }),
@@ -70,7 +70,7 @@ export default class UserShowPage extends AbstractShowPage {
             SubmitButton.component({
                 loading: this.saving,
                 dirty: this.dirty,
-                exists: this.user.exists,
+                exists: this.user!.exists,
             }),
         ]), -10);
 
@@ -84,7 +84,7 @@ export default class UserShowPage extends AbstractShowPage {
         };
     }
 
-    onsubmit(event) {
+    onsubmit(event: Event) {
         event.preventDefault();
 
         this.saving = true;

@@ -71,15 +71,28 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
     priceSection(product: Product): ItemList {
         const items = new ItemList();
 
+        if (product.canEdit()) {
+            items.add('edit', LinkButton.component({
+                className: 'Button',
+                href: app.forum.attribute('backofficeUrl') + '/products/' + product.id(),
+            }, 'Edit'));
+        }
+
         items.add('title', m('h1', product.title()));
 
         items.add('price', m('p', formatPrice(product.price())));
 
-        items.add('quantity', ProductQuantity.component({
-            product,
-        }));
+        if (this.showCartControls(product)) {
+            items.add('quantity', ProductQuantity.component({
+                product,
+            }));
+        }
 
         return items;
+    }
+
+    showCartControls(product: Product): boolean {
+        return product.canOrder();
     }
 
     descriptionSection(product: Product): ItemList {

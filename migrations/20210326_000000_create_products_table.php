@@ -11,6 +11,8 @@ return [
             $table->string('title')->nullable()->index();
             $table->text('description')->nullable();
             $table->unsignedInteger('price')->nullable();
+            $table->string('availability_driver')->nullable();
+            $table->string('price_driver')->nullable();
             $table->timestamps();
             $table->timestamp('hidden_at')->nullable();
         });

@@ -4,6 +4,7 @@ import Product from '../../common/models/Product';
 import SubmitButton from '../components/SubmitButton';
 import ItemList from 'flarum/common/utils/ItemList';
 import TextEditor from 'flarum/common/components/TextEditor';
+import Select from 'flarum/common/components/Select';
 
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
@@ -12,6 +13,8 @@ export default class ProductShowPage extends AbstractShowPage {
     title: string = '';
     description: string = '';
     price: string = '';
+    availabilityDriver: string | null = null;
+    priceDriver: string | null = null;
 
     // We can't use the TextEditor component without having a composer object where the editor can be written to
     composer = {
@@ -19,7 +22,11 @@ export default class ProductShowPage extends AbstractShowPage {
     };
 
     newRecord() {
-        return app.store.createRecord('flamarkt-products');
+        return app.store.createRecord('flamarkt-products', {
+            // Necessary because some of the extensions read values with model.attribute(name)
+            // which errors if the attributes object is not defined
+            attributes: {},
+        });
     }
 
     findType() {
@@ -30,7 +37,9 @@ export default class ProductShowPage extends AbstractShowPage {
         this.product = product;
         this.title = product.title() || '';
         this.description = product.description() || '';
-        this.price = product.price() + '';
+        this.price = product.priceEdit() + '';
+        this.availabilityDriver = product.attribute('availabilityDriver');
+        this.priceDriver = product.attribute('priceDriver');
 
         //app.history.push('product', product.title());
         // @ts-ignore
@@ -92,8 +101,33 @@ export default class ProductShowPage extends AbstractShowPage {
                 value: this.price,
                 oninput: (event: Event) => {
                     this.price = (event.target as HTMLInputElement).value;
+                    this.dirty = true;
                 },
                 disabled: this.saving,
+            }),
+        ]));
+
+        fields.add('availabilityDriver', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.products.field.availabilityDriver')),
+            Select.component({
+                value: this.availabilityDriver || '_default',
+                options: this.availabilityDriverOptions(),
+                onchange: (value: string) => {
+                    this.availabilityDriver = value === '_default' ? null : value;
+                    this.dirty = true;
+                },
+            }),
+        ]));
+
+        fields.add('priceDriver', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.products.field.priceDriver')),
+            Select.component({
+                value: this.priceDriver || '_default',
+                options: this.priceDriverOptions(),
+                onchange: (value: string) => {
+                    this.priceDriver = value === '_default' ? null : value;
+                    this.dirty = true;
+                },
             }),
         ]));
 
@@ -101,12 +135,35 @@ export default class ProductShowPage extends AbstractShowPage {
             SubmitButton.component({
                 loading: this.saving,
                 dirty: this.dirty,
-                // @ts-ignore
-                exists: this.product.exists,
+                exists: this.product!.exists,
             }),
         ]), -10);
 
         return fields;
+    }
+
+    availabilityDriverOptions(): any {
+        const options: any = {
+            _default: 'Default',
+        };
+
+        (app.forum.attribute('flamarktAvailabilityDrivers') as string[] || []).forEach(driver => {
+            options[driver] = driver;
+        });
+
+        return options;
+    }
+
+    priceDriverOptions(): any {
+        const options: any = {
+            _default: 'Default',
+        };
+
+        (app.forum.attribute('flamarktPriceDrivers') as string[] || []).forEach(driver => {
+            options[driver] = driver;
+        });
+
+        return options;
     }
 
     data() {
@@ -114,10 +171,11 @@ export default class ProductShowPage extends AbstractShowPage {
             title: this.title,
             description: this.description,
             price: this.price,
+            availabilityDriver: this.availabilityDriver,
+            priceDriver: this.priceDriver,
         };
     }
 
-    // @ts-ignore event not type-hinted
     onsubmit(event: Event) {
         event.preventDefault();
 
@@ -125,9 +183,7 @@ export default class ProductShowPage extends AbstractShowPage {
 
         // We can't use product.save() because Flarum updates the internal data object before saving
         // Which interferes with the rendering of the Form that reads those values (including taxonomy fields and variants)
-        app.store.createRecord('flamarkt-products', {
-            id: this.product.id(),
-        }).save(this.data()).then(product => {
+        this.saveThroughNewRecord<Product>(this.product?.id(), this.data()).then(product => {
             this.product = product;
 
             this.saving = false;
