@@ -15,6 +15,7 @@ flamarkt-core:
             field:
                 username: Username
                 email: Email
+                password: Password
         orders:
             new: Create manual order
             head:

@@ -1,12 +1,14 @@
 import {Attributes, ClassComponent, Vnode} from 'mithril';
 import SortableHandle from '../../common/components/SortableHandle';
 import formatPrice from '../../common/helpers/formatPrice';
-import OrderLine from '../../common/models/OrderLine';
 import ItemList from 'flarum/common/utils/ItemList';
 import Select from 'flarum/common/components/Select';
+import ProductRelationshipSelect from './ProductRelationshipSelect';
+import Product from '../../common/models/Product';
+import OrderLineEditState from '../states/OrderLineEditState';
 
 interface OrderLineAttrs extends Attributes {
-    line: OrderLine
+    line: OrderLineEditState
     sortable?: boolean
     control: Vnode
     onchange: () => void
@@ -24,16 +26,14 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
         }, this.columns(line, control, onchange, sortable).toArray());
     }
 
-    columns(line: OrderLine, control: Vnode, onchange: () => void, sortable?: boolean): ItemList {
+    columns(line: OrderLineEditState, control: Vnode, onchange: () => void, sortable?: boolean): ItemList {
         const columns = new ItemList();
 
-        columns.add('handle', m('td', sortable ? m(SortableHandle) : null));
-        columns.add('group', m('td', Select.component({
-            value: line.group() === null ? '_none' : line.group(),
-            onchange: value => {
-                line.pushAttributes({
-                    group: value,
-                });
+        columns.add('handle', m('td.OrderLineEdit-Handle', sortable ? m(SortableHandle) : null));
+        columns.add('group', m('td.OrderLineEdit-Group', Select.component({
+            value: line.group === null ? '_none' : line.group,
+            onchange: (value: string) => {
+                line.group = value === '_none' ? null : value;
                 onchange();
             },
             options: {
@@ -41,12 +41,10 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 shipping: 'Shipping',
             },
         })));
-        columns.add('type', m('td', Select.component({
-            value: line.type(),
-            onchange: value => {
-                line.pushAttributes({
-                    type: value,
-                });
+        columns.add('type', m('td.OrderLineEdit-Type', Select.component({
+            value: line.type,
+            onchange: (value: string) => {
+                line.type = value;
                 onchange();
             },
             options: {
@@ -54,34 +52,58 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 manual: 'Manual',
             },
         })));
-        columns.add('info', m('td', this.fields(line, onchange).toArray()));
-        columns.add('quantity', m('td', line.quantity()));
-        columns.add('priceUnit', m('td', line.priceUnit() ? formatPrice(line.priceUnit()) : null));
-        columns.add('priceTotal', m('td', line.priceTotal() ? formatPrice(line.priceTotal()) : null));
-        columns.add('control', m('td', control));
+        columns.add('info', m('td.OrderLineEdit-Info', this.fields(line, onchange).toArray()));
+        columns.add('quantity', m('td.OrderLineEdit-Quantity', m('input.FormControl', {
+            type: 'number',
+            value: line.quantity,
+            onchange: (event: Event) => {
+                line.quantity = parseFloat((event.target as HTMLInputElement).value);
+                line.updateTotal();
+                onchange();
+            },
+        })));
+        columns.add('priceUnit', m('td.OrderLineEdit-PriceUnit', m('input.FormControl', {
+            type: 'number',
+            value: line.priceUnit,
+            onchange: (event: Event) => {
+                line.priceUnit = parseFloat((event.target as HTMLInputElement).value);
+                line.updateTotal();
+                onchange();
+            },
+        })));
+        columns.add('priceTotal', m('td.OrderLineEdit-PriceTotal', formatPrice(line.priceTotal)));
+        columns.add('control', m('td.OrderLineEdit-Controls', control));
 
         return columns;
     }
 
-    showInfoProduct(line) {
-        return line.type() === 'product';
+    showInfoProduct(line: OrderLineEditState) {
+        return line.type === 'product';
     }
 
-    showInfoLabel(line) {
-        return line.type() === 'manual';
+    showInfoLabel(line: OrderLineEditState) {
+        return line.type === 'manual';
     }
 
-    showInfoComment(line) {
-        return line.type() === 'product' || line.type() === 'manual';
+    showInfoComment(line: OrderLineEditState) {
+        return line.type === 'product' || line.type === 'manual';
     }
 
-    fields(line: OrderLine, onchange: () => void): ItemList {
+    fields(line: OrderLineEditState, onchange: () => void): ItemList {
         const fields = new ItemList();
 
         if (this.showInfoProduct(line)) {
-            const product = line.product();
-
-            fields.add('product', m('div', product ? product.title() : 'No product'));
+            fields.add('product', m('.Form-group', [
+                m('label', 'Product'),
+                m(ProductRelationshipSelect, {
+                    relationship: line.product,
+                    onchange: (product: Product | null) => {
+                        line.product = product;
+                        onchange();
+                    },
+                    hasOne: true,
+                }),
+            ]));
         }
 
         if (this.showInfoLabel(line)) {
@@ -89,11 +111,9 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 m('label', 'Label'),
                 m('input.FormControl', {
                     type: 'text',
-                    value: line.label(),
-                    onchange: event => {
-                        line.pushAttributes({
-                            label: event.target.value,
-                        });
+                    value: line.label,
+                    onchange: (event: Event) => {
+                        line.label = (event.target as HTMLInputElement).value;
                         onchange();
                     },
                 }),
@@ -104,11 +124,9 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
             fields.add('comment', m('.Form-group', [
                 m('label', 'Comment'),
                 m('textarea.FormControl', {
-                    value: line.comment(),
-                    onchange: event => {
-                        line.pushAttributes({
-                            comment: event.target.value,
-                        });
+                    value: line.comment,
+                    onchange: (event: Event) => {
+                        line.comment = (event.target as HTMLInputElement).value;
                         onchange();
                     },
                 }),

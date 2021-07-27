@@ -9,10 +9,15 @@ export default class UserShowPage extends AbstractShowPage {
     saving: boolean = false;
     dirty: boolean = false;
     username: string = '';
+    password: string = '';
     email: string = '';
 
     newRecord() {
-        return app.store.createRecord('users');
+        return app.store.createRecord('users', {
+            // Same as product, we need to initialize the attributes to prevent errors
+            // flamarkt/identity will read user.attribute()
+            attributes: {},
+        });
     }
 
     findType() {
@@ -36,7 +41,7 @@ export default class UserShowPage extends AbstractShowPage {
 
         return m('form.UserShowPage', {
             onsubmit: this.onsubmit.bind(this),
-        }, m('.container', this.fields().toArray()));
+        }, m('.container.container--narrow', this.fields().toArray()));
     }
 
     fields(): ItemList {
@@ -66,6 +71,21 @@ export default class UserShowPage extends AbstractShowPage {
             }),
         ]));
 
+        // We need to show password field for new users because Flarum requires password in REST API
+        if (!this.user!.exists) {
+            fields.add('password', m('.Form-group', [
+                m('label', app.translator.trans('flamarkt-core.backoffice.users.field.password')),
+                m('input.FormControl', {
+                    type: 'password',
+                    value: this.password,
+                    oninput: (event: Event) => {
+                        this.password = (event.target as HTMLInputElement).value;
+                        this.dirty = true;
+                    },
+                }),
+            ]));
+        }
+
         fields.add('submit', m('.Form-group', [
             SubmitButton.component({
                 loading: this.saving,
@@ -78,10 +98,16 @@ export default class UserShowPage extends AbstractShowPage {
     }
 
     data() {
-        return {
+        const data: any = {
             username: this.username,
             email: this.email,
         };
+
+        if (this.password) {
+            data.password = this.password;
+        }
+
+        return data;
     }
 
     onsubmit(event: Event) {
@@ -89,8 +115,7 @@ export default class UserShowPage extends AbstractShowPage {
 
         this.saving = true;
 
-        // @ts-ignore
-        this.user.save(this.data()).then(user => {
+        this.user!.save(this.data()).then(user => {
             this.user = user;
 
             this.saving = false;

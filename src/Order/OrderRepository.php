@@ -17,11 +17,15 @@ class OrderRepository
     use DispatchEventsTrait;
 
     protected $cartRepository;
+    protected $orderValidator;
+    protected $lineValidator;
 
-    public function __construct(Dispatcher $events, CartRepository $cartRepository)
+    public function __construct(Dispatcher $events, CartRepository $cartRepository, OrderValidator $orderValidator, OrderLineValidator $lineValidator)
     {
         $this->events = $events;
         $this->cartRepository = $cartRepository;
+        $this->orderValidator = $orderValidator;
+        $this->lineValidator = $lineValidator;
     }
 
     public function query(): Builder
@@ -71,6 +75,14 @@ class OrderRepository
 
                 $attributes = Arr::get($lineData, 'attributes') ?? [];
 
+                $relationships = Arr::get($lineData, 'relationships') ?? [];
+
+                if (Arr::exists($relationships, 'product')) {
+                    $attributes['productId'] = Arr::get($relationships, 'product.data.id');
+                }
+
+                $this->lineValidator->assertValid($attributes);
+
                 if (Arr::exists($attributes, 'group')) {
                     $line->group = Arr::get($attributes, 'group');
                 }
@@ -85,6 +97,10 @@ class OrderRepository
 
                 if (Arr::exists($attributes, 'comment')) {
                     $line->comment = Arr::get($attributes, 'comment');
+                }
+
+                if (Arr::exists($attributes, 'productId')) {
+                    $line->product()->associate($attributes['productId']);
                 }
 
                 $this->events->dispatch(new SavingLine($order, $line, $actor, $lineData));
@@ -108,6 +124,20 @@ class OrderRepository
                     $line->delete();
                 }
             });
+        }
+
+        $attributes = Arr::get($data, 'data.attributes') ?? [];
+
+        $relationships = Arr::get($data, 'data.relationships') ?? [];
+
+        if (Arr::exists($relationships, 'user')) {
+            $attributes['userId'] = Arr::get($relationships, 'user.data.id');
+        }
+
+        $this->orderValidator->assertValid($attributes);
+
+        if (Arr::exists($attributes, 'userId')) {
+            $order->user()->associate($attributes['userId']);
         }
 
         $this->events->dispatch(new Saving($order, $actor, $data));

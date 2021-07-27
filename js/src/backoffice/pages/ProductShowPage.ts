@@ -54,7 +54,7 @@ export default class ProductShowPage extends AbstractShowPage {
 
         return m('form.ProductShowPage', {
             onsubmit: this.onsubmit.bind(this),
-        }, m('.container', this.fields().toArray()));
+        }, m('.container.container--narrow', this.fields().toArray()));
     }
 
     fields(): ItemList {

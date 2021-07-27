@@ -1,0 +1,45 @@
+import AbstractRelationshipSelect from './AbstractRelationshipSelect';
+import highlight from 'flarum/common/helpers/highlight';
+import Product from '../../common/models/Product';
+
+export default class ProductRelationshipSelect extends AbstractRelationshipSelect<Product> {
+    protected resultsCache = new Map<string, Product[]>();
+
+    search(query: string) {
+        return app.store
+            .find('flamarkt/products', {
+                filter: {q: query},
+                page: {limit: 5},
+            })
+            .then((results) => {
+                this.resultsCache.set(query, results);
+                m.redraw();
+            });
+    }
+
+    results(query: string) {
+        query = query.toLowerCase();
+
+        const results = this.resultsCache.get(query);
+
+        // Indicates still loading
+        if (typeof results === 'undefined') {
+            return null;
+        }
+
+        return (results || [])
+            .concat(
+                app.store
+                    .all('flamarkt-products')
+                    .filter(product => product.title().toLowerCase().substr(0, query.length) === query)
+            )
+            .filter((e, i, arr) => arr.lastIndexOf(e) === i)
+            .sort((a, b) => a.title().localeCompare(b.title()));
+    }
+
+    item(product: Product, query?: string) {
+        return [
+            query ? highlight(product.title(), query) : product.title(),
+        ];
+    }
+}

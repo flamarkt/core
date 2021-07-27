@@ -1,19 +1,23 @@
 import {Vnode} from 'mithril';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import User from 'flarum/common/models/User';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
 import OrderLine from '../../common/models/OrderLine';
 import Sortable from '../../common/components/Sortable';
 import OrderLineEdit from '../components/OrderLineEdit';
 import SubmitButton from '../components/SubmitButton';
+import UserRelationshipSelect from '../components/UserRelationshipSelect';
+import OrderLineEditState from '../states/OrderLineEditState';
 
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null = null;
-    lines: OrderLine[] = [];
+    user: User | null = null;
+    lines: OrderLineEditState[] = [];
     saving: boolean = false;
     dirty: boolean = false;
-    newLine!: OrderLine;
+    newLine!: OrderLineEditState;
 
     oninit(vnode: Vnode) {
         super.oninit(vnode);
@@ -22,9 +26,13 @@ export default class OrderShowPage extends AbstractShowPage {
     }
 
     initNewLine() {
-        this.newLine = app.store.createRecord('flamarkt-order-lines', {
-            id: Math.random(),
-        });
+        this.newLine = new OrderLineEditState();
+    }
+
+    initLineState(line: OrderLine): OrderLineEditState {
+        const state = new OrderLineEditState();
+        state.init(line);
+        return state;
     }
 
     newRecord() {
@@ -37,7 +45,8 @@ export default class OrderShowPage extends AbstractShowPage {
 
     show(order: Order) {
         this.order = order;
-        this.lines = order.lines() || [];
+        this.user = order.user() || null;
+        this.lines = (order.lines() || []).map(this.initLineState);
 
         //app.setTitle(order.title());
         app.setTitleCount(0);
@@ -50,10 +59,35 @@ export default class OrderShowPage extends AbstractShowPage {
 
         return m('form.OrderShowPage', {
             onsubmit: this.onsubmit.bind(this),
-        }, m('.container', [
-            m('table', [
+        }, m('.container.container--narrow', [
+            m('.Form-group', [
+                m('label', 'Number'),
+                m('input.FormControl', {
+                    value: this.order.number(),
+                    readonly: true,
+                })
+            ]),
+            m('.Form-group', [
+                m('label', 'Customer'),
+                m(UserRelationshipSelect, {
+                    relationship: this.user,
+                    onchange: (user: User | null) => {
+                        this.user = user;
+                        this.dirty = true;
+                    },
+                    hasOne: true,
+                }),
+            ]),
+            m('table.OrderComposerTable', [
                 m('thead', m('tr', [
-                    m('th'),
+                    m('th'), // Sort
+                    m('th', 'Group'),
+                    m('th', 'Type'),
+                    m('th', 'Info'),
+                    m('th', 'Quantity'),
+                    m('th', 'Unit Price'),
+                    m('th', 'Total'),
+                    m('th'), // Delete
                 ])),
                 m(Sortable, {
                     containerTag: 'tbody',
@@ -63,7 +97,7 @@ export default class OrderShowPage extends AbstractShowPage {
                         this.dirty = true;
                     },
                 }, this.lines.map((line, index) => m(OrderLineEdit, {
-                    key: line.id(),
+                    key: line.uniqueFormKey,
                     line,
                     sortable: true,
                     control: Button.component({
@@ -114,10 +148,10 @@ export default class OrderShowPage extends AbstractShowPage {
                     return {
                         verbatim: true,
                         type: 'flamarkt-product-lines',
-                        id: line.id(),
-                        attributes: (line.data as any).attributes,
+                        ...line.data(),
                     };
                 }),
+                user: this.user,
             },
         };
     }

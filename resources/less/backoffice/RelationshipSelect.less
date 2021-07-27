@@ -1,0 +1,109 @@
+.RelationshipSelect {
+    position: relative; // So we can place the dropdown menu
+}
+
+.RelationshipSelect-FakeInput {
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    input {
+        display: inline;
+        outline: none;
+        margin-top: -2px;
+        border: 0 !important;
+        padding: 0;
+        flex: 1;
+        background: transparent !important;
+    }
+}
+
+.RelationshipSelect-Selected {
+    cursor: not-allowed;
+    margin-top: 2px;
+    margin-right: 5px;
+    padding: 3px 6px;
+    background: #f0f0f0;
+    border-radius: @border-radius;
+
+    &:last-of-type {
+        margin-right: 10px;
+    }
+}
+
+.RelationshipSelect-Dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: block;
+    overflow: auto;
+    max-height: 50vh;
+
+    @media @phone {
+        max-height: none;
+    }
+}
+
+.RelationshipSelect-Dropdown-Item {
+    padding: 7px 20px;
+    overflow: hidden;
+    cursor: pointer;
+
+    &.active {
+        background: @control-bg;
+    }
+
+    .icon::before {
+        display: inline-block;
+        width: 16px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    // TODO: needs a different style for select since not everything will have icons
+    &.selected {
+        .icon::before {
+            .fa();
+            content: @fa-var-check !important;
+            color: @muted-color;
+            font-size: 14px;
+            text-align: center;
+            vertical-align: 1px;
+        }
+
+        &.colored .TaxonomyIcon:before {
+            color: #fff;
+        }
+    }
+
+    .TaxonomyIcon {
+        vertical-align: top;
+        margin-top: 3px;
+        margin-left: 0;
+    }
+
+    // Highlight
+    mark {
+        font-weight: bold;
+        background: none;
+        box-shadow: none;
+        color: inherit;
+    }
+}
+
+.UserRelationshipSelect {
+    .Avatar {
+        .Avatar--size(24px);
+        margin-right: 5px;
+    }
+
+    .Avatar, .username {
+        vertical-align: middle;
+    }
+}

@@ -10,6 +10,7 @@ import AbstractShowPage from './pages/AbstractShowPage';
 import AbstractListState from './states/AbstractListState';
 import OrderListState from './states/OrderListState';
 import ProductListState from './states/ProductListState';
+import KeyboardNavigatable from './utils/KeyboardNavigatable';
 
 export const common = {
     'components/ActiveLinkButton': ActiveLinkButton,
@@ -24,4 +25,5 @@ export const common = {
     'states/AbstractListState': AbstractListState,
     'states/OrderListState': OrderListState,
     'states/ProductListState': ProductListState,
+    'utils/KeyboardNavigatable': KeyboardNavigatable,
 }

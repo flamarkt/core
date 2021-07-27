@@ -9,6 +9,6 @@ class FullTextGambit implements GambitInterface
 {
     public function apply(SearchState $search, $bit)
     {
-        // TODO: Implement apply() method.
+        $search->getQuery()->where('title', 'like', '%' . $bit . '%');
     }
 }
