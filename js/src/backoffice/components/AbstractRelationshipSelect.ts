@@ -204,6 +204,11 @@ export default abstract class AbstractRelationshipSelect<T extends Model> extend
 
     oninputfocus() {
         this.inputIsFocused = true;
+
+        // If we click or move to the input without typing anything, we want to autocomplete the empty query
+        if (this.debouncedSearchFilter === '') {
+            this.search(this.debouncedSearchFilter);
+        }
     }
 
     oninputblur() {
@@ -216,11 +221,6 @@ export default abstract class AbstractRelationshipSelect<T extends Model> extend
         // The second one is needed because there's a short moment during a click where the focus is lost on the input
         // mousedown triggers first, then the input blur, and only in mouseup can we put focus on the input again
         if (!(this.inputIsFocused || this.dropdownIsFocused) || (Array.isArray(models) && models.length === 0)) {
-            return null;
-        }
-
-        // Don't show any autocomplete for empty searches for now
-        if (this.debouncedSearchFilter === '') {
             return null;
         }
 

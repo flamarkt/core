@@ -6,6 +6,11 @@ export default class ProductRelationshipSelect extends AbstractRelationshipSelec
     protected resultsCache = new Map<string, Product[]>();
 
     search(query: string) {
+        if (!query) {
+            m.redraw();
+            return Promise.resolve();
+        }
+
         return app.store
             .find('flamarkt/products', {
                 filter: {q: query},
@@ -18,6 +23,10 @@ export default class ProductRelationshipSelect extends AbstractRelationshipSelec
     }
 
     results(query: string) {
+        if (!query) {
+            return [];
+        }
+
         query = query.toLowerCase();
 
         const results = this.resultsCache.get(query);

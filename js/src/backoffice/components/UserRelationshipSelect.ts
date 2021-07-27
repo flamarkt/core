@@ -12,6 +12,11 @@ export default class UserRelationshipSelect extends AbstractRelationshipSelect<U
     }
 
     search(query: string) {
+        if (!query) {
+            m.redraw();
+            return Promise.resolve();
+        }
+
         return app.store
             .find('users', {
                 filter: {q: query},
@@ -24,6 +29,10 @@ export default class UserRelationshipSelect extends AbstractRelationshipSelect<U
     }
 
     results(query: string) {
+        if (!query) {
+            return [];
+        }
+
         query = query.toLowerCase();
 
         const results = this.resultsCache.get(query);
