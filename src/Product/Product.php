@@ -4,6 +4,8 @@ namespace Flamarkt\Core\Product;
 
 use Carbon\Carbon;
 use Flamarkt\Core\Cart\Cart;
+use Flamarkt\Core\Product\Event\Hidden;
+use Flamarkt\Core\Product\Event\Restored;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\Formatter\Formatter;
@@ -151,5 +153,27 @@ class Product extends AbstractModel
     public static function setFormatter(Formatter $formatter)
     {
         static::$formatter = $formatter;
+    }
+
+    public function hide(): self
+    {
+        if (!$this->hidden_at) {
+            $this->hidden_at = Carbon::now();
+
+            $this->raise(new Hidden($this));
+        }
+
+        return $this;
+    }
+
+    public function restore(): self
+    {
+        if ($this->hidden_at !== null) {
+            $this->hidden_at = null;
+
+            $this->raise(new Restored($this));
+        }
+
+        return $this;
     }
 }

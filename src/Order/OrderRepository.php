@@ -54,6 +54,8 @@ class OrderRepository
         $linesRelationship = Arr::get($data, 'data.relationships.lines.data');
 
         if (is_array($linesRelationship)) {
+            $actor->assertCan('backoffice');
+
             /**
              * @var OrderLine[]|Collection $existingLines
              */
@@ -137,7 +139,19 @@ class OrderRepository
         $this->orderValidator->assertValid($attributes);
 
         if (Arr::exists($attributes, 'userId')) {
+            $actor->assertCan('backoffice');
+
             $order->user()->associate($attributes['userId']);
+        }
+
+        if (Arr::exists($attributes, 'isHidden')) {
+            $actor->assertCan('backoffice');
+
+            if ($attributes['isHidden']) {
+                $order->hide();
+            } else {
+                $order->restore();
+            }
         }
 
         $this->events->dispatch(new Saving($order, $actor, $data));

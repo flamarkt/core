@@ -42,7 +42,12 @@ class ProductSerializer extends BasicProductSerializer
                 'priceDriver' => $product->price_driver,
                 'createdAt' => $this->formatDate($product->created_at),
                 'updatedAt' => $this->formatDate($product->updated_at),
+                'hiddenAt' => $this->formatDate($product->hidden_at),
             ];
+        }
+
+        if ($product->hidden_at) {
+            $attributes['isHidden'] = true;
         }
 
         // Core does not include any relationship on that state, but we take care of the loading

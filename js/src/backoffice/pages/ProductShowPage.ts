@@ -5,6 +5,8 @@ import SubmitButton from '../components/SubmitButton';
 import ItemList from 'flarum/common/utils/ItemList';
 import TextEditor from 'flarum/common/components/TextEditor';
 import Select from 'flarum/common/components/Select';
+import SoftDeleteButton from '../components/SoftDeleteButton';
+import PermanentDeleteButton from '../components/PermanentDeleteButton';
 
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
@@ -77,7 +79,7 @@ export default class ProductShowPage extends AbstractShowPage {
                 },
                 disabled: this.saving,
             }),
-        ]));
+        ]), 50);
 
         fields.add('description', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.description')),
@@ -92,7 +94,7 @@ export default class ProductShowPage extends AbstractShowPage {
                 disabled: this.saving,
                 composer: this.composer,
             })),
-        ]));
+        ]), 40);
 
         fields.add('price', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.price')),
@@ -105,7 +107,7 @@ export default class ProductShowPage extends AbstractShowPage {
                 },
                 disabled: this.saving,
             }),
-        ]));
+        ]), 30);
 
         fields.add('availabilityDriver', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.availabilityDriver')),
@@ -117,7 +119,7 @@ export default class ProductShowPage extends AbstractShowPage {
                     this.dirty = true;
                 },
             }),
-        ]));
+        ]), 20);
 
         fields.add('priceDriver', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.priceDriver')),
@@ -129,13 +131,24 @@ export default class ProductShowPage extends AbstractShowPage {
                     this.dirty = true;
                 },
             }),
-        ]));
+        ]), 10);
 
         fields.add('submit', m('.Form-group', [
             SubmitButton.component({
                 loading: this.saving,
                 dirty: this.dirty,
                 exists: this.product!.exists,
+            }),
+            ' ',
+            SoftDeleteButton.component({
+                model: this.product,
+            }),
+            ' ',
+            PermanentDeleteButton.component({
+                model: this.product,
+                afterdelete() {
+                    m.route.set(app.route('products.index'));
+                },
             }),
         ]), -10);
 

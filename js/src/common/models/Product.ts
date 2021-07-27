@@ -7,6 +7,7 @@ export default class Product extends Model {
     price = Model.attribute<number | null>('price');
     priceEdit = Model.attribute<number | null>('priceEdit');
     cartQuantity = Model.attribute<number | null>('cartQuantity');
+    isHidden = Model.attribute<boolean>('isHidden');
     canOrder = Model.attribute<number | null>('canOrder');
     canEdit = Model.attribute<number | null>('canEdit');
 

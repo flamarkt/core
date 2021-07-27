@@ -2,24 +2,14 @@
 
 namespace Flamarkt\Core\Api\Controller;
 
-use Flamarkt\Core\Api\Serializer\OrderSerializer;
 use Flamarkt\Core\Order\OrderRepository;
-use Flarum\Api\Controller\AbstractShowController;
+use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Http\RequestUtil;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
-use Tobscure\JsonApi\Document;
 
-class OrderUpdateController extends AbstractShowController
+class OrderDeleteController extends AbstractDeleteController
 {
-    public $serializer = OrderSerializer::class;
-
-    public $include = [
-        'user',
-        'lines.product',
-        'payments',
-    ];
-
     protected $repository;
 
     public function __construct(OrderRepository $repository)
@@ -27,12 +17,12 @@ class OrderUpdateController extends AbstractShowController
         $this->repository = $repository;
     }
 
-    protected function data(ServerRequestInterface $request, Document $document)
+    protected function delete(ServerRequestInterface $request)
     {
         $actor = RequestUtil::getActor($request);
 
         $order = $this->repository->findOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        return $this->repository->update($order, $actor, $request->getParsedBody());
+        $this->repository->delete($order, $actor);
     }
 }

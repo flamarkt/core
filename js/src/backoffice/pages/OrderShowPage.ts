@@ -2,6 +2,7 @@ import {Vnode} from 'mithril';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import User from 'flarum/common/models/User';
+import ItemList from 'flarum/common/utils/ItemList';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
 import OrderLine from '../../common/models/OrderLine';
@@ -10,6 +11,8 @@ import OrderLineEdit from '../components/OrderLineEdit';
 import SubmitButton from '../components/SubmitButton';
 import UserRelationshipSelect from '../components/UserRelationshipSelect';
 import OrderLineEditState from '../states/OrderLineEditState';
+import SoftDeleteButton from '../components/SoftDeleteButton';
+import PermanentDeleteButton from '../components/PermanentDeleteButton';
 
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null = null;
@@ -59,86 +62,106 @@ export default class OrderShowPage extends AbstractShowPage {
 
         return m('form.OrderShowPage', {
             onsubmit: this.onsubmit.bind(this),
-        }, m('.container.container--narrow', [
-            m('.Form-group', [
-                m('label', 'Number'),
-                m('input.FormControl', {
-                    value: this.order.number(),
-                    readonly: true,
-                })
-            ]),
-            m('.Form-group', [
-                m('label', 'Customer'),
-                m(UserRelationshipSelect, {
-                    relationship: this.user,
-                    onchange: (user: User | null) => {
-                        this.user = user;
-                        this.dirty = true;
-                    },
-                    hasOne: true,
-                }),
-            ]),
-            m('table.OrderComposerTable', [
-                m('thead', m('tr', [
-                    m('th'), // Sort
-                    m('th', 'Group'),
-                    m('th', 'Type'),
-                    m('th', 'Info'),
-                    m('th', 'Quantity'),
-                    m('th', 'Unit Price'),
-                    m('th', 'Total'),
-                    m('th'), // Delete
-                ])),
-                m(Sortable, {
-                    containerTag: 'tbody',
-                    placeholderTag: 'tr',
-                    onsort: (origin, destination) => {
-                        this.lines.splice(destination, 0, ...this.lines.splice(origin, 1));
-                        this.dirty = true;
-                    },
-                }, this.lines.map((line, index) => m(OrderLineEdit, {
-                    key: line.uniqueFormKey,
-                    line,
-                    sortable: true,
-                    control: Button.component({
-                        icon: 'fas fa-times',
-                        className: 'Button Button--icon Button--delete',
-                        onclick: () => {
-                            this.lines.splice(index, 1);
-                            this.dirty = true;
-                        },
-                    }),
-                    onchange: () => {
-                        this.dirty = true;
-                    },
-                }))),
-                m('tbody', m(OrderLineEdit, {
-                    key: 'new',
-                    line: this.newLine,
-                    control: Button.component({
-                        icon: 'fas fa-plus',
-                        className: 'Button Button--icon',
-                        onclick: () => {
-                            //TODO: use onupdate on the edit line
-                            this.lines.push(this.newLine);
-                            this.dirty = true;
+        }, m('.container.container--narrow', this.fields().toArray()));
+    }
 
-                            this.initNewLine();
-                        },
-                    }),
-                    onchange: () => {
+    fields(): ItemList {
+        const fields = new ItemList();
+
+        fields.add('number', m('.Form-group', [
+            m('label', 'Number'),
+            m('input.FormControl', {
+                value: this.order!.number(),
+                readonly: true,
+            })
+        ]), 30);
+
+        fields.add('user', m('.Form-group', [
+            m('label', 'Customer'),
+            m(UserRelationshipSelect, {
+                relationship: this.user,
+                onchange: (user: User | null) => {
+                    this.user = user;
+                    this.dirty = true;
+                },
+                hasOne: true,
+            }),
+        ]), 20);
+
+        fields.add('lines', m('table.OrderComposerTable', [
+            m('thead', m('tr', [
+                m('th'), // Sort
+                m('th', 'Group'),
+                m('th', 'Type'),
+                m('th', 'Info'),
+                m('th', 'Quantity'),
+                m('th', 'Unit Price'),
+                m('th', 'Total'),
+                m('th'), // Delete
+            ])),
+            m(Sortable, {
+                containerTag: 'tbody',
+                placeholderTag: 'tr',
+                onsort: (origin, destination) => {
+                    this.lines.splice(destination, 0, ...this.lines.splice(origin, 1));
+                    this.dirty = true;
+                },
+            }, this.lines.map((line, index) => m(OrderLineEdit, {
+                key: line.uniqueFormKey,
+                line,
+                sortable: true,
+                control: Button.component({
+                    icon: 'fas fa-times',
+                    className: 'Button Button--icon Button--delete',
+                    onclick: () => {
+                        this.lines.splice(index, 1);
                         this.dirty = true;
                     },
-                })),
-            ]),
-            m('.Form-group', [
-                SubmitButton.component({
-                    loading: this.saving,
-                    dirty: this.dirty,
-                    exists: this.order.exists,
                 }),
-            ]),
-        ]));
+                onchange: () => {
+                    this.dirty = true;
+                },
+            }))),
+            m('tbody', m(OrderLineEdit, {
+                key: 'new',
+                line: this.newLine,
+                control: Button.component({
+                    icon: 'fas fa-plus',
+                    className: 'Button Button--icon',
+                    onclick: () => {
+                        //TODO: use onupdate on the edit line
+                        this.lines.push(this.newLine);
+                        this.dirty = true;
+
+                        this.initNewLine();
+                    },
+                }),
+                onchange: () => {
+                    this.dirty = true;
+                },
+            })),
+        ]), 10);
+
+        fields.add('submit', m('.Form-group', [
+            SubmitButton.component({
+                loading: this.saving,
+                dirty: this.dirty,
+                exists: this.order!.exists,
+            }),
+            ' ',
+            SoftDeleteButton.component({
+                model: this.order,
+            }),
+            ' ',
+            PermanentDeleteButton.component({
+                model: this.order,
+                afterdelete() {
+                    m.route.set(app.route('orders.index'));
+                },
+            }),
+        ]), -10);
+
+        return fields;
     }
 
     data() {

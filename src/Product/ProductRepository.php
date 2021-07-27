@@ -119,6 +119,16 @@ class ProductRepository
             }
         }
 
+        if (Arr::exists($attributes, 'isHidden')) {
+            $actor->assertCan('hide', $product);
+
+            if ($attributes['isHidden']) {
+                $product->hide();
+            } else {
+                $product->restore();
+            }
+        }
+
         $this->events->dispatch(new Saving($product, $actor, $data));
 
         $product->save();

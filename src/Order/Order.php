@@ -3,6 +3,8 @@
 namespace Flamarkt\Core\Order;
 
 use Carbon\Carbon;
+use Flamarkt\Core\Order\Event\Hidden;
+use Flamarkt\Core\Order\Event\Restored;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
 use Flarum\Foundation\EventGeneratorTrait;
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations;
  * @property int $price_total
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Carbon $hidden_at
  *
  * @property User|null $user
  * @property OrderLine[]|Collection $lines
@@ -50,5 +53,27 @@ class Order extends AbstractModel
     public function payments(): Relations\HasMany
     {
         return $this->hasMany(OrderPayment::class);
+    }
+
+    public function hide(): self
+    {
+        if (!$this->hidden_at) {
+            $this->hidden_at = Carbon::now();
+
+            $this->raise(new Hidden($this));
+        }
+
+        return $this;
+    }
+
+    public function restore(): self
+    {
+        if ($this->hidden_at !== null) {
+            $this->hidden_at = null;
+
+            $this->raise(new Restored($this));
+        }
+
+        return $this;
     }
 }

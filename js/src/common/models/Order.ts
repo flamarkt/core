@@ -5,6 +5,7 @@ import OrderLine from './OrderLine';
 export default class Order extends Model {
     number = Model.attribute('number');
     createdAt = Model.attribute('createdAt', Model.transformDate);
+    isHidden = Model.attribute<boolean>('isHidden');
 
     user = Model.hasOne<User>('user');
     lines = Model.hasMany<OrderLine>('lines');

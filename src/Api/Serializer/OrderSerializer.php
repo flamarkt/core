@@ -14,9 +14,19 @@ class OrderSerializer extends BasicOrderSerializer
      */
     protected function getDefaultAttributes($order): array
     {
-        return parent::getDefaultAttributes($order) + [
+        $attributes = parent::getDefaultAttributes($order) + [
                 'createdAt' => $this->formatDate($order->created_at),
             ];
+
+        if ($order->hidden_at) {
+            $attributes['isHidden'] = true;
+
+            if ($this->actor->can('backoffice')) {
+                $attributes['hiddenAt'] = $this->formatDate($order->hidden_at);
+            }
+        }
+
+        return $attributes;
     }
 
     public function user(Order $order): ?Relationship

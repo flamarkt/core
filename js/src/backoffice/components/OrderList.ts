@@ -1,4 +1,3 @@
-import Button from 'flarum/common/components/Button';
 import LinkButton from 'flarum/common/components/LinkButton';
 import AbstractList from './AbstractList';
 import Order from '../../common/models/Order';
@@ -31,11 +30,6 @@ export default class OrderList extends AbstractList {
             className: 'Button Button--icon',
             icon: 'fas fa-pen',
             href: app.route.order(order),
-        }));
-
-        actions.add('hide', Button.component({
-            className: 'Button Button--icon',
-            icon: 'fas fa-times',
         }));
 
         return actions;
