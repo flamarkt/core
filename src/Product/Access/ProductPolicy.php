@@ -8,7 +8,12 @@ use Flarum\User\User;
 
 class ProductPolicy extends AbstractPolicy
 {
-    public function order(User $actor, Product $product)
+    public function orderAlways(User $actor, Product $product)
+    {
+        return $actor->can('backoffice');
+    }
+
+    public function orderWhenAvailable(User $actor, Product $product)
     {
         return $actor->hasPermission('flamarkt.shop');
     }

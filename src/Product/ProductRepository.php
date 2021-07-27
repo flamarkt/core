@@ -3,6 +3,8 @@
 namespace Flamarkt\Core\Product;
 
 use Flamarkt\Core\Cart\Cart;
+use Flamarkt\Core\Cart\Event\ProductQuantityUpdated;
+use Flamarkt\Core\Cart\Event\UpdatingProductQuantity;
 use Flamarkt\Core\Product\Event\Deleted;
 use Flamarkt\Core\Product\Event\Deleting;
 use Flamarkt\Core\Product\Event\Saving;
@@ -87,26 +89,34 @@ class ProductRepository
         }
 
         if ($cart && Arr::exists($attributes, 'cartQuantity')) {
-            $quantity = (int)Arr::get($attributes, 'cartQuantity');
+            $quantity = max((int)Arr::get($attributes, 'cartQuantity'), 0);
 
             $state = $product->stateForCart($cart);
 
-            if ($quantity > 0) {
+            $previousQuantity = (int)$state->quantity;
+
+            if ($quantity !== $previousQuantity) {
                 // TODO: pass request
                 // TODO: use clean copy of product
-                if (!$this->availability->canOrder($product, $actor, null)) {
+                if ($quantity > 0 && !$this->availability->canOrder($product, $actor, null)) {
                     throw new PermissionDeniedException;
                 }
 
-                //TODO: validation
-                $state->quantity = $quantity;
-                $state->save();
-            } else if ($state->exists) {
-                // No permission check when removing from cart
-                $state->delete();
-            }
+                $this->events->dispatch(new UpdatingProductQuantity($cart, $product, $actor, $previousQuantity, $quantity, $data));
 
-            $cart->updateMeta();
+                if ($quantity > 0) {
+                    //TODO: validation
+                    $state->quantity = $quantity;
+                    $state->save();
+                } else if ($state->exists) {
+                    // No permission check when removing from cart
+                    $state->delete();
+                }
+
+                $this->events->dispatch(new ProductQuantityUpdated($cart, $product, $actor, $previousQuantity, $quantity));
+
+                $cart->updateMeta();
+            }
         }
 
         $this->events->dispatch(new Saving($product, $actor, $data));

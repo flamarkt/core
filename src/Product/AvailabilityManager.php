@@ -52,6 +52,10 @@ class AvailabilityManager extends AbstractManager
 
     public function canOrder(Product $product, User $actor, ServerRequestInterface $request = null): bool
     {
-        return $actor->can('order', $product) && $this->availability($product, $actor, $request);
+        if ($actor->can('orderAlways', $product)) {
+            return true;
+        }
+
+        return $actor->can('orderWhenAvailable', $product) && $this->availability($product, $actor, $request);
     }
 }
