@@ -1,3 +1,4 @@
+import {Vnode} from 'mithril';
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Product from '../../common/models/Product';
 import ProductShowLayout from '../layouts/ProductShowLayout';
@@ -5,7 +6,7 @@ import ProductShowLayout from '../layouts/ProductShowLayout';
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
 
-    oninit(vnode) {
+    oninit(vnode: Vnode) {
         //app.history.push('product');
 
         this.bodyClass = 'App--product';
@@ -17,7 +18,7 @@ export default class ProductShowPage extends AbstractShowPage {
         return 'flamarkt/products';
     }
 
-    show(product) {
+    show(product: Product) {
         this.product = product;
 
         //app.history.push('product', product.title());

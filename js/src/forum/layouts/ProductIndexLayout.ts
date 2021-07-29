@@ -8,7 +8,7 @@ export interface ProductIndexLayoutAttrs extends AbstractShopLayoutAttrs {
     state: ProductListState,
 }
 
-export default class ProductIndexLayout extends AbstractShopLayout<ProductIndexLayoutAttrs> {
+export default class ProductIndexLayout<T = ProductIndexLayoutAttrs> extends AbstractShopLayout<T> {
     className() {
         return 'ProductIndexPage';
     }
