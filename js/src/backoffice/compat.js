@@ -3,6 +3,7 @@ import AbstractRelationshipSelect from './components/AbstractRelationshipSelect'
 import BackofficeNav from './components/BackofficeNav';
 import OrderLineEdit from './components/OrderLineEdit';
 import OrderList from './components/OrderList';
+import OrderRelationshipSelect from './components/OrderRelationshipSelect';
 import PermanentDeleteButton from './components/PermanentDeleteButton';
 import ProductList from './components/ProductList';
 import ProductRelationshipSelect from './components/ProductRelationshipSelect';
@@ -27,6 +28,7 @@ export const backoffice = {
     'components/BackofficeNav': BackofficeNav,
     'components/OrderLineEdit': OrderLineEdit,
     'components/OrderList': OrderList,
+    'components/OrderRelationshipSelect': OrderRelationshipSelect,
     'components/PermanentDeleteButton': PermanentDeleteButton,
     'components/ProductList': ProductList,
     'components/ProductRelationshipSelect': ProductRelationshipSelect,

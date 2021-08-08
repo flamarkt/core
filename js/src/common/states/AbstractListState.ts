@@ -37,6 +37,10 @@ export default class AbstractListState<T extends Model> {
             params.sort = this.params.sort;
         }
 
+        if (this.params.include) {
+            params.include = this.params.include;
+        }
+
         if (this.params.q) {
             params.filter.q = this.params.q;
         }

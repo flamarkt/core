@@ -22,7 +22,7 @@ export default class ProductShowPage extends AbstractShowPage {
         this.product = product;
 
         //app.history.push('product', product.title());
-        app.setTitle(product.title());
+        app.setTitle(product.title() as string);
         app.setTitleCount(0);
     }
 

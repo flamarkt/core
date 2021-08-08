@@ -75,9 +75,9 @@ class OrderRepository
                     $line = new OrderLine();
                 }
 
-                $attributes = Arr::get($lineData, 'attributes') ?? [];
+                $attributes = (array)Arr::get($lineData, 'attributes');
 
-                $relationships = Arr::get($lineData, 'relationships') ?? [];
+                $relationships = (array)Arr::get($lineData, 'relationships');
 
                 if (Arr::exists($relationships, 'product')) {
                     $attributes['productId'] = Arr::get($relationships, 'product.data.id');
@@ -128,9 +128,9 @@ class OrderRepository
             });
         }
 
-        $attributes = Arr::get($data, 'data.attributes') ?? [];
+        $attributes = (array)Arr::get($data, 'data.attributes');
 
-        $relationships = Arr::get($data, 'data.relationships') ?? [];
+        $relationships = (array)Arr::get($data, 'data.relationships');
 
         if (Arr::exists($relationships, 'user')) {
             $attributes['userId'] = Arr::get($relationships, 'user.data.id');

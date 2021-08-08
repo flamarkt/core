@@ -5,13 +5,13 @@ export interface AbstractAccountLayoutAttrs extends AbstractShopLayoutAttrs {
     // nothing special, but that way it can be extended
 }
 
-export default abstract class AbstractAccountLayout<T = AbstractAccountLayoutAttrs> extends AbstractShopLayout {
+export default abstract class AbstractAccountLayout<T = AbstractAccountLayoutAttrs> extends AbstractShopLayout<T> {
     breadcrumbItems() {
         const items = super.breadcrumbItems();
 
         items.add('account', LinkButton.component({
             href: app.route('flamarkt.account'),
-        }, 'Account'));
+        }, 'Account' as any));
 
         return items;
     }

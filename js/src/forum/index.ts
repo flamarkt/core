@@ -2,6 +2,7 @@ import app from 'flarum/forum/app';
 import {extend} from 'flarum/common/extend';
 import SessionDropdown from 'flarum/forum/components/SessionDropdown';
 import LinkButton from 'flarum/common/components/LinkButton';
+import ItemList from 'flarum/common/utils/ItemList';
 import Cart from '../common/models/Cart';
 import Order from '../common/models/Order';
 import OrderLine from '../common/models/OrderLine';
@@ -47,7 +48,7 @@ app.initializers.add('flamarkt-core', () => {
         }
     });
 
-    extend(IndexPage.prototype, 'navItems', items => {
+    extend(IndexPage.prototype, 'navItems', function (items: ItemList) {
         items.add('flamarkt-products', ActiveLinkButton.component({
             icon: 'fas fa-shopping-cart',
             href: app.route('flamarkt.products.index'),
@@ -66,7 +67,7 @@ app.initializers.add('flamarkt-core', () => {
         }, app.translator.trans('flamarkt-core.forum.nav.account')));
     });
 
-    extend(HeaderSecondary.prototype, 'items', function (items) {
+    extend(HeaderSecondary.prototype, 'items', function (items: ItemList) {
         items.add('flamarkt-cart', CartDropdown.component({state: app.cart}), 15);
     })
 });

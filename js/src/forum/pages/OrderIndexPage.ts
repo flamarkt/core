@@ -1,12 +1,12 @@
-import Link from 'flarum/common/components/Link';
+import {Vnode} from 'mithril';
+import Page from 'flarum/common/components/Page';
 import OrderListState from '../../common/states/OrderListState';
-import AbstractShopPage from './AbstractShopPage';
-import OrderSortDropdown from '../../common/components/OrderSortDropdown';
+import OrderIndexLayout from '../layouts/OrderIndexLayout';
 
-export default class OrderIndexPage extends AbstractShopPage {
+export default class OrderIndexPage extends Page {
     state!: OrderListState;
 
-    oninit(vnode) {
+    oninit(vnode: Vnode) {
         super.oninit(vnode);
 
         this.state = this.initState();
@@ -21,19 +21,9 @@ export default class OrderIndexPage extends AbstractShopPage {
         });
     }
 
-    content() {
-        return m('div', [
-            m('h1', 'Orders'),
-            m('.Form-group', [
-                m(OrderSortDropdown, {
-                    state: this.state,
-                }),
-            ]),
-            m('ul', this.state.pages.map(page => page.items.map(order => m('li', m(Link, {
-                href: app.route('flamarkt.orders.show', {
-                    id: order.id(),
-                }),
-            }, order.number()))))),
-        ]);
+    view() {
+        return OrderIndexLayout.component({
+            state: this.state,
+        });
     }
 }

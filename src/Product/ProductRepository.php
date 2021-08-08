@@ -52,7 +52,7 @@ class ProductRepository
 
     public function save(Product $product, User $actor, array $data, Cart $cart = null): Product
     {
-        $attributes = Arr::get($data, 'data.attributes');
+        $attributes = (array)Arr::get($data, 'data.attributes');
 
         $this->validator->assertValid($attributes);
 

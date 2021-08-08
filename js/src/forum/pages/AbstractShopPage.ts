@@ -1,10 +1,10 @@
+import {Children} from 'mithril';
 import Page from 'flarum/common/components/Page';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import ItemList from 'flarum/common/utils/ItemList';
 import listItems from 'flarum/common/helpers/listItems';
-import * as Mithril from 'mithril';
-import LinkButton from "flarum/common/components/LinkButton";
-import Breadcrumb from "../components/Breadcrumb";
+import LinkButton from 'flarum/common/components/LinkButton';
+import Breadcrumb from '../components/Breadcrumb';
 
 /**
  * @deprecated replaced by Layout
@@ -34,10 +34,10 @@ export default abstract class AbstractShopPage extends Page {
 
         items.add('home', LinkButton.component({
             href: app.route('index'),
-        }, 'Home'), 100);
+        }, 'Home' as any), 100);
 
         return items;
     }
 
-    abstract content(): Mithril.Children
+    abstract content(): Children
 }
