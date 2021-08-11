@@ -4,6 +4,7 @@ namespace Flamarkt\Core;
 
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
+use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
 use Flarum\Frontend\Document;
 use Flarum\User\User;
@@ -99,6 +100,9 @@ return [
         ->addInclude(['cart']) // TODO: prefix?
         ->prepareDataForSerialization(LoadForumCartRelationship::class),
 
+    (new Extend\ApiSerializer(UserSerializer::class))
+        ->attributes(UserAttributes::class),
+
     (new Extend\Policy())
         ->modelPolicy(Order\Order::class, Order\Access\OrderPolicy::class)
         ->modelPolicy(Product\Product::class, Product\Access\ProductPolicy::class)
@@ -116,4 +120,7 @@ return [
     (new Extend\Model(User::class))
         ->hasMany('carts', Cart\Cart::class)
         ->hasMany('orders', Order\Order::class),
+
+    (new Extend\Event())
+        ->subscribe(Listener\UpdateUserOrderMeta::class),
 ];

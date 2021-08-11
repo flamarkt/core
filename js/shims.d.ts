@@ -58,5 +58,7 @@ declare module 'flarum/common/models/User' {
         username(value?: string): string
 
         email(value?: string): string
+
+        flamarktOrderCount(value?: number): number
     }
 }

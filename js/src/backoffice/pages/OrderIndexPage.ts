@@ -11,8 +11,23 @@ export default class OrderIndexPage extends Page {
     oninit(vnode: Vnode) {
         super.oninit(vnode);
 
-        this.state = new OrderListState();
+        this.state = this.initState();
         this.state.refresh();
+    }
+
+    initState() {
+        const pageParams = m.route.param();
+
+        const params: any = {
+            sort: pageParams.sort,
+        }
+
+        if (pageParams.user) {
+            params.filter = params.filter || {};
+            params.filter.user = pageParams.user;
+        }
+
+        return new OrderListState(params);
     }
 
     view() {

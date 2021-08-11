@@ -1,12 +1,14 @@
 import LinkButton from 'flarum/common/components/LinkButton';
 import AbstractList from './AbstractList';
 import User from 'flarum/common/models/User';
+import Link from 'flarum/common/components/Link';
 
 export default class UserList extends AbstractList {
     head() {
         const columns = super.head();
 
         columns.add('email', m('th', app.translator.trans('flamarkt-core.backoffice.users.head.email')), 10);
+        columns.add('orders', m('th', app.translator.trans('flamarkt-core.backoffice.users.head.orders')), 10);
 
         return columns;
     }
@@ -15,6 +17,9 @@ export default class UserList extends AbstractList {
         const columns = super.columns(user);
 
         columns.add('email', m('td', user.email()), 10);
+        columns.add('orders', m('td', m(Link, {
+            href: app.route('orders.index') + '?user=' + user.username(),
+        }, user.flamarktOrderCount())), 10);
 
         return columns;
     }

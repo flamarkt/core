@@ -11,8 +11,16 @@ export default class ProductIndexPage extends Page {
     oninit(vnode: Vnode) {
         super.oninit(vnode);
 
-        this.state = new ProductListState();
+        this.state = this.initState();
         this.state.refresh();
+    }
+
+    initState() {
+        const params = m.route.param();
+
+        return new ProductListState({
+            sort: params.sort,
+        });
     }
 
     view() {

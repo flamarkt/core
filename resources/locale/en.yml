@@ -12,6 +12,7 @@ flamarkt-core:
             new: Create customer
             head:
                 email: Email
+                orders: Orders
             field:
                 username: Username
                 email: Email

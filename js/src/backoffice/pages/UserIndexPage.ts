@@ -11,8 +11,16 @@ export default class UserIndexPage extends Page {
     oninit(vnode: Vnode) {
         super.oninit(vnode);
 
-        this.state = new UserListState();
+        this.state = this.initState();
         this.state.refresh();
+    }
+
+    initState() {
+        const params = m.route.param();
+
+        return new UserListState({
+            sort: params.sort,
+        });
     }
 
     view() {

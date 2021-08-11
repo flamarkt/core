@@ -3,8 +3,12 @@
 namespace Flamarkt\Core\Order;
 
 use Flamarkt\Core\Cart\CartRepository;
+use Flamarkt\Core\Order\Event\Created;
+use Flamarkt\Core\Order\Event\Deleted;
+use Flamarkt\Core\Order\Event\Deleting;
 use Flamarkt\Core\Order\Event\Saving;
 use Flamarkt\Core\Order\Event\SavingLine;
+use Flamarkt\Core\Order\Event\UserChanged;
 use Flarum\Foundation\DispatchEventsTrait;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -141,7 +145,13 @@ class OrderRepository
         if (Arr::exists($attributes, 'userId')) {
             $actor->assertCan('backoffice');
 
+            $oldUser = $order->user;
+
             $order->user()->associate($attributes['userId']);
+
+            if ($order->exists) {
+                $order->raise(new UserChanged($order, $oldUser));
+            }
         }
 
         if (Arr::exists($attributes, 'isHidden')) {
@@ -156,7 +166,15 @@ class OrderRepository
 
         $this->events->dispatch(new Saving($order, $actor, $data));
 
+        if (!$order->exists) {
+            $order->raise(new Created($order));
+        }
+
         $order->save();
+
+        // So event listeners can retrieve the new values
+        $order->unsetRelation('user');
+        $order->unsetRelation('lines');
 
         $this->dispatchEventsFor($order, $actor);
 
@@ -182,6 +200,10 @@ class OrderRepository
     {
         $actor->assertCan('delete', $order);
 
+        $this->events->dispatch(new Deleting($order, $actor));
+
         $order->delete();
+
+        $this->events->dispatch(new Deleted($order, $actor));
     }
 }

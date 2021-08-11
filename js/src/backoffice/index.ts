@@ -1,5 +1,6 @@
 import Select from 'flarum/common/components/Select';
 import ExtensionPage from 'flarum/admin/components/ExtensionPage';
+import Model from 'flarum/common/Model';
 import BackofficeApplication from './BackofficeApplication';
 import Order from '../common/models/Order';
 import OrderLine from '../common/models/OrderLine';
@@ -29,6 +30,7 @@ app.initializers.add('flamarkt-core', () => {
     app.store.models['flamarkt-orders'] = Order;
     app.store.models['flamarkt-order-lines'] = OrderLine;
     app.store.models['flamarkt-products'] = Product;
+    app.store.models.users.prototype.flamarktOrderCount = Model.attribute('flamarktOrderCount');
 
     app.extensionData.for('flamarkt-core')
         .registerSetting(function (this: ExtensionPage) {
