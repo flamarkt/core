@@ -75,17 +75,18 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
             items.add('edit', LinkButton.component({
                 className: 'Button',
                 href: app.forum.attribute('backofficeUrl') + '/products/' + product.id(),
-            }, 'Edit'));
+                external: true,
+            }, 'Edit'), 200);
         }
 
-        items.add('title', m('h1', product.title()));
+        items.add('title', m('h1', product.title()), 100);
 
-        items.add('price', m('p', formatPrice(product.price())));
+        items.add('price', m('p', formatPrice(product.price())), 50);
 
         if (this.showCartControls(product)) {
             items.add('quantity', ProductQuantity.component({
                 product,
-            }));
+            }), 20);
         }
 
         return items;
@@ -101,7 +102,7 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         const descriptionHtml = product.descriptionHtml();
 
         if (descriptionHtml) {
-            items.add('description', m('div', m.trust(descriptionHtml)));
+            items.add('description', m('div', m.trust(descriptionHtml)), 10);
         }
 
         return items;
