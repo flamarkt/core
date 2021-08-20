@@ -56,6 +56,7 @@ export default class UserShowPage extends AbstractShowPage {
                     this.username = (event.target as HTMLInputElement).value;
                     this.dirty = true;
                 },
+                disabled: this.saving,
             }),
         ]));
 
@@ -68,6 +69,8 @@ export default class UserShowPage extends AbstractShowPage {
                     this.email = (event.target as HTMLInputElement).value;
                     this.dirty = true;
                 },
+                // Disable field if own user, because Flarum won't allow editing it without passing meta.password
+                disabled: this.saving || app.session.user === this.user,
             }),
         ]));
 
@@ -82,6 +85,7 @@ export default class UserShowPage extends AbstractShowPage {
                         this.password = (event.target as HTMLInputElement).value;
                         this.dirty = true;
                     },
+                    disabled: this.saving,
                 }),
             ]));
         }
@@ -100,8 +104,13 @@ export default class UserShowPage extends AbstractShowPage {
     data() {
         const data: any = {
             username: this.username,
-            email: this.email,
         };
+
+        // Only include email if it was modified
+        // This avoids issues with Flarum asking for password during email change
+        if (this.email !== this.user!.email()) {
+            data.email = this.email;
+        }
 
         if (this.password) {
             data.password = this.password;

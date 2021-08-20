@@ -38,7 +38,7 @@ app.initializers.add('flamarkt-core', () => {
 
     app.cart = new CartState();
 
-    extend(SessionDropdown.prototype, 'items', items => {
+    extend(SessionDropdown.prototype, 'items', function (items: ItemList) {
         if (app.forum.attribute('backofficeUrl')) {
             items.add('flamarkt-backoffice', LinkButton.component({
                 icon: 'fas fa-shopping-cart',
