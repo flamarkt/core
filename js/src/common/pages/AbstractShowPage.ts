@@ -43,9 +43,7 @@ export default abstract class AbstractShowPage extends Page {
     }
 
     requestParams(): any {
-        return {
-            bySlug: true,
-        };
+        return {};
     }
 
     show(model: Model) {

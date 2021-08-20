@@ -27,17 +27,17 @@ class PriceManager extends AbstractManager
 
         foreach ($results as $result) {
             if (preg_match('~^([-+]?)([0-9]+)(%?)$~', $result, $matches) === 1) {
-                $value = (int)$matches[1];
+                $value = (int)$matches[2];
 
-                if ($matches[2]) {
-                    if (!$matches[0]) {
+                if ($matches[3]) {
+                    if (!$matches[1]) {
                         throw new \Exception('Invalid price modification "' . $result . '" (cannot use % without calculation)');
                     }
 
                     $value = $value / 100 * $price;
                 }
 
-                switch ($matches[0]) {
+                switch ($matches[1]) {
                     case '+':
                         $price += $value;
                         break;

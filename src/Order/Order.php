@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations;
  * @property int $user_id
  * @property string $status
  * @property int $price_total
+ * @property int $paid_amount
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $hidden_at
@@ -35,6 +36,7 @@ class Order extends AbstractModel
 
     protected $casts = [
         'price_total' => 'int',
+        'paid_amount' => 'int',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'hidden_at' => 'datetime',
@@ -73,6 +75,14 @@ class Order extends AbstractModel
 
             $this->raise(new Restored($this));
         }
+
+        return $this;
+    }
+
+    public function updateMeta(): self
+    {
+        $this->price_total = $this->lines()->sum('price_total');
+        $this->paid_amount = $this->payments()->sum('amount');
 
         return $this;
     }

@@ -40,7 +40,7 @@ return [
         ->route('/products', 'products.index')
         ->route('/products/{id:[0-9]+|new}', 'products.show')
         ->route('/users', 'users.index')
-        ->route('/users/{id:[a-zA-Z0-9_-]+|new}', 'users.show')
+        ->route('/users/{id:[0-9]+|new}', 'users.show')
         ->route('/extension/{id:[a-zA-Z0-9_-]+}', 'extension'),
 
     (new Extend\Frontend('forum'))
@@ -49,9 +49,9 @@ return [
         ->route('/cart', 'flamarkt.cart')
         ->route('/account', 'flamarkt.account')
         ->route('/account/orders', 'flamarkt.account.orders')
-        ->route('/orders/{id:[0-9]+}', 'flamarkt.orders.show')
+        ->route('/orders/{id}', 'flamarkt.orders.show')
         ->route('/products', 'flamarkt.products.index')
-        ->route('/products/{id:[0-9]+}', 'flamarkt.products.show'),
+        ->route('/products/{id}', 'flamarkt.products.show'),
 
     new Extend\Locales(__DIR__ . '/resources/locale'),
 
@@ -60,15 +60,15 @@ return [
         //
         ->get('/flamarkt/orders', 'flamarkt.orders.index', Api\Controller\OrderIndexController::class)
         ->post('/flamarkt/orders', 'flamarkt.orders.store', Api\Controller\OrderStoreController::class)
-        ->get('/flamarkt/orders/{id:[0-9]+}', 'flamarkt.orders.show', Api\Controller\OrderShowController::class)
-        ->patch('/flamarkt/orders/{id:[0-9]+}', 'flamarkt.orders.update', Api\Controller\OrderUpdateController::class)
-        ->delete('/flamarkt/orders/{id:[0-9]+}', 'flamarkt.orders.delete', Api\Controller\OrderDeleteController::class)
+        ->get('/flamarkt/orders/{id}', 'flamarkt.orders.show', Api\Controller\OrderShowController::class)
+        ->patch('/flamarkt/orders/{id}', 'flamarkt.orders.update', Api\Controller\OrderUpdateController::class)
+        ->delete('/flamarkt/orders/{id}', 'flamarkt.orders.delete', Api\Controller\OrderDeleteController::class)
         //
         ->get('/flamarkt/products', 'flamarkt.products.index', Api\Controller\ProductIndexController::class)
         ->post('/flamarkt/products', 'flamarkt.products.store', Api\Controller\ProductStoreController::class)
-        ->get('/flamarkt/products/{id:[0-9]+}', 'flamarkt.products.show', Api\Controller\ProductShowController::class)
-        ->patch('/flamarkt/products/{id:[0-9]+}', 'flamarkt.products.update', Api\Controller\ProductUpdateController::class)
-        ->delete('/flamarkt/products/{id:[0-9]+}', 'flamarkt.products.delete', Api\Controller\ProductDeleteController::class),
+        ->get('/flamarkt/products/{id}', 'flamarkt.products.show', Api\Controller\ProductShowController::class)
+        ->patch('/flamarkt/products/{id}', 'flamarkt.products.update', Api\Controller\ProductUpdateController::class)
+        ->delete('/flamarkt/products/{id}', 'flamarkt.products.delete', Api\Controller\ProductDeleteController::class),
 
     (new Extend\Middleware('forum'))
         ->insertBefore('flarum.forum.route_resolver', Backoffice\Middleware\SubForumRouter::class)
@@ -123,4 +123,9 @@ return [
 
     (new Extend\Event())
         ->subscribe(Listener\UpdateUserOrderMeta::class),
+
+    (new Extend\ModelUrl(Order\Order::class))
+        ->addSlugDriver('default', Order\IdSlugDriver::class),
+    (new Extend\ModelUrl(Product\Product::class))
+        ->addSlugDriver('default', Product\IdSlugDriver::class),
 ];

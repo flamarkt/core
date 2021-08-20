@@ -30,7 +30,7 @@ export default function (app) {
     };
     app.route.user = (user: User) => {
         return app.route('users.show', {
-            id: user.slug(),
+            id: user.id(),
         });
     };
     app.route.order = (order: Order) => {

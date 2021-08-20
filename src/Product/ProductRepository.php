@@ -54,6 +54,10 @@ class ProductRepository
     {
         $attributes = (array)Arr::get($data, 'data.attributes');
 
+        if ($product->exists) {
+            $this->validator->setProduct($product);
+        }
+
         $this->validator->assertValid($attributes);
 
         if (Arr::exists($attributes, 'title')) {

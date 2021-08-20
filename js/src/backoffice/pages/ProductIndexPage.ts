@@ -13,6 +13,9 @@ export default class ProductIndexPage extends Page {
 
         this.state = this.initState();
         this.state.refresh();
+
+        app.setTitle(app.translator.trans('flamarkt-core.backoffice.products.title'));
+        app.setTitleCount(0);
     }
 
     initState() {

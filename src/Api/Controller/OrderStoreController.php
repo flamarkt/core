@@ -43,7 +43,7 @@ class OrderStoreController extends AbstractCreateController
         if ($cartId) {
             $cart = $this->cartRepository->findOrFail($cartId, $actor);
 
-            return $this->orderBuilder->build($actor, $cart, $data);
+            return $this->orderBuilder->build($actor, $cart, $data, $request);
         }
 
         return $this->orderRepository->store($actor, $data);

@@ -10,6 +10,7 @@ return [
             $table->unsignedInteger('user_id')->nullable();
             $table->string('status');
             $table->unsignedInteger('price_total');
+            $table->unsignedInteger('paid_amount');
             $table->timestamps();
             $table->timestamp('hidden_at')->nullable();
 

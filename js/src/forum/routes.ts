@@ -17,12 +17,12 @@ export default function (app) {
 
     app.route.product = (product: Product) => {
         return app.route('flamarkt.products.show', {
-            id: product.id(),
+            id: product.slug(),
         });
     };
     app.route.order = (order: Order) => {
         return app.route('flamarkt.orders.show', {
-            id: order.id(),
+            id: order.slug(),
         });
     };
 }

@@ -41,4 +41,11 @@ class OrderLine extends AbstractModel
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function updateTotal(): self
+    {
+        $this->price_total = $this->quantity * $this->price_unit;
+
+        return $this;
+    }
 }

@@ -13,6 +13,9 @@ export default class OrderIndexPage extends Page {
 
         this.state = this.initState();
         this.state.refresh();
+
+        app.setTitle(app.translator.trans('flamarkt-core.backoffice.orders.title'));
+        app.setTitleCount(0);
     }
 
     initState() {

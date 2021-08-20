@@ -109,6 +109,16 @@ class OrderRepository
                     $line->product()->associate($attributes['productId']);
                 }
 
+                if (Arr::exists($attributes, 'price_unit')) {
+                    $line->price_unit = Arr::get($attributes, 'price_unit');
+                }
+
+                if (Arr::exists($attributes, 'quantity')) {
+                    $line->quantity = Arr::get($attributes, 'quantity');
+                }
+
+                $line->updateTotal();
+
                 $this->events->dispatch(new SavingLine($order, $line, $actor, $lineData));
 
                 $lines[] = $line;
@@ -138,6 +148,10 @@ class OrderRepository
 
         if (Arr::exists($relationships, 'user')) {
             $attributes['userId'] = Arr::get($relationships, 'user.data.id');
+        }
+
+        if ($order->exists) {
+            $this->orderValidator->setOrder($order);
         }
 
         $this->orderValidator->assertValid($attributes);
@@ -175,6 +189,8 @@ class OrderRepository
         // So event listeners can retrieve the new values
         $order->unsetRelation('user');
         $order->unsetRelation('lines');
+
+        $order->updateMeta()->save();
 
         $this->dispatchEventsFor($order, $actor);
 

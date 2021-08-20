@@ -18,6 +18,14 @@ export default class ProductShowPage extends AbstractShowPage {
         return 'flamarkt/products';
     }
 
+    requestParams(): any {
+        const params = super.requestParams();
+
+        params.bySlug = true;
+
+        return params;
+    }
+
     show(product: Product) {
         this.product = product;
 

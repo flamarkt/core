@@ -6,7 +6,23 @@ use Flarum\Foundation\AbstractValidator;
 
 class OrderValidator extends AbstractValidator
 {
+    protected $order;
+
+    // Not used internally, but necessary for extensions using the Validator extender
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(Order $order)
+    {
+        $this->order = $order;
+    }
+
     protected $rules = [
-        'userId' => 'nullable|exists:users,id',
+        'userId' => [
+            'nullable',
+            'exists:users,id',
+        ],
     ];
 }

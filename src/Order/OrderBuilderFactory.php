@@ -3,25 +3,35 @@
 namespace Flamarkt\Core\Order;
 
 use Flamarkt\Core\Cart\Cart;
+use Flamarkt\Core\Order\Event\Created;
 use Flamarkt\Core\Order\Event\Ordering;
 use Flamarkt\Core\Order\Event\Paying;
 use Flamarkt\Core\Order\Event\Saving;
 use Flamarkt\Core\Order\Event\SavingLine;
+use Flamarkt\Core\Product\AvailabilityManager;
+use Flamarkt\Core\Product\PriceManager;
 use Flarum\Foundation\ValidationException;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
+use Psr\Http\Message\ServerRequestInterface;
 
 class OrderBuilderFactory
 {
     protected $events;
+    protected $availability;
+    protected $price;
 
-    public function __construct(Dispatcher $events)
+    public function __construct(Dispatcher $events, AvailabilityManager $availability, PriceManager $price)
     {
         $this->events = $events;
+        $this->availability = $availability;
+        $this->price = $price;
     }
 
-    public function build(User $actor, Cart $cart, array $data): Order
+    public function build(User $actor, Cart $cart, array $data, ServerRequestInterface $request = null): Order
     {
+        $actor->assertCan('flamarkt.shop');
+
         $order = new Order();
         $order->user()->associate($actor);
 
@@ -34,11 +44,13 @@ class OrderBuilderFactory
         }
 
         foreach ($cart->products as $product) {
-            $line = $builder->addLine('products');
+            $actor->assertPermission($this->availability->canOrder($product, $actor));
+
+            $line = $builder->addLine('product');
             $line->product()->associate($product);
             $line->quantity = $product->pivot->quantity;
-            $line->price_unit = $product->price;
-            $line->price_total = $product->pivot->quantity * $product->price;
+            $line->price_unit = $this->price->price($product, $actor, $request);
+            $line->updateTotal();
         }
 
         $this->events->dispatch(new Ordering($builder, $order, $actor, $cart, $data));
@@ -85,6 +97,10 @@ class OrderBuilderFactory
 
         $order->lines()->saveMany($saveLines);
         $order->payments()->saveMany($builder->payments);
+
+        $order->updateMeta()->save();
+
+        $this->events->dispatch(new Created($order, $actor));
 
         return $order;
     }

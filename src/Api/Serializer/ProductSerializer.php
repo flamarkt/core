@@ -5,14 +5,17 @@ namespace Flamarkt\Core\Api\Serializer;
 use Flamarkt\Core\Product\AvailabilityManager;
 use Flamarkt\Core\Product\PriceManager;
 use Flamarkt\Core\Product\Product;
+use Flarum\Http\SlugManager;
 
 class ProductSerializer extends BasicProductSerializer
 {
     protected $availability;
     protected $price;
 
-    public function __construct(AvailabilityManager $availability, PriceManager $price)
+    public function __construct(SlugManager $slugManager, AvailabilityManager $availability, PriceManager $price)
     {
+        parent::__construct($slugManager);
+
         $this->availability = $availability;
         $this->price = $price;
     }

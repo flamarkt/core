@@ -15,6 +15,8 @@ class OrderSerializer extends BasicOrderSerializer
     protected function getDefaultAttributes($order): array
     {
         $attributes = parent::getDefaultAttributes($order) + [
+                'priceTotal' => $order->price_total,
+                'paidAmount' => $order->paid_amount,
                 'createdAt' => $this->formatDate($order->created_at),
             ];
 

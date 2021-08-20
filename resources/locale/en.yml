@@ -10,6 +10,7 @@ flamarkt-core:
             orders: Orders
             searchPlaceholder: => core.admin.nav.search_placeholder
         users:
+            title: Customers
             new: Create customer
             head:
                 email: Email
@@ -19,11 +20,16 @@ flamarkt-core:
                 email: Email
                 password: Password
         orders:
+            title: Orders
             new: Create manual order
             head:
+                number: Number
                 date: Date
                 user: Customer
+                priceTotal: Total
+                paidAmount: Paid
         products:
+            title: Products
             new: Create product
             head:
                 title: Title

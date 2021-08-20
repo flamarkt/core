@@ -13,6 +13,9 @@ export default class UserIndexPage extends Page {
 
         this.state = this.initState();
         this.state.refresh();
+
+        app.setTitle(app.translator.trans('flamarkt-core.backoffice.users.title'));
+        app.setTitleCount(0);
     }
 
     initState() {

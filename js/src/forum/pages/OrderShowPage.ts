@@ -10,6 +10,14 @@ export default class OrderShowPage extends AbstractShowPage {
         return 'flamarkt/orders';
     }
 
+    requestParams(): any {
+        const params = super.requestParams();
+
+        params.bySlug = true;
+
+        return params;
+    }
+
     show(order: Order) {
         this.order = order;
 
