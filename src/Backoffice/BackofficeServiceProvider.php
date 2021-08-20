@@ -48,6 +48,7 @@ class BackofficeServiceProvider extends AbstractServiceProvider
                 'flarum.backoffice.route_resolver',
                 HttpMiddleware\CheckCsrfToken::class,
                 HttpMiddleware\ShareErrorsFromSession::class,
+                Middleware\RequireManagerAbility::class,
             ];
         });
 

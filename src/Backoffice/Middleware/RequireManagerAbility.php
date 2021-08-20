@@ -2,6 +2,7 @@
 
 namespace Flamarkt\Core\Backoffice\Middleware;
 
+use Flarum\Http\RequestUtil;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -11,6 +12,8 @@ class RequireManagerAbility implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        // TODO: Implement process() method.
+        RequestUtil::getActor($request)->assertCan('backoffice');
+
+        return $handler->handle($request);
     }
 }
