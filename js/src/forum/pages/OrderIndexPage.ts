@@ -16,7 +16,7 @@ export default class OrderIndexPage extends Page {
     initState() {
         return new OrderListState({
             filter: {
-                user: app.session.user ? app.session.user.username() : 0,
+                user: app.session.user ? app.session.user.id() : 0,
             },
         });
     }

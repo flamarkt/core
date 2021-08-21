@@ -18,7 +18,9 @@ export default class UserList extends AbstractList {
 
         columns.add('email', m('td', user.email()), 10);
         columns.add('orders', m('td', m(Link, {
-            href: app.route('orders.index') + '?user=' + user.username(),
+            href: app.route('orders.index') + '?' + m.buildQueryString({
+                user: user.slug(),
+            }),
         }, user.flamarktOrderCount())), 10);
 
         return columns;
