@@ -1,4 +1,13 @@
+import AbstractSortDropdown from './components/AbstractSortDropdown';
 import ActiveLinkButton from './components/ActiveLinkButton';
+import DecimalInput from './components/DecimalInput';
+import DecimalLabel from './components/DecimalLabel';
+import OrderSortDropdown from './components/OrderSortDropdown';
+import PriceInput from './components/PriceInput';
+import PriceLabel from './components/PriceLabel';
+import ProductSortDropdown from './components/ProductSortDropdown';
+import QuantityInput from './components/QuantityInput';
+import QuantityLabel from './components/QuantityLabel';
 import Sortable from './components/Sortable';
 import SortableHandle from './components/SortableHandle';
 import formatPrice from './helpers/formatPrice';
@@ -13,7 +22,16 @@ import ProductListState from './states/ProductListState';
 import KeyboardNavigatable from './utils/KeyboardNavigatable';
 
 export const common = {
+    'components/AbstractSortDropdown': AbstractSortDropdown,
     'components/ActiveLinkButton': ActiveLinkButton,
+    'components/DecimalInput': DecimalInput,
+    'components/DecimalLabel': DecimalLabel,
+    'components/OrderSortDropdown': OrderSortDropdown,
+    'components/PriceInput': PriceInput,
+    'components/PriceLabel': PriceLabel,
+    'components/ProductSortDropdown': ProductSortDropdown,
+    'components/QuantityInput': QuantityInput,
+    'components/QuantityLabel': QuantityLabel,
     'components/Sortable': Sortable,
     'components/SortableHandle': SortableHandle,
     'helpers/formatPrice': formatPrice,

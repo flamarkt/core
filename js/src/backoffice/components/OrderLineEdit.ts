@@ -1,11 +1,13 @@
 import {Attributes, ClassComponent, Vnode} from 'mithril';
 import SortableHandle from '../../common/components/SortableHandle';
-import formatPrice from '../../common/helpers/formatPrice';
 import ItemList from 'flarum/common/utils/ItemList';
 import Select from 'flarum/common/components/Select';
 import ProductRelationshipSelect from './ProductRelationshipSelect';
 import Product from '../../common/models/Product';
 import OrderLineEditState from '../states/OrderLineEditState';
+import PriceInput from '../../common/components/PriceInput';
+import QuantityInput from '../../common/components/QuantityInput';
+import PriceLabel from '../../common/components/PriceLabel';
 
 interface OrderLineAttrs extends Attributes {
     line: OrderLineEditState
@@ -29,7 +31,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
     columns(line: OrderLineEditState, control: Vnode, onchange: () => void, sortable?: boolean): ItemList {
         const columns = new ItemList();
 
-        columns.add('handle', m('td.OrderLineEdit-Handle', sortable ? m(SortableHandle) : null));
+        columns.add('handle', m('td.OrderLineEdit-Handle', sortable ? m(SortableHandle) : null), 100);
         columns.add('group', m('td.OrderLineEdit-Group', Select.component({
             value: line.group === null ? '_none' : line.group,
             onchange: (value: string) => {
@@ -40,7 +42,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 _none: 'None',
                 shipping: 'Shipping',
             },
-        })));
+        })), 90);
         columns.add('type', m('td.OrderLineEdit-Type', Select.component({
             value: line.type,
             onchange: (value: string) => {
@@ -51,28 +53,31 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 product: 'Product',
                 manual: 'Manual',
             },
-        })));
-        columns.add('info', m('td.OrderLineEdit-Info', this.fields(line, onchange).toArray()));
-        columns.add('quantity', m('td.OrderLineEdit-Quantity', m('input.FormControl', {
-            type: 'number',
-            value: line.quantity,
-            onchange: (event: Event) => {
-                line.quantity = parseFloat((event.target as HTMLInputElement).value);
-                line.updateTotal();
-                onchange();
-            },
-        })));
-        columns.add('priceUnit', m('td.OrderLineEdit-PriceUnit', m('input.FormControl', {
-            type: 'number',
+        })), 80);
+        columns.add('info', m('td.OrderLineEdit-Info', this.fields(line, onchange).toArray()), 30);
+        columns.add('priceUnit', m('td.OrderLineEdit-PriceUnit', m(PriceInput, {
             value: line.priceUnit,
-            onchange: (event: Event) => {
-                line.priceUnit = parseFloat((event.target as HTMLInputElement).value);
+            onchange: (value: number) => {
+                line.priceUnit = value;
                 line.updateTotal();
                 onchange();
             },
-        })));
-        columns.add('priceTotal', m('td.OrderLineEdit-PriceTotal', formatPrice(line.priceTotal)));
-        columns.add('control', m('td.OrderLineEdit-Controls', control));
+            product: line.product,
+        })), -30);
+        columns.add('quantity', m('td.OrderLineEdit-Quantity', m(QuantityInput, {
+            value: line.quantity,
+            onchange: (value: number) => {
+                line.quantity = value;
+                line.updateTotal();
+                onchange();
+            },
+            product: line.product,
+        })), -60);
+        columns.add('priceTotal', m('td.OrderLineEdit-PriceTotal', m(PriceLabel, {
+            value: line.priceTotal,
+            product: line.product,
+        })), -90);
+        columns.add('control', m('td.OrderLineEdit-Controls', control), -100);
 
         return columns;
     }

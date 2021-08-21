@@ -69,7 +69,7 @@ export default class OrderShowPage extends AbstractShowPage {
         const fields = new ItemList();
 
         fields.add('number', m('.Form-group', [
-            m('label', 'Number'),
+            m('label', app.translator.trans('flamarkt-core.backoffice.orders.field.number')),
             m('input.FormControl', {
                 value: this.order!.number(),
                 readonly: true,
@@ -77,7 +77,7 @@ export default class OrderShowPage extends AbstractShowPage {
         ]), 30);
 
         fields.add('user', m('.Form-group', [
-            m('label', 'Customer'),
+            m('label', app.translator.trans('flamarkt-core.backoffice.orders.field.user')),
             m(UserRelationshipSelect, {
                 relationship: this.user,
                 onchange: (user: User | null) => {
@@ -89,16 +89,7 @@ export default class OrderShowPage extends AbstractShowPage {
         ]), 20);
 
         fields.add('lines', m('table.OrderComposerTable', [
-            m('thead', m('tr', [
-                m('th'), // Sort
-                m('th', 'Group'),
-                m('th', 'Type'),
-                m('th', 'Info'),
-                m('th', 'Quantity'),
-                m('th', 'Unit Price'),
-                m('th', 'Total'),
-                m('th'), // Delete
-            ])),
+            m('thead', m('tr', this.tableHead().toArray())),
             m(Sortable, {
                 containerTag: 'tbody',
                 placeholderTag: 'tr',
@@ -117,6 +108,7 @@ export default class OrderShowPage extends AbstractShowPage {
                         this.lines.splice(index, 1);
                         this.dirty = true;
                     },
+                    title: app.translator.trans('flamarkt-core.backoffice.orders.lines.control.delete'),
                 }),
                 onchange: () => {
                     this.dirty = true;
@@ -135,6 +127,7 @@ export default class OrderShowPage extends AbstractShowPage {
 
                         this.initNewLine();
                     },
+                    title: app.translator.trans('flamarkt-core.backoffice.orders.lines.control.add'),
                 }),
                 onchange: () => {
                     this.dirty = true;
@@ -162,6 +155,21 @@ export default class OrderShowPage extends AbstractShowPage {
         ]), -10);
 
         return fields;
+    }
+
+    tableHead() {
+        const columns = new ItemList();
+
+        columns.add('handle', m('th'), 100);
+        columns.add('group', m('th', app.translator.trans('flamarkt-core.backoffice.orders.lines.head.group')), 90);
+        columns.add('type', m('th', app.translator.trans('flamarkt-core.backoffice.orders.lines.head.type')), 80);
+        columns.add('info', m('th', app.translator.trans('flamarkt-core.backoffice.orders.lines.head.info')), 30);
+        columns.add('priceUnit', m('th', app.translator.trans('flamarkt-core.backoffice.orders.lines.head.priceUnit')), -30);
+        columns.add('quantity', m('th', app.translator.trans('flamarkt-core.backoffice.orders.lines.head.quantity')), -60);
+        columns.add('priceTotal', m('th', app.translator.trans('flamarkt-core.backoffice.orders.lines.head.priceTotal')), -90);
+        columns.add('control', m('th'), -100);
+
+        return columns;
     }
 
     data() {

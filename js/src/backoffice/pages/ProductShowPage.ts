@@ -7,6 +7,7 @@ import TextEditor from 'flarum/common/components/TextEditor';
 import Select from 'flarum/common/components/Select';
 import SoftDeleteButton from '../components/SoftDeleteButton';
 import PermanentDeleteButton from '../components/PermanentDeleteButton';
+import PriceInput from '../../common/components/PriceInput';
 
 export default class ProductShowPage extends AbstractShowPage {
     product: Product | null = null;
@@ -14,7 +15,7 @@ export default class ProductShowPage extends AbstractShowPage {
     dirty: boolean = false;
     title: string = '';
     description: string = '';
-    price: string = '';
+    price: number = 0;
     availabilityDriver: string | null = null;
     priceDriver: string | null = null;
 
@@ -39,7 +40,7 @@ export default class ProductShowPage extends AbstractShowPage {
         this.product = product;
         this.title = product.title() || '';
         this.description = product.description() || '';
-        this.price = product.priceEdit() + '';
+        this.price = product.priceEdit() || 0;
         this.availabilityDriver = product.attribute('availabilityDriver');
         this.priceDriver = product.attribute('priceDriver');
 
@@ -98,11 +99,10 @@ export default class ProductShowPage extends AbstractShowPage {
 
         fields.add('price', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.price')),
-            m('input.FormControl', {
-                type: 'number',
+            m(PriceInput, {
                 value: this.price,
-                oninput: (event: Event) => {
-                    this.price = (event.target as HTMLInputElement).value;
+                onchange: (value: number) => {
+                    this.price = value;
                     this.dirty = true;
                 },
                 disabled: this.saving,

@@ -11,6 +11,8 @@ import AbstractAccountLayout from './layouts/AbstractAccountLayout';
 import AbstractShopLayout from './layouts/AbstractShopLayout';
 import AccountLayout from './layouts/AccountLayout';
 import CartLayout from './layouts/CartLayout';
+import OrderIndexLayout from './layouts/OrderIndexLayout';
+import OrderShowLayout from './layouts/OrderShowLayout';
 import ProductIndexLayout from './layouts/ProductIndexLayout';
 import ProductShowLayout from './layouts/ProductShowLayout';
 import AbstractAccountPage from './pages/AbstractAccountPage';
@@ -37,6 +39,8 @@ export const forum = {
     'layouts/AbstractShopLayout': AbstractShopLayout,
     'layouts/AccountLayout': AccountLayout,
     'layouts/CartLayout': CartLayout,
+    'layouts/OrderIndexLayout': OrderIndexLayout,
+    'layouts/OrderShowLayout': OrderShowLayout,
     'layouts/ProductIndexLayout': ProductIndexLayout,
     'layouts/ProductShowLayout': ProductShowLayout,
     'pages/AbstractAccountPage': AbstractAccountPage,

@@ -2,7 +2,7 @@ import Component, {ComponentAttrs} from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import CartTableRow from './CartTableRow';
 import Cart from '../../common/models/Cart';
-import formatPrice from '../../common/helpers/formatPrice';
+import PriceLabel from '../../common/components/PriceLabel';
 
 interface CartTableAttrs extends ComponentAttrs {
     cart: Cart,
@@ -47,7 +47,10 @@ export default class CartTable extends Component<CartTableAttrs> {
                 m('th', {
                     colspan: 2,
                 }, 'Total'),
-                m('th', formatPrice(this.attrs.cart.priceTotalLocal())),
+                m('th', m(PriceLabel, {
+                    value: this.attrs.cart.priceTotalLocal(),
+                    hint: 'cart total',
+                })),
             ]));
         }
 

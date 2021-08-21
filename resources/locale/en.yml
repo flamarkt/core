@@ -28,6 +28,20 @@ flamarkt-core:
                 user: Customer
                 priceTotal: Total
                 paidAmount: Paid
+            field:
+                number: Number
+                user: Customer
+            lines:
+                head:
+                    group: Group
+                    type: Type
+                    info: Info
+                    priceUnit: Unit price
+                    quantity: Quantity
+                    priceTotal: Total price
+                control:
+                    delete: Delete line
+                    add: Add line
         products:
             title: Products
             new: Create product

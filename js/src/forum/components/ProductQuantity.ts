@@ -2,6 +2,7 @@ import * as Mithril from 'mithril';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Product from '../../common/models/Product';
+import QuantityInput from '../../common/components/QuantityInput';
 
 interface ProductQuantityAttrs extends ComponentAttrs {
     product: Product
@@ -22,15 +23,13 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
 
         return m('.ProductQuantity', [
             //TODO: different layout for quantity already in cart
-            m('input.FormControl', {
-                type: 'number',
-                value: this.cartQuantity + '',
-                oninput: (event: Event) => {
-                    // @ts-ignore we know target always exists
-                    const {value} = event.target;
-
-                    this.cartQuantity = parseInt(value);
+            m(QuantityInput, {
+                value: this.cartQuantity,
+                onchange: (value: number) => {
+                    this.cartQuantity = value;
                 },
+                product,
+                min: 0,
             }),
             Button.component({
                 className: 'Button Button--primary Button--block',

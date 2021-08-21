@@ -3,7 +3,8 @@ import Button from 'flarum/common/components/Button';
 import Link from 'flarum/common/components/Link';
 import Product from '../../common/models/Product';
 import ItemList from 'flarum/common/utils/ItemList';
-import formatPrice from '../../common/helpers/formatPrice';
+import QuantityInput from '../../common/components/QuantityInput';
+import PriceLabel from '../../common/components/PriceLabel';
 
 interface CartTableRowAttrs extends ComponentAttrs {
     product: Product,
@@ -17,14 +18,23 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
     columns(): ItemList {
         const columns = new ItemList();
 
+        const {product} = this.attrs;
+
         columns.add('product', m('td', m(Link, {
-            href: app.route.product(this.attrs.product),
-        }, this.attrs.product.title())));
-        columns.add('quantity', m('td', m('input.FormControl', {
-            type: 'number',
+            href: app.route.product(product),
+        }, product.title())));
+        columns.add('quantity', m('td', m(QuantityInput, {
             value: this.attrs.product.cartQuantity(),
+            onchange: (value: number) => {
+                //TODO
+            },
+            product,
         })));
-        columns.add('total', m('td', formatPrice(this.attrs.product.cartPriceTotalLocal())));
+        columns.add('total', m('td', m(PriceLabel, {
+            value: product.cartPriceTotalLocal(),
+            hint: 'cart product total',
+            product,
+        })));
         columns.add('delete', m('td', Button.component({
             className: 'Button Button--icon',
             icon: 'fas fa-times',

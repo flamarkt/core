@@ -20,11 +20,11 @@ export default class OrderTable extends Component<OrderTableAttrs> {
     head(): ItemList {
         const columns = new ItemList();
 
-        columns.add('number', m('th')); // Empty on purpose
-        columns.add('product', m('th', 'Product'));
-        columns.add('priceUnit', m('th', 'Price'));
-        columns.add('quantity', m('th', 'Quantity'));
-        columns.add('priceTotal', m('th', 'Total'));
+        columns.add('number', m('th'), 100); // Empty on purpose
+        columns.add('product', m('th', 'Product'), 30);
+        columns.add('priceUnit', m('th', 'Price'), -30);
+        columns.add('quantity', m('th', 'Quantity'), -60);
+        columns.add('priceTotal', m('th', 'Total'), -90);
 
         return columns;
     }
