@@ -19,6 +19,7 @@ import ActiveLinkButton from '../common/components/ActiveLinkButton';
 import routes from './routes';
 import patchModelHasOneNull from '../common/patchModelHasOneNull';
 import patchStoreAllowVerbatimRelationships from '../common/patchStoreAllowVerbatimRelationships';
+import NotificationGrid from 'flarum/forum/components/NotificationGrid';
 
 export {
     common,
@@ -69,7 +70,16 @@ app.initializers.add('flamarkt-core', () => {
 
     extend(HeaderSecondary.prototype, 'items', function (items: ItemList) {
         items.add('flamarkt-cart', CartDropdown.component({state: app.cart}), 15);
-    })
+    });
+
+    // TODO: prevent setting web notification
+    extend(NotificationGrid.prototype, 'notificationTypes', function (items: ItemList) {
+        items.add('orderReceived', {
+            name: 'orderReceived',
+            icon: 'far fa-thumbs-up',
+            label: app.translator.trans('flamarkt-core.forum.settings.notifyOrderReceived')
+        });
+    });
 });
 
 app.initializers.add('flamarkt-core-patch', () => {

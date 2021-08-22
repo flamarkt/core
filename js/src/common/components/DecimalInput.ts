@@ -65,6 +65,8 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
 
         if (typeof step !== 'undefined') {
             inputAttrs.step = this.fromIntegerValue(step);
+        } else if (this.decimals() > 0) {
+            inputAttrs.step = 1 / Math.pow(10, this.decimals());
         }
 
         return m('input.FormControl', inputAttrs);

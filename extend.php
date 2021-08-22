@@ -122,10 +122,17 @@ return [
         ->hasMany('orders', Order\Order::class),
 
     (new Extend\Event())
-        ->subscribe(Listener\UpdateUserOrderMeta::class),
+        ->subscribe(Listener\UpdateUserOrderMeta::class)
+        ->listen(Order\Event\Created::class, Listener\SendOrderConfirmation::class),
 
     (new Extend\ModelUrl(Order\Order::class))
         ->addSlugDriver('default', Order\IdSlugDriver::class),
     (new Extend\ModelUrl(Product\Product::class))
         ->addSlugDriver('default', Product\IdSlugDriver::class),
+
+    (new Extend\Notification())
+        ->type(Notification\OrderReceivedBlueprint::class, Api\Serializer\BasicOrderSerializer::class, ['email']),
+
+    (new Extend\View())
+        ->namespace('flamarkt-core', __DIR__ . '/resources/views'),
 ];

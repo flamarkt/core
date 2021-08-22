@@ -87,6 +87,13 @@ class OrderRepository
                     $attributes['productId'] = Arr::get($relationships, 'product.data.id');
                 }
 
+                $type = Arr::exists($attributes, 'type') ? Arr::get($attributes, 'type') : $line->type;
+
+                // Skip validation of productId if not a product line
+                if ($type !== 'product' && Arr::exists($attributes, 'productId')) {
+                    unset($attributes['productId']);
+                }
+
                 $this->lineValidator->assertValid($attributes);
 
                 if (Arr::exists($attributes, 'group')) {
@@ -95,6 +102,12 @@ class OrderRepository
 
                 if (Arr::exists($attributes, 'type')) {
                     $line->type = Arr::get($attributes, 'type');
+
+                    // Remove existing product
+                    // TODO: this would delete the product from custom types as well
+                    if ($line->type !== 'product') {
+                        $line->product_id = null;
+                    }
                 }
 
                 if (Arr::exists($attributes, 'label')) {
@@ -105,12 +118,14 @@ class OrderRepository
                     $line->comment = Arr::get($attributes, 'comment');
                 }
 
-                if (Arr::exists($attributes, 'productId')) {
+                // Only set product for product lines
+                // Still allow null values as a way to reset an invalid state
+                if (($type === 'product' || is_null(Arr::get($attributes, 'productId'))) && Arr::exists($attributes, 'productId')) {
                     $line->product()->associate($attributes['productId']);
                 }
 
-                if (Arr::exists($attributes, 'price_unit')) {
-                    $line->price_unit = Arr::get($attributes, 'price_unit');
+                if (Arr::exists($attributes, 'priceUnit')) {
+                    $line->price_unit = Arr::get($attributes, 'priceUnit');
                 }
 
                 if (Arr::exists($attributes, 'quantity')) {

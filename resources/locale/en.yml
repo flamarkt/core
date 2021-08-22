@@ -68,3 +68,8 @@ flamarkt-core:
             addToCart: Add to cart
             updateCartQuantity: Update cart
             removeFromCart: Remove from cart
+        settings:
+            notifyOrderReceived: Order confirmation
+    email:
+        orderReceived:
+            subject: Your order {number} has been received
