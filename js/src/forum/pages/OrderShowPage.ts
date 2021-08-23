@@ -1,6 +1,7 @@
 import AbstractShowPage from '../../common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
 import OrderShowLayout from '../layouts/OrderShowLayout';
+import extractText from 'flarum/common/utils/extractText';
 
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null = null;
@@ -20,7 +21,9 @@ export default class OrderShowPage extends AbstractShowPage {
     show(order: Order) {
         this.order = order;
 
-        app.setTitle(this.order.number());
+        app.setTitle(extractText(app.translator.trans('flamarkt-core.forum.order.browserTitle', {
+            number: this.order.number(),
+        })));
         app.setTitleCount(0);
     }
 

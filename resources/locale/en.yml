@@ -5,12 +5,12 @@ flamarkt-core:
         settingsNotAvailableForNonAdmin: This extension has settings, but only admin accounts can see and edit them.
         nav:
             dashboard: Dashboard
-            users: Customers
-            products: Products
-            orders: Orders
+            users: => flamarkt-core.ref.page.customers
+            products: => flamarkt-core.ref.page.products
+            orders: => flamarkt-core.ref.page.orders
             searchPlaceholder: => core.admin.nav.search_placeholder
         users:
-            title: Customers
+            title: => flamarkt-core.ref.page.customers
             new: Create customer
             head:
                 email: Email
@@ -20,7 +20,7 @@ flamarkt-core:
                 email: Email
                 password: Password
         orders:
-            title: Orders
+            title: => flamarkt-core.ref.page.orders
             new: Create manual order
             head:
                 number: Number
@@ -43,7 +43,7 @@ flamarkt-core:
                     delete: Delete line
                     add: Add line
         products:
-            title: Products
+            title: => flamarkt-core.ref.page.products
             new: Create product
             head:
                 title: Title
@@ -63,13 +63,36 @@ flamarkt-core:
         nav:
             backoffice: Backoffice
             shop: Shop
-            account: Account
+            account: => flamarkt-core.ref.page.account
+        account:
+            browserTitle: => flamarkt-core.ref.page.account
+            headingTitle: => flamarkt-core.ref.page.account
+        cart:
+            browserTitle: => flamarkt-core.ref.page.cart
+            headingTitle: => flamarkt-core.ref.page.cart
+        order:
+            browserTitle: => flamarkt-core.ref.page.order
+            headingTitle: => flamarkt-core.ref.page.order
+        orders:
+            browserTitle: => flamarkt-core.ref.page.orders
+            headingTitle: => flamarkt-core.ref.page.orders
         product:
             addToCart: Add to cart
             updateCartQuantity: Update cart
             removeFromCart: Remove from cart
+        products:
+            browserTitle: => flamarkt-core.ref.page.products
+            headingTitle: => flamarkt-core.ref.page.products
         settings:
             notifyOrderReceived: Order confirmation
     email:
         orderReceived:
             subject: Your order {number} has been received
+    ref:
+        page:
+            account: Account
+            cart: Cart
+            customers: Customers
+            order: Order {number}
+            orders: Orders
+            products: Products

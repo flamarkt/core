@@ -1,12 +1,13 @@
+import {Vnode} from 'mithril';
 import Page from 'flarum/common/components/Page';
 import Cart from '../../common/models/Cart';
-import CartLayout from "../layouts/CartLayout";
+import CartLayout from '../layouts/CartLayout';
 
 export default class CartPage extends Page {
     loading: boolean = true;
     cart: Cart | null = null;
 
-    oninit(vnode) {
+    oninit(vnode: Vnode) {
         super.oninit(vnode);
 
         app.request({
@@ -24,6 +25,9 @@ export default class CartPage extends Page {
 
             throw error;
         });
+
+        app.setTitle(app.translator.trans('flamarkt-core.forum.cart.browserTitle'));
+        app.setTitleCount(0);
     }
 
     view() {

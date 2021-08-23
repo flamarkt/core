@@ -13,7 +13,7 @@ export default class OrderIndexLayout extends AbstractAccountLayout<OrderIndexLa
     }
 
     title() {
-        return 'Orders';
+        return app.translator.trans('flamarkt-core.forum.orders.headingTitle');
     }
 
     content() {

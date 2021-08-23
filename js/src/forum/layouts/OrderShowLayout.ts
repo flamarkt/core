@@ -13,7 +13,9 @@ export default class OrderShowLayout extends AbstractAccountLayout<OrderShowLayo
     }
 
     title() {
-        return this.attrs.order ? this.attrs.order.number() : 'Order';
+        return this.attrs.order ? app.translator.trans('flamarkt-core.forum.order.headingTitle', {
+            number: this.attrs.order.number(),
+        }) : 'Order';
     }
 
     content() {

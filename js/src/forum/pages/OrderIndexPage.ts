@@ -11,6 +11,9 @@ export default class OrderIndexPage extends Page {
 
         this.state = this.initState();
         this.state.refresh();
+
+        app.setTitle(app.translator.trans('flamarkt-core.forum.orders.browserTitle'));
+        app.setTitleCount(0);
     }
 
     initState() {

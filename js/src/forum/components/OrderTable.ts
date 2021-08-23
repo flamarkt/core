@@ -18,7 +18,7 @@ export default class OrderTable extends Component<OrderTableAttrs> {
         return m('table.CartTable', [
             m('thead', m('tr', this.head().toArray())),
             m('tbody', this.rows().toArray()),
-            m('tfoot', this.foot().toArray()),
+            m('tfoot', m('tr', this.foot().toArray())),
         ]);
     }
 

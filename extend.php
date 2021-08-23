@@ -49,9 +49,9 @@ return [
         ->route('/cart', 'flamarkt.cart')
         ->route('/account', 'flamarkt.account')
         ->route('/account/orders', 'flamarkt.account.orders')
-        ->route('/orders/{id}', 'flamarkt.orders.show')
-        ->route('/products', 'flamarkt.products.index')
-        ->route('/products/{id}', 'flamarkt.products.show'),
+        ->route('/orders/{id}', 'flamarkt.orders.show', Forum\Content\Order::class)
+        ->route('/products', 'flamarkt.products.index', Forum\Content\Products::class)
+        ->route('/products/{id}', 'flamarkt.products.show', Forum\Content\Product::class),
 
     new Extend\Locales(__DIR__ . '/resources/locale'),
 
@@ -132,7 +132,4 @@ return [
 
     (new Extend\Notification())
         ->type(Notification\OrderReceivedBlueprint::class, Api\Serializer\BasicOrderSerializer::class, ['email']),
-
-    (new Extend\View())
-        ->namespace('flamarkt-core', __DIR__ . '/resources/views'),
 ];

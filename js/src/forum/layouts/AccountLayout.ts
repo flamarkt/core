@@ -8,7 +8,7 @@ export default class AccountLayout extends AbstractAccountLayout {
     }
 
     title() {
-        return 'Account';
+        return app.translator.trans('flamarkt-core.forum.account.headingTitle');
     }
 
     content() {

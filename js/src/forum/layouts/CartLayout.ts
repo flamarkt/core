@@ -18,7 +18,7 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
     }
 
     title() {
-        return 'Cart';
+        return app.translator.trans('flamarkt-core.forum.cart.headingTitle');
     }
 
     content() {
@@ -86,7 +86,7 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
         };
     }
 
-    onsubmit(event) {
+    onsubmit(event: Event) {
         event.preventDefault();
 
         this.submitting = true;

@@ -14,7 +14,7 @@ export default class ProductIndexLayout<T = ProductIndexLayoutAttrs> extends Abs
     }
 
     title() {
-        return 'Products';
+        return app.translator.trans('flamarkt-core.forum.products.headingTitle');
     }
 
     content() {

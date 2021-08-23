@@ -11,6 +11,9 @@ export default class ProductIndexPage extends Page {
 
         this.state = this.initState();
         this.state.refresh();
+
+        app.setTitle(app.translator.trans('flamarkt-core.forum.products.browserTitle'));
+        app.setTitleCount(0);
     }
 
     initState() {
