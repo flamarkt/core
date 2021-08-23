@@ -5,6 +5,7 @@ import OrderLine from './OrderLine';
 export default class Order extends Model {
     number = Model.attribute('number');
     slug = Model.attribute('slug');
+    productCount = Model.attribute('productCount');
     priceTotal = Model.attribute('priceTotal');
     paidAmount = Model.attribute('paidAmount');
     createdAt = Model.attribute('createdAt', Model.transformDate);

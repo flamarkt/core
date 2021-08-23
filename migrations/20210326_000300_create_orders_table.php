@@ -11,6 +11,7 @@ return [
             $table->string('status');
             $table->unsignedInteger('price_total');
             $table->unsignedInteger('paid_amount');
+            $table->unsignedInteger('product_count');
             $table->timestamps();
             $table->timestamp('hidden_at')->nullable();
 

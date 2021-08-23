@@ -3,7 +3,7 @@ import AbstractList from './AbstractList';
 import User from 'flarum/common/models/User';
 import Link from 'flarum/common/components/Link';
 
-export default class UserList extends AbstractList {
+export default class UserList extends AbstractList<User> {
     head() {
         const columns = super.head();
 

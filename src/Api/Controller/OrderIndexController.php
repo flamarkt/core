@@ -23,6 +23,7 @@ class OrderIndexController extends AbstractListController
     public $sortFields = [
         'createdAt',
         'priceTotal',
+        'productCount',
     ];
 
     public $sort = [

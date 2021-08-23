@@ -1,21 +1,27 @@
+import {Vnode} from 'mithril';
 import ItemList from 'flarum/common/utils/ItemList';
 import listItems from 'flarum/common/helpers/listItems';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import Placeholder from 'flarum/common/components/Placeholder';
 import Model from 'flarum/common/Model';
-import Component from 'flarum/common/Component';
+import Component, {ComponentAttrs} from 'flarum/common/Component';
+import AbstractListState from '../../common/states/AbstractListState';
 
-export default class AbstractList extends Component {
-    items(state): Model[] {
-        return [].concat(...state.pages.map(page => page.items));
+interface AbstractListAttrs<T extends Model> extends ComponentAttrs {
+    state: AbstractListState<T>
+}
+
+export default class AbstractList<T extends Model> extends Component<AbstractListAttrs<T>> {
+    items(state: AbstractListState<T>): T[] {
+        return ([] as T[]).concat(...state.pages.map(page => page.items));
     }
 
-    topRow(state) {
+    topRow(state: AbstractListState<T>) {
         return null;
     }
 
-    bottomRowContent(state) {
+    bottomRowContent(state: AbstractListState<T>) {
         if (state.loading) {
             return LoadingIndicator.component();
         } else if (state.moreResults) {
@@ -32,7 +38,7 @@ export default class AbstractList extends Component {
         }
     }
 
-    bottomRow(state) {
+    bottomRow(state: AbstractListState<T>) {
         const content = this.bottomRowContent(state);
 
         return content ? m('tr', m('td', {
@@ -40,7 +46,7 @@ export default class AbstractList extends Component {
         }, content)) : null;
     }
 
-    view(vnode) {
+    view(vnode: Vnode<AbstractListAttrs<T>>) {
         const {state} = vnode.attrs;
 
         return m('table.Table', [
@@ -61,15 +67,15 @@ export default class AbstractList extends Component {
         return columns;
     }
 
-    row(model) {
+    row(model: T) {
         return m('tr', this.rowAttrs(model), this.columns(model).toArray());
     }
 
-    rowAttrs(model): any {
+    rowAttrs(model: T): any {
         return {};
     }
 
-    columns(model): ItemList {
+    columns(model: T): ItemList {
         const columns = new ItemList();
 
         columns.add('actions', m('td', m('ul.Table-actions', listItems(this.actions(model).toArray()))), -100);
@@ -77,7 +83,7 @@ export default class AbstractList extends Component {
         return columns;
     }
 
-    actions(model): ItemList {
+    actions(model: T): ItemList {
         return new ItemList();
     }
 }

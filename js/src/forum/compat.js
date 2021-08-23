@@ -4,6 +4,8 @@ import CartPageSection from './components/CartPageSection';
 import CartTable from './components/CartTable';
 import CartTableRow from './components/CartTableRow';
 import OrderTable from './components/OrderTable';
+import OrderTableGroupFoot from './components/OrderTableGroupFoot';
+import OrderTableGroupHead from './components/OrderTableGroupHead';
 import OrderTableRow from './components/OrderTableRow';
 import ProductListItem from './components/ProductListItem';
 import ProductQuantity from './components/ProductQuantity';
@@ -32,6 +34,8 @@ export const forum = {
     'components/CartTable': CartTable,
     'components/CartTableRow': CartTableRow,
     'components/OrderTable': OrderTable,
+    'components/OrderTableGroupFoot': OrderTableGroupFoot,
+    'components/OrderTableGroupHead': OrderTableGroupHead,
     'components/OrderTableRow': OrderTableRow,
     'components/ProductListItem': ProductListItem,
     'components/ProductQuantity': ProductQuantity,

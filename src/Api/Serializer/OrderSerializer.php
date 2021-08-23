@@ -17,6 +17,7 @@ class OrderSerializer extends BasicOrderSerializer
         $attributes = parent::getDefaultAttributes($order) + [
                 'priceTotal' => $order->price_total,
                 'paidAmount' => $order->paid_amount,
+                'productCount' => $order->product_count,
                 'createdAt' => $this->formatDate($order->created_at),
             ];
 

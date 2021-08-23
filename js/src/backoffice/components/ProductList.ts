@@ -2,7 +2,7 @@ import LinkButton from 'flarum/common/components/LinkButton';
 import AbstractList from './AbstractList';
 import Product from '../../common/models/Product';
 
-export default class ProductList extends AbstractList {
+export default class ProductList extends AbstractList<Product> {
     head() {
         const columns = super.head();
 

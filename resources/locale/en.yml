@@ -28,6 +28,7 @@ flamarkt-core:
                 user: Customer
                 priceTotal: Total
                 paidAmount: Paid
+                productCount: Products
             field:
                 number: Number
                 user: Customer
