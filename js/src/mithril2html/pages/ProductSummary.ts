@@ -11,9 +11,23 @@ export class ProductSummary extends Page {
         super.oninit(vnode);
 
         this.product = app.preloadedApiDocument() as Product;
+
+        const id = m.route.param().id;
+
+        // Only for testing
+        if (id) {
+            app.store.find('flamarkt/products', id).then(product => {
+                this.product = product;
+                m.redraw();
+            });
+        }
     }
 
     view() {
+        if (!this.product) {
+            return m('div', 'There was an error rendering the product');
+        }
+
         return m('div', this.sections().toArray());
     }
 
