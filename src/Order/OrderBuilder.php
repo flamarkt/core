@@ -16,16 +16,17 @@ class OrderBuilder
      */
     public $payments = [];
 
-    public function addLine(string $group): OrderLine
+    public function addLine(string $group = null, string $type = null): OrderLine
     {
-        if (!Arr::exists($this->lines, $group)) {
-            $this->lines[$group] = [];
+        if (!Arr::exists($this->lines, $group ?? '')) {
+            $this->lines[$group ?? ''] = [];
         }
 
         $line = new OrderLine();
         $line->group = $group;
+        $line->type = $type;
 
-        $this->lines[$group][] = $line;
+        $this->lines[$group ?? ''][] = $line;
 
         return $line;
     }

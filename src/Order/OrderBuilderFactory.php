@@ -46,7 +46,7 @@ class OrderBuilderFactory
         foreach ($cart->products as $product) {
             $actor->assertPermission($this->availability->canOrder($product, $actor));
 
-            $line = $builder->addLine('product');
+            $line = $builder->addLine(null, 'product');
             $line->product()->associate($product);
             $line->quantity = $product->pivot->quantity;
             $line->price_unit = $this->price->price($product, $actor, $request);

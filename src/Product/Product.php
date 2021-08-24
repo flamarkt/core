@@ -52,7 +52,7 @@ class Product extends AbstractModel
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'flamarkt_product_user');
     }
 
     protected static $stateCart;
