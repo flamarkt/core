@@ -77,7 +77,7 @@ app.initializers.add('flamarkt-core', () => {
         items.add('orderReceived', {
             name: 'orderReceived',
             icon: 'far fa-thumbs-up',
-            label: app.translator.trans('flamarkt-core.forum.settings.notifyOrderReceived')
+            label: app.translator.trans('flamarkt-core.forum.settings.notifyOrderReceived'),
         });
     });
 });

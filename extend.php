@@ -2,6 +2,7 @@
 
 namespace Flamarkt\Core;
 
+use ClarkWinkelmann\Mithril2Html\Extend as M2HExtend;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
@@ -52,6 +53,11 @@ return [
         ->route('/orders/{id}', 'flamarkt.orders.show', Forum\Content\Order::class)
         ->route('/products', 'flamarkt.products.index', Forum\Content\Products::class)
         ->route('/products/{id}', 'flamarkt.products.show', Forum\Content\Product::class),
+
+    new M2HExtend\Setup(),
+
+    (new M2HExtend\FrontendNoConflict('mithril2html'))
+        ->js(__DIR__ . '/js/dist/mithril2html.js'),
 
     new Extend\Locales(__DIR__ . '/resources/locale'),
 

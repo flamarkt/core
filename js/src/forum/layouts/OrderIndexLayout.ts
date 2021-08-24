@@ -7,6 +7,8 @@ import PriceLabel from '../../common/components/PriceLabel';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Placeholder from 'flarum/common/components/Placeholder';
+import Order from '../../common/models/Order';
+import ItemList from 'flarum/common/utils/ItemList';
 
 export interface OrderIndexLayoutAttrs extends AbstractAccountLayoutAttrs {
     state: OrderListState,
@@ -29,29 +31,41 @@ export default class OrderIndexLayout extends AbstractAccountLayout<OrderIndexLa
                 }),
             ]),
             m('table.CartTable', [
-                m('thead', m('tr', [
-                    m('th', '#'),
-                    m('th', 'Date'),
-                    m('th', 'Products'),
-                    m('th', 'Total'),
-                ])),
+                m('thead', m('tr', this.headerRow().toArray())),
                 m('tbody', [
-                    this.attrs.state.pages.map(page => page.items.map(order => m('tr', [
-                        m('td', m(Link, {
-                            href: app.route('flamarkt.orders.show', {
-                                id: order.id(),
-                            }),
-                        }, order.number())),
-                        m('td', humanTime(order.createdAt())),
-                        m('td', order.productCount()),
-                        m('td', m(PriceLabel, {
-                            value: order.priceTotal(),
-                        })),
-                    ]))),
+                    this.attrs.state.pages.map(page => page.items.map(order => m('tr', this.orderRow(order).toArray()))),
                     this.bottomRow(),
                 ]),
             ]),
         ]);
+    }
+
+    headerRow(): ItemList {
+        const columns = new ItemList();
+
+        columns.add('number', m('th', '#'), 40);
+        columns.add('createdAt', m('th', 'Date'), 30);
+        columns.add('productCount', m('th', 'Products'), 20);
+        columns.add('priceTotal', m('th', 'Total'), 10);
+
+        return columns;
+    }
+
+    orderRow(order: Order): ItemList {
+        const columns = new ItemList();
+
+        columns.add('number', m('td', m(Link, {
+            href: app.route('flamarkt.orders.show', {
+                id: order.id(),
+            }),
+        }, order.number())), 40);
+        columns.add('createdAt', m('td', humanTime(order.createdAt())), 30);
+        columns.add('productCount', m('td', order.productCount()), 20);
+        columns.add('priceTotal', m('td', m(PriceLabel, {
+            value: order.priceTotal(),
+        })), 10);
+
+        return columns;
     }
 
     bottomRowContent() {

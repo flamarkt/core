@@ -42,7 +42,7 @@ class OrderReceivedBlueprint implements BlueprintInterface, MailableInterface
 
     public function getEmailView(): array
     {
-        return ['text' => 'flamarkt::emails.orderReceived'];
+        return ['html' => 'flamarkt::emails.orderReceived'];
     }
 
     public function getEmailSubject(TranslatorInterface $translator)
