@@ -3,8 +3,8 @@ import {ComponentAttrs} from 'flarum/common/Component';
 import Dropdown from 'flarum/common/components/Dropdown';
 import icon from 'flarum/common/helpers/icon';
 import CartList from './CartList';
-import formatPrice from '../../common/helpers/formatPrice';
 import CartState from '../states/CartState';
+import PriceLabel from '../../common/components/PriceLabel';
 
 interface CartDropdownAttrs extends ComponentAttrs {
     className: string
@@ -24,8 +24,7 @@ export default class CartDropdown extends Dropdown {
         attrs.className = attrs.className || 'CartDropdown';
         attrs.buttonClassName = attrs.buttonClassName || 'Button Button--flat';
         attrs.menuClassName = attrs.menuClassName || 'Dropdown-menu--right';
-        attrs.label = attrs.label || 'Cart';//TODO
-        attrs.icon = attrs.icon || 'fas fa-shopping-cart';
+        attrs.label = attrs.label || app.translator.trans('flamarkt-core.forum.cartDropdown.label');
 
         super.initAttrs(attrs);
     }
@@ -41,11 +40,18 @@ export default class CartDropdown extends Dropdown {
     }
 
     getButtonContent(children: any) {
-        const price = this.attrs.state.priceTotal() || 0;
+        let iconName = 'fas fa-shopping-cart';
+
+        if (this.attrs.state.loading) {
+            iconName = 'fas fa-spinner fa-pulse';
+        }
 
         return [
-            icon(this.attrs.icon, {className: 'Button-icon'}),
-            m('span.Button-label', formatPrice(price)),
+            icon(iconName, {className: 'Button-icon'}),
+            m('span.Button-label', m(PriceLabel, {
+                value: this.attrs.state.priceTotal() || 0,
+                hint: 'cart dropdown',
+            })),
         ];
     }
 
@@ -60,8 +66,10 @@ export default class CartDropdown extends Dropdown {
         event.preventDefault();
 
         if (app.drawer.isOpen()) {
+            // On mobile, go directly to cart page
             this.goToRoute();
-        } else {
+        } else if (!this.showing) {
+            // Only when opening the dropdown, refresh state
             this.attrs.state.load();
         }
     }

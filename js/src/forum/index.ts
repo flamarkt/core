@@ -39,6 +39,21 @@ app.initializers.add('flamarkt-core', () => {
 
     app.cart = new CartState();
 
+    extend(app, 'mount', () => {
+        app.cart.boot();
+
+        // Refresh the cart when clicking home, just like the user notifications do
+        $('#home-link').click((e) => {
+            if (e.ctrlKey || e.metaKey || e.which === 2) return;
+            // We won't prevent default here, the Flarum handler for the same event already does
+
+            // Reload the current user so that their unread notification count is refreshed.
+            if (app.session.user) {
+                app.cart.load();
+            }
+        });
+    });
+
     extend(SessionDropdown.prototype, 'items', function (items: ItemList) {
         if (app.forum.attribute('backofficeUrl')) {
             items.add('flamarkt-backoffice', LinkButton.component({

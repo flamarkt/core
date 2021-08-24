@@ -1,14 +1,19 @@
+import Cart from '../../common/models/Cart';
+
 export default class CartState {
-    constructor() {
-        //this.cart = cart; //TODO?
-        this.loading = false;
-    }
+    cart: Cart | null = null
+    loading: boolean = false
 
     priceTotal() {
-        //TODO
-        this.cart = app.forum.cart();
-
         return this.cart ? this.cart.priceTotal() : null;
+    }
+
+    productCount() {
+        return this.cart ? this.cart.productCount() : null;
+    }
+
+    boot() {
+        this.cart = app.forum.cart();
     }
 
     load() {

@@ -46,6 +46,8 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
                         this.cartQuantity = product.cartQuantity() || 1;
 
                         m.redraw();
+
+                        app.cart.load();
                     }).catch(error => {
                         this.savingQuantity = false;
 
@@ -69,6 +71,8 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
                         this.cartQuantity = 1;
 
                         m.redraw();
+
+                        app.cart.load();
                     }).catch(error => {
                         this.savingQuantity = false;
 

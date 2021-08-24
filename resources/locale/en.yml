@@ -86,6 +86,10 @@ flamarkt-core:
             headingTitle: => flamarkt-core.ref.page.products
         settings:
             notifyOrderReceived: Order confirmation
+        cartDropdown:
+            label: => flamarkt-core.ref.page.cart
+            products: "{count, plural, one {# product} other {# products}}"
+            action: Checkout
     email:
         orderReceived:
             subject: Your order {number} has been received
