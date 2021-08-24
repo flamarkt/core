@@ -8,6 +8,8 @@ use Tobscure\JsonApi\Relationship;
 
 class CartSerializer extends AbstractSerializer
 {
+    use UidSerializerTrait;
+
     protected $type = 'flamarkt-carts';
 
     /**

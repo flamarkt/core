@@ -41,7 +41,7 @@ class OrderStoreController extends AbstractCreateController
         $cartId = Arr::get($data, 'data.relationships.cart.data.id');
 
         if ($cartId) {
-            $cart = $this->cartRepository->findOrFail($cartId, $actor);
+            $cart = $this->cartRepository->findUidOrFail($cartId, $actor);
 
             return $this->orderBuilder->build($actor, $cart, $data, $request);
         }

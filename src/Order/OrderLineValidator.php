@@ -38,8 +38,8 @@ class OrderLineValidator extends AbstractValidator
             'string',
             'max:255',
         ],
-        'productId' => [
-            'exists:flamarkt_products,id',
+        'productUid' => [
+            'exists:flamarkt_products,uid',
         ],
         'quantity' => [
             'integer',

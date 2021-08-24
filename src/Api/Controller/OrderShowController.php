@@ -39,7 +39,7 @@ class OrderShowController extends AbstractShowController
         if (Arr::get($request->getQueryParams(), 'bySlug')) {
             return $this->slugManager->forResource(Order::class)->fromSlug($id, $actor);
         } else {
-            return $this->repository->findOrFail($id, $actor);
+            return $this->repository->findUidOrFail($id, $actor);
         }
     }
 }

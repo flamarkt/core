@@ -33,7 +33,7 @@ class ProductShowController extends AbstractShowController
         if (Arr::get($request->getQueryParams(), 'bySlug')) {
             $product = $this->slugManager->forResource(Product::class)->fromSlug($id, $actor);
         } else {
-            $product = $this->repository->findOrFail($id, $actor);
+            $product = $this->repository->findUidOrFail($id, $actor);
         }
 
         Product::setStateCart($request->getAttribute('cart'));

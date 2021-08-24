@@ -22,7 +22,7 @@ class ProductComponent implements ComponentInterface
 
     public function preload(): ?string
     {
-        return '/flamarkt/products/' . $this->product->id;
+        return '/flamarkt/products/' . $this->product->uid;
     }
 
     public function actor(): ?User

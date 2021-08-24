@@ -55,9 +55,7 @@ export default class OrderIndexLayout extends AbstractAccountLayout<OrderIndexLa
         const columns = new ItemList();
 
         columns.add('number', m('td', m(Link, {
-            href: app.route('flamarkt.orders.show', {
-                id: order.id(),
-            }),
+            href: app.route.order(order),
         }, order.number())), 40);
         columns.add('createdAt', m('td', humanTime(order.createdAt())), 30);
         columns.add('productCount', m('td', order.productCount()), 20);

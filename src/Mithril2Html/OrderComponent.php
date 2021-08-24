@@ -22,7 +22,7 @@ class OrderComponent implements ComponentInterface
 
     public function preload(): ?string
     {
-        return '/flamarkt/orders/' . $this->order->id;
+        return '/flamarkt/orders/' . $this->order->uid;
     }
 
     public function actor(): ?User

@@ -8,6 +8,8 @@ use Flarum\Http\SlugManager;
 
 class BasicProductSerializer extends AbstractSerializer
 {
+    use UidSerializerTrait;
+
     protected $type = 'flamarkt-products';
 
     protected $slugManager;

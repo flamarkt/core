@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations;
 
 /**
  * @property int $id
+ * @property string $uid
  * @property int $order_id
  * @property int $user_id
  * @property string $method

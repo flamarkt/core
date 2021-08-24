@@ -8,6 +8,8 @@ use Tobscure\JsonApi\Relationship;
 
 class OrderLineSerializer extends AbstractSerializer
 {
+    use UidSerializerTrait;
+
     protected $type = 'flamarkt-order-lines';
 
     /**

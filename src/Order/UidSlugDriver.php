@@ -6,7 +6,7 @@ use Flarum\Database\AbstractModel;
 use Flarum\Http\SlugDriverInterface;
 use Flarum\User\User;
 
-class IdSlugDriver implements SlugDriverInterface
+class UidSlugDriver implements SlugDriverInterface
 {
     protected $orders;
 
@@ -21,11 +21,11 @@ class IdSlugDriver implements SlugDriverInterface
      */
     public function toSlug(AbstractModel $instance): string
     {
-        return $instance->id;
+        return $instance->uid;
     }
 
     public function fromSlug(string $slug, User $actor): AbstractModel
     {
-        return $this->orders->findIdOrFail($slug, $actor);
+        return $this->orders->findUidOrFail($slug, $actor);
     }
 }

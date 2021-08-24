@@ -7,8 +7,8 @@ return [
     'up' => function (Builder $schema) {
         $schema->create('flamarkt_orders', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('uid')->unique();
             $table->unsignedInteger('user_id')->nullable();
-            $table->string('status');
             $table->unsignedInteger('price_total');
             $table->unsignedInteger('paid_amount');
             $table->unsignedInteger('product_count');

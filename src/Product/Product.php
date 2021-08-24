@@ -18,6 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @property int $id
+ * @property string $uid
  * @property string $title
  * @property string $description
  * @property int $price

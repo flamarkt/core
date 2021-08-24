@@ -9,25 +9,35 @@ use Flamarkt\Core\Order\Event\Deleting;
 use Flamarkt\Core\Order\Event\Saving;
 use Flamarkt\Core\Order\Event\SavingLine;
 use Flamarkt\Core\Order\Event\UserChanged;
+use Flamarkt\Core\Product\ProductRepository;
 use Flarum\Foundation\DispatchEventsTrait;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Ramsey\Uuid\Uuid;
 
 class OrderRepository
 {
     use DispatchEventsTrait;
 
     protected $cartRepository;
+    protected $productRepository;
     protected $orderValidator;
     protected $lineValidator;
 
-    public function __construct(Dispatcher $events, CartRepository $cartRepository, OrderValidator $orderValidator, OrderLineValidator $lineValidator)
+    public function __construct(
+        Dispatcher         $events,
+        CartRepository     $cartRepository,
+        ProductRepository  $productRepository,
+        OrderValidator     $orderValidator,
+        OrderLineValidator $lineValidator
+    )
     {
         $this->events = $events;
         $this->cartRepository = $cartRepository;
+        $this->productRepository = $productRepository;
         $this->orderValidator = $orderValidator;
         $this->lineValidator = $lineValidator;
     }
@@ -48,9 +58,17 @@ class OrderRepository
         return $query;
     }
 
-    public function findOrFail($id, User $actor = null): Order
+    /**
+     * @internal Kept just in case, but should be avoided
+     */
+    public function findIdOrFail($id, User $actor = null): Order
     {
         return $this->visibleTo($actor)->findOrFail($id);
+    }
+
+    public function findUidOrFail(string $uid = null, User $actor = null): Order
+    {
+        return $this->visibleTo($actor)->where('uid', $uid)->firstOrFail();
     }
 
     public function save(Order $order, User $actor, array $data): Order
@@ -63,7 +81,7 @@ class OrderRepository
             /**
              * @var OrderLine[]|Collection $existingLines
              */
-            $existingLines = $order->lines->keyBy('id');
+            $existingLines = $order->lines->keyBy('uid');
 
             /**
              * @var OrderLine[] $lines
@@ -84,14 +102,14 @@ class OrderRepository
                 $relationships = (array)Arr::get($lineData, 'relationships');
 
                 if (Arr::exists($relationships, 'product')) {
-                    $attributes['productId'] = Arr::get($relationships, 'product.data.id');
+                    $attributes['productUid'] = Arr::get($relationships, 'product.data.id');
                 }
 
                 $type = Arr::exists($attributes, 'type') ? Arr::get($attributes, 'type') : $line->type;
 
-                // Skip validation of productId if not a product line
-                if ($type !== 'product' && Arr::exists($attributes, 'productId')) {
-                    unset($attributes['productId']);
+                // Skip validation of productUid if not a product line
+                if ($type !== 'product' && Arr::exists($attributes, 'productUid')) {
+                    unset($attributes['productUid']);
                 }
 
                 $this->lineValidator->assertValid($attributes);
@@ -120,8 +138,10 @@ class OrderRepository
 
                 // Only set product for product lines
                 // Still allow null values as a way to reset an invalid state
-                if (($type === 'product' || is_null(Arr::get($attributes, 'productId'))) && Arr::exists($attributes, 'productId')) {
-                    $line->product()->associate($attributes['productId']);
+                if (($type === 'product' || is_null(Arr::get($attributes, 'productUid'))) && Arr::exists($attributes, 'productUid')) {
+                    $product = $this->productRepository->findUidOrFail($attributes['productUid']);
+
+                    $line->product()->associate($product);
                 }
 
                 if (Arr::exists($attributes, 'priceUnit')) {
@@ -218,6 +238,7 @@ class OrderRepository
         $actor->assertCan('create', Order::class);
 
         $order = new Order();
+        $order->uid = Uuid::uuid4()->toString();
 
         return $this->save($order, $actor, $data);
     }

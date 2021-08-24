@@ -132,9 +132,11 @@ return [
         ->listen(Order\Event\Created::class, Listener\SendOrderConfirmation::class),
 
     (new Extend\ModelUrl(Order\Order::class))
-        ->addSlugDriver('default', Order\IdSlugDriver::class),
+        ->addSlugDriver('default', Order\UidSlugDriver::class)
+        ->addSlugDriver('id', Order\IdSlugDriver::class),
     (new Extend\ModelUrl(Product\Product::class))
-        ->addSlugDriver('default', Product\IdSlugDriver::class),
+        ->addSlugDriver('default', Product\UidSlugDriver::class)
+        ->addSlugDriver('id', Product\IdSlugDriver::class),
 
     (new Extend\Notification())
         ->type(Notification\OrderReceivedBlueprint::class, Api\Serializer\BasicOrderSerializer::class, ['email']),

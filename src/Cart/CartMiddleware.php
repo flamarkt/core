@@ -32,15 +32,19 @@ class CartMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
-        $cartId = $session->get('cart_id');
+        $cartUid = $session->get('cart_uid');
 
-        if ($cartId && $cart = $this->repository->find($cartId, $actor)) {
-            return $handler->handle($request->withAttribute('cart', $cart));
+        if ($cartUid) {
+            $cart = $this->repository->findUid($cartUid, $actor);
+
+            if ($cart && !$cart->alreadySubmitted) {
+                return $handler->handle($request->withAttribute('cart', $cart));
+            }
         }
 
         $cart = $this->repository->store($actor);
 
-        $session->put('cart_id', $cart->id);
+        $session->put('cart_uid', $cart->uid);
 
         return $handler->handle($request->withAttribute('cart', $cart));
     }

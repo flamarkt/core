@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Relations;
 
 /**
  * @property int $id
+ * @property string $uid
  * @property int $user_id
- * @property string $status
  * @property int $price_total
  * @property int $paid_amount
  * @property int $product_count

@@ -7,6 +7,8 @@ use Flarum\Api\Serializer\AbstractSerializer;
 
 class PaymentSerializer extends AbstractSerializer
 {
+    use UidSerializerTrait;
+
     protected $type = 'flamarkt-payments';
 
     /**

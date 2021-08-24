@@ -8,6 +8,8 @@ use Flarum\Http\SlugManager;
 
 class BasicOrderSerializer extends AbstractSerializer
 {
+    use UidSerializerTrait;
+
     protected $type = 'flamarkt-orders';
 
     protected $slugManager;

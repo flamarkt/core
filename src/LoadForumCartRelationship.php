@@ -19,16 +19,7 @@ class LoadForumCartRelationship
 
     public function __invoke(ShowForumController $controller, &$data, ServerRequestInterface $request)
     {
-        $actor = RequestUtil::getActor($request);
-
-        /**
-         * @var Session $session
-         */
-        $session = $request->getAttribute('session');
-
-        $cartId = $session->get('cart_id');
-
         //TODO: app fails to load when returning null here
-        $data['cart'] = $cartId ? $this->repository->find($cartId, $actor) : null;
+        $data['cart'] = $request->getAttribute('cart');
     }
 }

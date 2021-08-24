@@ -7,6 +7,7 @@ return [
     'up' => function (Builder $schema) {
         $schema->create('flamarkt_products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('uid')->unique();
             $table->string('title')->nullable()->index();
             $table->text('description')->nullable();
             $table->unsignedInteger('price')->nullable();

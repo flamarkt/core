@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations;
 
 /**
  * @property int $id
+ * @property string $uid
  * @property int $order_id
  * @property int $product_id
  * @property int $number

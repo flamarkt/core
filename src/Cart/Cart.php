@@ -12,11 +12,15 @@ use Illuminate\Database\Eloquent\Relations;
 
 /**
  * @property int $id
+ * @property string $uid
  * @property int $user_id
+ * @property int $order_id
  * @property int $product_count
  * @property int $price_total
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property-read bool $alreadySubmitted
  *
  * @property User $user
  * @property Product[]|Collection $products
@@ -52,5 +56,10 @@ class Cart extends AbstractModel
             return $previous + ($product->price * $product->pivot->quantity);
         }, 0);
         $this->save();
+    }
+
+    public function getAlreadySubmittedAttribute(): bool
+    {
+        return !is_null($this->order_id);
     }
 }

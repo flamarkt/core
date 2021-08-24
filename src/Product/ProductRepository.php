@@ -14,6 +14,7 @@ use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Ramsey\Uuid\Uuid;
 
 class ProductRepository
 {
@@ -45,9 +46,17 @@ class ProductRepository
         return $query;
     }
 
-    public function findOrFail($id, User $actor = null): Product
+    /**
+     * @internal Kept just in case, but should be avoided
+     */
+    public function findIdOrFail($id, User $actor = null): Product
     {
         return $this->visibleTo($actor)->findOrFail($id);
+    }
+
+    public function findUidOrFail(string $uid = null, User $actor = null): Product
+    {
+        return $this->visibleTo($actor)->where('uid', $uid)->firstOrFail();
     }
 
     public function save(Product $product, User $actor, array $data, Cart $cart = null): Product
@@ -146,7 +155,10 @@ class ProductRepository
     {
         $actor->assertCan('create', Product::class);
 
-        return $this->save(new Product(), $actor, $data);
+        $product = new Product();
+        $product->uid = Uuid::uuid4()->toString();
+
+        return $this->save($product, $actor, $data);
     }
 
     public function update(Product $product, User $actor, array $data, Cart $cart = null): Product

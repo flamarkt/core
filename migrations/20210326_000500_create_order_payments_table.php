@@ -7,6 +7,7 @@ return [
     'up' => function (Builder $schema) {
         $schema->create('flamarkt_order_payments', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('uid')->unique();
             $table->unsignedInteger('order_id');
             $table->unsignedInteger('user_id')->nullable();
             $table->string('method')->nullable();
