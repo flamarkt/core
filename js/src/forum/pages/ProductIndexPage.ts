@@ -1,10 +1,10 @@
 import {Vnode} from 'mithril';
 import Page from 'flarum/common/components/Page';
-import ProductListState from '../../common/states/ProductListState';
+import ProductGridListState from '../states/ProductGridListState';
 import ProductIndexLayout from '../layouts/ProductIndexLayout';
 
 export default class ProductIndexPage extends Page {
-    state!: ProductListState;
+    state!: ProductGridListState;
 
     oninit(vnode: Vnode) {
         super.oninit(vnode);
@@ -19,7 +19,7 @@ export default class ProductIndexPage extends Page {
     initState() {
         const params = m.route.param();
 
-        return new ProductListState({
+        return new ProductGridListState({
             sort: params.sort,
         });
     }

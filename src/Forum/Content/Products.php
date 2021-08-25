@@ -41,7 +41,7 @@ class Products
         $params = [
             'sort' => $sort && isset($sortMap[$sort]) ? $sortMap[$sort] : '',
             'filter' => [],
-            'page' => ['offset' => ($page - 1) * 20, 'limit' => 20]
+            'page' => ['offset' => ($page - 1) * 24, 'limit' => 24],
         ];
 
         if ($q) {

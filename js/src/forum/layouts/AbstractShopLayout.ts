@@ -11,6 +11,9 @@ export interface AbstractShopLayoutAttrs extends ComponentAttrs {
 }
 
 export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> extends Component<T> {
+    // Workaround for Flarum not type-hinting it
+    attrs!: T
+
     view() {
         const className = this.className();
         const title = this.title();

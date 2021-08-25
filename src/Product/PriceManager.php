@@ -26,6 +26,11 @@ class PriceManager extends AbstractManager
         $price = 0;
 
         foreach ($results as $result) {
+            // Null values are ignored
+            if (is_null($result)) {
+                continue;
+            }
+
             if (preg_match('~^([-+]?)([0-9]+)(%?)$~', $result, $matches) === 1) {
                 $value = (int)$matches[2];
 

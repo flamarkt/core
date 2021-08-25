@@ -27,6 +27,8 @@ class ProductIndexController extends AbstractListController
         'createdAt' => 'desc',
     ];
 
+    public $limit = 24;
+
     protected $filterer;
     protected $searcher;
     protected $url;

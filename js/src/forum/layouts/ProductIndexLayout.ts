@@ -3,12 +3,15 @@ import ProductListState from '../../common/states/ProductListState';
 import ProductListItem from '../components/ProductListItem';
 import ProductSortDropdown from '../../common/components/ProductSortDropdown';
 import ItemList from 'flarum/common/utils/ItemList';
+import Button from 'flarum/common/components/Button';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import Placeholder from 'flarum/common/components/Placeholder';
 
 export interface ProductIndexLayoutAttrs extends AbstractShopLayoutAttrs {
     state: ProductListState,
 }
 
-export default class ProductIndexLayout<T = ProductIndexLayoutAttrs> extends AbstractShopLayout<T> {
+export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = ProductIndexLayoutAttrs> extends AbstractShopLayout<T> {
     className() {
         return 'ProductIndexPage';
     }
@@ -23,7 +26,25 @@ export default class ProductIndexLayout<T = ProductIndexLayoutAttrs> extends Abs
             m('ul.ProductList', this.attrs.state.pages.map(page => page.items.map(product => ProductListItem.component({
                 product,
             })))),
+            this.bottomControls(),
         ];
+    }
+
+    bottomControls() {
+        if (this.attrs.state.loading) {
+            return LoadingIndicator.component();
+        } else if (this.attrs.state.moreResults) {
+            return Button.component({
+                className: 'Button',
+                onclick: this.attrs.state.loadMore.bind(this.attrs.state),
+            }, 'Load more'); // TODO: translate
+        }
+
+        if (this.attrs.state.pages.length === 0 && !this.attrs.state.loading) {
+            return Placeholder.component({
+                text: 'No results', //TODO: translate
+            });
+        }
     }
 
     filters(): ItemList {
