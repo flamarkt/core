@@ -3,9 +3,9 @@ import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout'
 import Product from '../../common/models/Product';
 import LinkButton from 'flarum/common/components/LinkButton';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-import formatPrice from '../../common/helpers/formatPrice';
 import ProductQuantity from '../components/ProductQuantity';
 import ItemList from 'flarum/common/utils/ItemList';
+import PriceLabel from '../../common/components/PriceLabel';
 
 export interface ProductShowLayoutAttrs extends AbstractShopLayoutAttrs {
     product?: Product,
@@ -26,16 +26,28 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return 'ProductShowPage';
     }
 
+    /**
+     * The actively displayed product, which can be different from this.attrs.product
+     * This allows extensions like flamarkt/variants to change the displayed product without changing the page
+     */
+    product(): Product | undefined {
+        return this.attrs.product;
+    }
+
     title() {
-        if (this.attrs.product) {
-            return this.attrs.product.title() as string;
+        const product = this.product();
+
+        if (product) {
+            return product.title() as string;
         }
 
         return '';
     }
 
     content() {
-        return this.attrs.product ? this.loadedContent(this.attrs.product) : this.loadingContent();
+        const product = this.product();
+
+        return product ? this.loadedContent(product) : this.loadingContent();
     }
 
     loadingContent(): Mithril.Children {
@@ -45,7 +57,9 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
     }
 
     loadedContent(product: Product): Mithril.Children {
-        return m('.ProductShowSections', this.sections(product).toArray());
+        return m('.ProductShowSections', m.fragment({
+            key: product.id(), // Ensures a full redraw when the product changes in flamarkt/variants
+        }, this.sections(product).toArray()));
     }
 
     sections(product: Product): ItemList {
@@ -54,12 +68,12 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         const galleryItems = this.gallerySection(product).toArray();
 
         if (galleryItems.length) {
-            sections.add('gallery', m('section.ProductShowSection.ProductShowSection--gallery', galleryItems));
+            sections.add('gallery', m('section.ProductShowSection.ProductShowSection--gallery', galleryItems), 30);
         }
 
-        sections.add('price', m('section.ProductShowSection.ProductShowSection--price', this.priceSection(product).toArray()));
+        sections.add('price', m('section.ProductShowSection.ProductShowSection--price', this.priceSection(product).toArray()), 20);
 
-        sections.add('description', m('section.ProductShowSection.ProductShowSection--description', this.descriptionSection(product).toArray()));
+        sections.add('description', m('section.ProductShowSection.ProductShowSection--description', this.descriptionSection(product).toArray()), 10);
 
         return sections;
     }
@@ -81,7 +95,10 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
 
         items.add('title', m('h1', product.title()), 100);
 
-        items.add('price', m('p', formatPrice(product.price())), 50);
+        items.add('price', m('p', m(PriceLabel, {
+            value: product.price(),
+            hint: 'product',
+        })), 50);
 
         if (this.showCartControls(product)) {
             items.add('quantity', ProductQuantity.component({
@@ -93,7 +110,7 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
     }
 
     showCartControls(product: Product): boolean {
-        return product.canOrder();
+        return !!product.canOrder();
     }
 
     descriptionSection(product: Product): ItemList {
