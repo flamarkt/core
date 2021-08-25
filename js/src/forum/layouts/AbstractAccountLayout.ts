@@ -9,9 +9,11 @@ export default abstract class AbstractAccountLayout<T = AbstractAccountLayoutAtt
     breadcrumbItems() {
         const items = super.breadcrumbItems();
 
-        items.add('account', LinkButton.component({
-            href: app.route('flamarkt.account'),
-        }, 'Account' as any));
+        if (this.currentPageHref() !== app.route('flamarkt.account')) {
+            items.add('account', LinkButton.component({
+                href: app.route('flamarkt.account'),
+            }, 'Account' as any));
+        }
 
         return items;
     }

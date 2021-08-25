@@ -44,6 +44,11 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return '';
     }
 
+    contentTitle() {
+        // Don't show the title in its normal place, it's in the priceSection below instead
+        return null;
+    }
+
     content() {
         const product = this.product();
 

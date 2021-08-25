@@ -4,6 +4,7 @@ namespace Flamarkt\Core\Extend;
 
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
+use Flarum\Foundation\ContainerUtil;
 use Illuminate\Contracts\Container\Container;
 
 class Price implements ExtenderInterface
@@ -35,16 +36,20 @@ class Price implements ExtenderInterface
     public function extend(Container $container, Extension $extension = null)
     {
         if (count($this->drivers)) {
-            $container->extend('flamarkt.price_drivers', function (array $drivers): array {
-                return array_merge($drivers, $this->drivers);
+            $container->extend('flamarkt.price_drivers', function (array $drivers) use ($container): array {
+                foreach ($this->drivers as $name => $driver) {
+                    $drivers[$name] = ContainerUtil::wrapCallback($driver, $container);
+                }
+
+                return $drivers;
             });
         }
 
         if (count($this->filters)) {
-            $container->extend('flamarkt.price_driver_filters', function (array $filters): array {
+            $container->extend('flamarkt.price_driver_filters', function (array $filters) use ($container): array {
                 foreach ($this->filters as $key => $keyFilters) {
                     foreach ($keyFilters as $filter) {
-                        $filters[$key][] = $filter;
+                        $filters[$key][] = ContainerUtil::wrapCallback($filter, $container);
                     }
                 }
 

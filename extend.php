@@ -8,6 +8,7 @@ use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
 use Flarum\Frontend\Document;
+use Flarum\User\Event as UserEvent;
 use Flarum\User\User;
 use Illuminate\Support\Arr;
 
@@ -129,6 +130,7 @@ return [
 
     (new Extend\Event())
         ->subscribe(Listener\UpdateUserOrderMeta::class)
+        ->listen(UserEvent\Saving::class, Listener\SaveUser::class)
         ->listen(Order\Event\Created::class, Listener\SendOrderConfirmation::class),
 
     (new Extend\ModelUrl(Order\Order::class))

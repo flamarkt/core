@@ -1,5 +1,5 @@
 import app from 'flarum/forum/app';
-import {extend} from 'flarum/common/extend';
+import {extend, override} from 'flarum/common/extend';
 import SessionDropdown from 'flarum/forum/components/SessionDropdown';
 import LinkButton from 'flarum/common/components/LinkButton';
 import ItemList from 'flarum/common/utils/ItemList';
@@ -20,6 +20,8 @@ import routes from './routes';
 import patchModelHasOneNull from '../common/patchModelHasOneNull';
 import patchStoreAllowVerbatimRelationships from '../common/patchStoreAllowVerbatimRelationships';
 import NotificationGrid from 'flarum/forum/components/NotificationGrid';
+import Search from 'flarum/forum/components/Search';
+import ProductSearchSource from './components/ProductSearchSource';
 
 export {
     common,
@@ -87,13 +89,27 @@ app.initializers.add('flamarkt-core', () => {
         items.add('flamarkt-cart', CartDropdown.component({state: app.cart}), 15);
     });
 
-    // TODO: prevent setting web notification
     extend(NotificationGrid.prototype, 'notificationTypes', function (items: ItemList) {
         items.add('orderReceived', {
             name: 'orderReceived',
             icon: 'far fa-thumbs-up',
             label: app.translator.trans('flamarkt-core.forum.settings.notifyOrderReceived'),
         });
+    });
+
+    override(NotificationGrid.prototype, 'preferenceKey', function (original: any, type: string, method: string) {
+        // Since there's no other way to disable a web notification, we'll make it point to a non-existent setting so Flarum shows it as disabled
+        // The actual access restriction is done during the user saving event
+        if (type === 'orderReceived' && method === 'alert') {
+            return '__not_exists';
+        }
+
+        return original(type, method);
+    });
+
+    extend(Search.prototype, 'sourceItems', function (items: ItemList) {
+        // Ideally we'd insert it between discussions and users, but they have the same priority, so we insert before everything
+        items.add('products', new ProductSearchSource(), -10);
     });
 });
 

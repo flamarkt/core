@@ -11,6 +11,10 @@ export default class AccountLayout extends AbstractAccountLayout {
         return app.translator.trans('flamarkt-core.forum.account.headingTitle');
     }
 
+    currentPageHref(): string {
+        return app.route('flamarkt.account');
+    }
+
     content() {
         return m('ul', listItems(AccountControls.controls(app.session.user).toArray()));
     }

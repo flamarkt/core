@@ -9,6 +9,7 @@ import OrderTableGroupHead from './components/OrderTableGroupHead';
 import OrderTableRow from './components/OrderTableRow';
 import ProductListItem from './components/ProductListItem';
 import ProductQuantity from './components/ProductQuantity';
+import ProductSearchSource from './components/ProductSearchSource';
 import AbstractAccountLayout from './layouts/AbstractAccountLayout';
 import AbstractShopLayout from './layouts/AbstractShopLayout';
 import AccountLayout from './layouts/AccountLayout';
@@ -39,6 +40,7 @@ export const forum = {
     'components/OrderTableRow': OrderTableRow,
     'components/ProductListItem': ProductListItem,
     'components/ProductQuantity': ProductQuantity,
+    'components/ProductSearchSource': ProductSearchSource,
     'layouts/AbstractAccountLayout': AbstractAccountLayout,
     'layouts/AbstractShopLayout': AbstractShopLayout,
     'layouts/AccountLayout': AccountLayout,

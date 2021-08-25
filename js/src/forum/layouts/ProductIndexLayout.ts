@@ -17,7 +17,24 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
     }
 
     title() {
+        if (this.currentPageHref() === '/') {
+            return 'Home';
+        }
+
         return app.translator.trans('flamarkt-core.forum.products.headingTitle');
+    }
+
+    currentPageHref(): string {
+        return app.route('flamarkt.products.index');
+    }
+
+    contentTitle() {
+        // If the product list is the homepage, it should be very redundant to show "Home" as the page title
+        if (this.currentPageHref() === '/') {
+            return null;
+        }
+
+        return super.contentTitle();
     }
 
     content() {

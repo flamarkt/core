@@ -8,7 +8,11 @@ export default {
 
         items.add('orders', LinkButton.component({
             href: app.route('flamarkt.account.orders'),
-        }, 'Orders'));
+        }, 'Orders'), 10);
+
+        items.add('settings', LinkButton.component({
+            href: app.route('settings'),
+        }, 'Settings'), -10);
 
         return items;
     }

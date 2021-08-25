@@ -16,7 +16,6 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
 
     view() {
         const className = this.className();
-        const title = this.title();
 
         return m('.ShopPage', {
             className: className || undefined,
@@ -28,7 +27,7 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
                     Breadcrumb.component({
                         items: this.breadcrumbItems(),
                     }),
-                    title ? m('h1', title) : null,
+                    this.contentTitle(),
                     this.content(),
                 ]),
             ])),
@@ -42,9 +41,11 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
     breadcrumbItems(): ItemList {
         const items = new ItemList();
 
-        items.add('home', LinkButton.component({
-            href: app.route('index'),
-        }, 'Home'), 100);
+        if (this.currentPageHref() !== '/') {
+            items.add('home', LinkButton.component({
+                href: '/',
+            }, 'Home'), 100);
+        }
 
         const title = this.title();
 
@@ -59,8 +60,29 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
         return '';
     }
 
+    /**
+     * Used as the breadcrumb current item as well as the <h1> title of the content
+     * The title of the browser page needs to be set in the page itself and not the layout
+     */
     title(): string {
         return '';
+    }
+
+    /**
+     * Used as a hint for the breadcrumb to not repeat an existing item if it happens to be the same as the active page
+     */
+    currentPageHref(): string | null {
+        return null;
+    }
+
+    contentTitle() {
+        const title = this.title();
+
+        if (title) {
+            return m('h1', title);
+        }
+
+        return null;
     }
 
     abstract content(): Mithril.Children
