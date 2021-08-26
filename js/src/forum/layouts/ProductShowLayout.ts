@@ -17,7 +17,7 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
 
         items.add('products', LinkButton.component({
             href: app.route('flamarkt.products.index'),
-        }, 'Products'));
+        }, app.translator.trans('flamarkt-core.forum.breadcrumb.products')));
 
         return items;
     }

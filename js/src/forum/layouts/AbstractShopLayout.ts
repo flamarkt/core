@@ -1,4 +1,4 @@
-import * as Mithril from 'mithril';
+import {Children, Vnode} from 'mithril';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import ItemList from 'flarum/common/utils/ItemList';
@@ -14,7 +14,7 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
     // Workaround for Flarum not type-hinting it
     attrs!: T
 
-    view() {
+    view(vnode: Vnode) {
         const className = this.className();
 
         return m('.ShopPage', {
@@ -28,7 +28,7 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
                         items: this.breadcrumbItems(),
                     }),
                     this.contentTitle(),
-                    this.content(),
+                    this.content(vnode),
                 ]),
             ])),
         ]);
@@ -85,5 +85,5 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
         return null;
     }
 
-    abstract content(): Mithril.Children
+    abstract content(vnode: Vnode): Children
 }

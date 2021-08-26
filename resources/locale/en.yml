@@ -95,8 +95,10 @@ flamarkt-core:
             action: Checkout
         search:
             products:
-                heading: Products
+                heading: => flamarkt-core.ref.page.products
                 all: 'Search all products for "{query}"'
+        breadcrumb:
+            products: => flamarkt-core.ref.page.products
     email:
         orderReceived:
             subject: Your order {number} has been received
