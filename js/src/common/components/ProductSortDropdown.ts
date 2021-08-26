@@ -12,12 +12,12 @@ export default class ProductSortDropdown extends AbstractSortDropdown<ProductSor
 
     options(): SortOptions {
         return {
-            '-createdAt': 'Newest',
-            'createdAt': 'Oldest',
-            'price': 'Cheapest',
-            '-price': 'Most expensive',
-            'title': 'Title ASC',
-            '-title': 'Title DESC',
+            '-createdAt': app.translator.trans('flamarkt-core.lib.sort.products.createdAtDesc'),
+            'createdAt': app.translator.trans('flamarkt-core.lib.sort.products.createdAtAsc'),
+            'price': app.translator.trans('flamarkt-core.lib.sort.products.priceAsc'),
+            '-price': app.translator.trans('flamarkt-core.lib.sort.products.priceDesc'),
+            'title': app.translator.trans('flamarkt-core.lib.sort.products.titleAsc'),
+            '-title': app.translator.trans('flamarkt-core.lib.sort.products.titleDesc'),
         };
     }
 }

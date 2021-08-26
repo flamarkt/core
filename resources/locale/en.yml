@@ -99,6 +99,15 @@ flamarkt-core:
                 all: 'Search all products for "{query}"'
         breadcrumb:
             products: => flamarkt-core.ref.page.products
+    lib:
+        sort:
+            products:
+                createdAtAsc: Oldest
+                createdAtDesc: Newest
+                priceAsc: Cheapest
+                priceDesc: Most expensive
+                titleAsc: Title A-Z
+                titleDesc: Title Z-A
     email:
         orderReceived:
             subject: Your order {number} has been received

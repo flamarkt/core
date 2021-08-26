@@ -21,6 +21,7 @@ export default class ProductIndexPage extends Page {
 
         return new ProductGridListState({
             sort: params.sort,
+            q: params.q,
         });
     }
 

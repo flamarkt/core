@@ -36,10 +36,8 @@ class Products
         $q = Arr::pull($queryParams, 'q');
         $page = max(1, intval(Arr::pull($queryParams, 'page')));
 
-        $sortMap = $this->getSortMap();
-
         $params = [
-            'sort' => $sort && isset($sortMap[$sort]) ? $sortMap[$sort] : '',
+            'sort' => $sort,
             'filter' => [],
             'page' => ['offset' => ($page - 1) * 24, 'limit' => 24],
         ];
@@ -53,16 +51,6 @@ class Products
         $document->title = $this->translator->trans('flamarkt-core.forum.products.headingTitle');
         $document->content = $this->view->make('flamarkt::frontend.content.products', compact('apiDocument', 'page'));
         $document->payload['apiDocument'] = $apiDocument;
-    }
-
-    private function getSortMap()
-    {
-        return [
-            'latest' => '-lastPostedAt',
-            'top' => '-commentCount',
-            'newest' => '-createdAt',
-            'oldest' => 'createdAt'
-        ];
     }
 
     protected function getApiDocument(ServerRequestInterface $request, array $params)
