@@ -38,9 +38,9 @@ return [
         ->css(__DIR__ . '/resources/less/backoffice.less')
         ->route('/dashboard', 'dashboard', Backoffice\Content\Dashboard::class)
         ->route('/orders', 'orders.index')
-        ->route('/orders/{id:[0-9]+|new}', 'orders.show')
+        ->route('/orders/{id}', 'orders.show')
         ->route('/products', 'products.index')
-        ->route('/products/{id:[0-9]+|new}', 'products.show')
+        ->route('/products/{id}', 'products.show')
         ->route('/users', 'users.index')
         ->route('/users/{id:[0-9]+|new}', 'users.show')
         ->route('/extension/{id:[a-zA-Z0-9_-]+}', 'extension'),
