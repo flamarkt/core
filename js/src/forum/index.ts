@@ -21,6 +21,7 @@ import patchModelHasOneNull from '../common/patchModelHasOneNull';
 import patchStoreAllowVerbatimRelationships from '../common/patchStoreAllowVerbatimRelationships';
 import NotificationGrid from 'flarum/forum/components/NotificationGrid';
 import Search from 'flarum/forum/components/Search';
+import ForumApplication from 'flarum/forum/ForumApplication';
 import ProductSearchSource from './components/ProductSearchSource';
 
 export {
@@ -41,7 +42,7 @@ app.initializers.add('flamarkt-core', () => {
 
     app.cart = new CartState();
 
-    extend(app, 'mount', () => {
+    extend(ForumApplication.prototype, 'mount', () => {
         app.cart.boot();
 
         // Refresh the cart when clicking home, just like the user notifications do
