@@ -60,6 +60,7 @@ flamarkt-core:
         settings:
             defaultAvailabilityDriver: Default Availability Driver
             defaultPriceDriver: Default Price Driver
+            forceOrderPrepayment: Force orders to be paid in full during submission
         permissions:
             shop: Shop
             backoffice: Use backoffice

@@ -7,6 +7,9 @@ use Flamarkt\Core\Order\Order;
 use Flamarkt\Core\Order\OrderBuilder;
 use Flarum\User\User;
 
+/**
+ * @deprecated Use payment callback extender
+ */
 class Paying
 {
     public $builder;

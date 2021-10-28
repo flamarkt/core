@@ -12,5 +12,10 @@ class OrderServiceProvider extends AbstractServiceProvider
             'products',
             'shipping',
         ]);
+
+        $this->container->instance('flamarkt.payment.callbacks', [
+            'partial' => [],
+            'remaining' => [],
+        ]);
     }
 }

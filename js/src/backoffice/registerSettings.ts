@@ -35,6 +35,11 @@ export default function () {
                 }),
             ]);
         })
+        .registerSetting({
+            type: 'switch',
+            setting: 'flamarkt.forceOrderPrepayment',
+            label: app.translator.trans('flamarkt-core.backoffice.settings.forceOrderPrepayment'),
+        })
         .registerPermission({
             icon: 'fas fa-shopping-cart',
             label: app.translator.trans('flamarkt-core.backoffice.permissions.shop'),

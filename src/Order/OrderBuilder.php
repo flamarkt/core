@@ -8,7 +8,7 @@ use Ramsey\Uuid\Uuid;
 class OrderBuilder
 {
     /**
-     * @var OrderLine[]
+     * @var OrderLine[][]
      */
     public $lines = [];
 
@@ -44,5 +44,34 @@ class OrderBuilder
         $this->payments[] = $payment;
 
         return $payment;
+    }
+
+    public function priceTotal(): int
+    {
+        $total = 0;
+
+        foreach ($this->lines as $group => $lines) {
+            foreach ($lines as $line) {
+                $total += $line->price_total;
+            }
+        }
+
+        return $total;
+    }
+
+    public function totalPaid(): int
+    {
+        $total = 0;
+
+        foreach ($this->payments as $payment) {
+            $total += $payment->amount;
+        }
+
+        return $total;
+    }
+
+    public function totalUnpaid(): int
+    {
+        return $this->priceTotal() - $this->totalPaid();
     }
 }

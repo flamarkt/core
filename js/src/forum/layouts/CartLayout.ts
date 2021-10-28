@@ -2,6 +2,7 @@ import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout'
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
 import Cart from '../../common/models/Cart';
+import Order from '../../common/models/Order';
 import ItemList from 'flarum/common/utils/ItemList';
 import CartPageSection from '../components/CartPageSection';
 import CartTable from '../components/CartTable';
@@ -93,18 +94,25 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
 
         app.store.createRecord('flamarkt-orders')
             .save(this.data())
-            .then(order => {
-                // Not setting submitting to false on purpose
-                // We don't want the users to think the page stopped processing until it's redirected
+            .then(this.afterSuccessfulSubmit.bind(this))
+            .catch(this.afterFailedSubmit.bind(this));
+    }
 
-                m.route.set(app.route.order(order));
-            })
-            .catch(error => {
-                this.submitting = false;
+    afterSuccessfulSubmit(order: Order) {
+        // Not setting submitting to false on purpose
+        // We don't want the users to think the page stopped processing until it's redirected
 
-                m.redraw();
+        m.route.set(app.route.order(order));
 
-                throw error;
-            });
+        // Refresh cart, otherwise the cart icon in the header will continue to show the old total
+        app.cart.load();
+    }
+
+    afterFailedSubmit(error: any) {
+        this.submitting = false;
+
+        m.redraw();
+
+        throw error;
     }
 }

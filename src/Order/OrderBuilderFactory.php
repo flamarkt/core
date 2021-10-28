@@ -12,6 +12,7 @@ use Flamarkt\Core\Order\Event\SavingLine;
 use Flamarkt\Core\Product\AvailabilityManager;
 use Flamarkt\Core\Product\PriceManager;
 use Flarum\Foundation\ValidationException;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,13 +24,17 @@ class OrderBuilderFactory
     protected $availability;
     protected $price;
     protected $lock;
+    protected $settings;
 
-    public function __construct(Dispatcher $events, AvailabilityManager $availability, PriceManager $price, CartLock $lock)
+    protected static $paymentCallbacks = [];
+
+    public function __construct(Dispatcher $events, AvailabilityManager $availability, PriceManager $price, CartLock $lock, SettingsRepositoryInterface $settings)
     {
         $this->events = $events;
         $this->availability = $availability;
         $this->price = $price;
         $this->lock = $lock;
+        $this->settings = $settings;
     }
 
     public function build(User $actor, Cart $cart, array $data, ServerRequestInterface $request = null): Order
@@ -105,36 +110,29 @@ class OrderBuilderFactory
         $saveLines = [];
 
         $number = 0;
-        $priceTotal = 0;
 
         foreach ($builder->lines as $group => $lines) {
             foreach ($lines as $line) {
-                /**
-                 * @var OrderLine $line
-                 */
                 $line->number = ++$number;
                 $saveLines[] = $line;
 
                 $this->events->dispatch(new SavingLine($order, $line, $actor, []));
-
-                $priceTotal += $line->price_total;
             }
         }
 
-        $order->price_total = $priceTotal;
+        $order->price_total = $builder->priceTotal();
 
         $this->events->dispatch(new Paying($builder, $order, $actor, $cart, $data));
 
-        $totalFromPayments = 0;
-
-        foreach ($builder->payments as $payment) {
-            $totalFromPayments += $payment->amount;
+        foreach (static::$paymentCallbacks as $callback) {
+            $callback($builder, $order, $actor, $cart, $data);
         }
 
-        // TODO: pre-payment will be an optional feature
-        if ($totalFromPayments < $priceTotal) {
+        $totalUnpaid = $builder->totalUnpaid();
+
+        if ($totalUnpaid > 0 && $this->settings->get('flamarkt.forceOrderPrepayment')) {
             throw new ValidationException([
-                'payment' => 'Not enough payment',
+                'payment' => 'Not enough payment', // TODO: translation
             ]);
         }
 
@@ -146,5 +144,14 @@ class OrderBuilderFactory
         $order->payments()->saveMany($builder->payments);
 
         return $order;
+    }
+
+    /**
+     * @param $callback
+     * @internal
+     */
+    public static function paymentCallback($callback): void
+    {
+        static::$paymentCallbacks[] = $callback;
     }
 }
