@@ -1,12 +1,14 @@
 {
     "extends": "flarum-tsconfig",
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "../vendor/flarum/core/js/dist-typings/@types/**/*"
     ],
     "files": [
         "shims.d.ts"
     ],
     "compilerOptions": {
+        "declarationDir": "./dist-typings",
         "baseUrl": ".",
         "paths": {
             "flarum/*": [

@@ -9,6 +9,8 @@
     },
     "scripts": {
         "dev": "webpack --mode development --watch",
-        "build": "webpack --mode production"
+        "build": "webpack --mode production",
+        "clean-typings": "npx rimraf dist-typings && mkdir dist-typings",
+        "build-typings": "npm run clean-typings && tsc"
     }
 }
