@@ -1,10 +1,12 @@
 <?php
 
-namespace Flamarkt\Core\Order;
+namespace Flamarkt\Core\Payment;
 
 use Carbon\Carbon;
+use Flamarkt\Core\Order\Order;
 use Flamarkt\Core\Product\Product;
 use Flarum\Database\AbstractModel;
+use Flarum\Foundation\EventGeneratorTrait;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Relations;
 
@@ -19,11 +21,14 @@ use Illuminate\Database\Eloquent\Relations;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
+ * @property Order $order
  * @property Product|null $product
  * @property User|null $user
  */
-class OrderPayment extends AbstractModel
+class Payment extends AbstractModel
 {
+    use EventGeneratorTrait;
+
     protected $table = 'flamarkt_order_payments';
 
     public $timestamps = true;
@@ -33,6 +38,11 @@ class OrderPayment extends AbstractModel
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function order(): Relations\BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
 
     public function product(): Relations\BelongsTo
     {

@@ -2,6 +2,7 @@ import Model from 'flarum/common/Model';
 import BackofficeApplication from './BackofficeApplication';
 import Order from '../common/models/Order';
 import OrderLine from '../common/models/OrderLine';
+import Payment from '../common/models/Payment';
 import Product from '../common/models/Product';
 import {common} from '../common/compat';
 import {backoffice} from './compat';
@@ -29,6 +30,7 @@ export {
 app.initializers.add('flamarkt-core', () => {
     app.store.models['flamarkt-orders'] = Order;
     app.store.models['flamarkt-order-lines'] = OrderLine;
+    app.store.models['flamarkt-payments'] = Payment;
     app.store.models['flamarkt-products'] = Product;
     app.store.models.users.prototype.flamarktOrderCount = Model.attribute('flamarktOrderCount');
 

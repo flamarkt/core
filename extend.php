@@ -71,6 +71,10 @@ return [
         ->patch('/flamarkt/orders/{id}', 'flamarkt.orders.update', Api\Controller\OrderUpdateController::class)
         ->delete('/flamarkt/orders/{id}', 'flamarkt.orders.delete', Api\Controller\OrderDeleteController::class)
         //
+        ->post('/flamarkt/orders/{id}/payments', 'flamarkt.payments.store', Api\Controller\PaymentStoreController::class)
+        ->patch('/flamarkt/payments/{id}', 'flamarkt.payments.update', Api\Controller\PaymentUpdateController::class)
+        ->delete('/flamarkt/payments/{id}', 'flamarkt.payments.delete', Api\Controller\PaymentDeleteController::class)
+        //
         ->get('/flamarkt/products', 'flamarkt.products.index', Api\Controller\ProductIndexController::class)
         ->post('/flamarkt/products', 'flamarkt.products.store', Api\Controller\ProductStoreController::class)
         ->get('/flamarkt/products/{id}', 'flamarkt.products.show', Api\Controller\ProductShowController::class)

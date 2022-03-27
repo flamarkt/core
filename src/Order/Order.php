@@ -5,6 +5,7 @@ namespace Flamarkt\Core\Order;
 use Carbon\Carbon;
 use Flamarkt\Core\Order\Event\Hidden;
 use Flamarkt\Core\Order\Event\Restored;
+use Flamarkt\Core\Payment\Payment;
 use Flamarkt\Core\Product\Product;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations;
  *
  * @property User|null $user
  * @property OrderLine[]|Collection $lines
- * @property OrderPayment[]|Collection $payments
+ * @property Payment[]|Collection $payments
  * @property Product[]|Collection $products
  */
 class Order extends AbstractModel
@@ -57,7 +58,7 @@ class Order extends AbstractModel
 
     public function payments(): Relations\HasMany
     {
-        return $this->hasMany(OrderPayment::class);
+        return $this->hasMany(Payment::class);
     }
 
     public function products(): Relations\BelongsToMany

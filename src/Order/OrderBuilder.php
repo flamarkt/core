@@ -2,6 +2,7 @@
 
 namespace Flamarkt\Core\Order;
 
+use Flamarkt\Core\Payment\Payment;
 use Illuminate\Support\Arr;
 use Ramsey\Uuid\Uuid;
 
@@ -13,7 +14,7 @@ class OrderBuilder
     public $lines = [];
 
     /**
-     * @var OrderPayment[]
+     * @var Payment[]
      */
     public $payments = [];
 
@@ -33,9 +34,9 @@ class OrderBuilder
         return $line;
     }
 
-    public function addPayment(string $method, int $amount, string $identifier = null): OrderPayment
+    public function addPayment(string $method, int $amount, string $identifier = null): Payment
     {
-        $payment = new OrderPayment();
+        $payment = new Payment();
         $payment->uid = Uuid::uuid4()->toString();
         $payment->method = $method;
         $payment->identifier = $identifier;

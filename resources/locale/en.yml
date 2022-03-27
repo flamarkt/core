@@ -46,6 +46,17 @@ flamarkt-core:
                 control:
                     delete: Delete line
                     add: Add line
+        payments:
+            title: => flamarkt-core.ref.page.payments
+            head:
+                date: Date
+                method: Method
+                identifier: Identifier
+                amount: Amount
+            field:
+                method: Method
+                identifier: Identifier
+                amount: Amount
         products:
             title: => flamarkt-core.ref.page.products
             new: Create product
@@ -119,4 +130,5 @@ flamarkt-core:
             customers: Customers
             order: Order {number}
             orders: Orders
+            payments: Payments
             products: Products

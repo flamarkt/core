@@ -25,16 +25,23 @@ class OrderBuilderFactory
     protected $price;
     protected $lock;
     protected $settings;
+    protected $paymentCallbacks;
 
-    protected static $paymentCallbacks = [];
-
-    public function __construct(Dispatcher $events, AvailabilityManager $availability, PriceManager $price, CartLock $lock, SettingsRepositoryInterface $settings)
+    public function __construct(
+        Dispatcher                  $events,
+        AvailabilityManager         $availability,
+        PriceManager                $price,
+        CartLock                    $lock,
+        SettingsRepositoryInterface $settings,
+        array                       $paymentCallbacks
+    )
     {
         $this->events = $events;
         $this->availability = $availability;
         $this->price = $price;
         $this->lock = $lock;
         $this->settings = $settings;
+        $this->paymentCallbacks = $paymentCallbacks;
     }
 
     public function build(User $actor, Cart $cart, array $data, ServerRequestInterface $request = null): Order
@@ -124,7 +131,7 @@ class OrderBuilderFactory
 
         $this->events->dispatch(new Paying($builder, $order, $actor, $cart, $data));
 
-        foreach (static::$paymentCallbacks as $callback) {
+        foreach ($this->paymentCallbacks as $callback) {
             $callback($builder, $order, $actor, $cart, $data);
         }
 
@@ -144,14 +151,5 @@ class OrderBuilderFactory
         $order->payments()->saveMany($builder->payments);
 
         return $order;
-    }
-
-    /**
-     * @param $callback
-     * @internal
-     */
-    public static function paymentCallback($callback): void
-    {
-        static::$paymentCallbacks[] = $callback;
     }
 }

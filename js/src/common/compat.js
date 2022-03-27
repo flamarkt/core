@@ -14,6 +14,7 @@ import formatPrice from './helpers/formatPrice';
 import Cart from './models/Cart';
 import Order from './models/Order';
 import OrderLine from './models/OrderLine';
+import Payment from './models/Payment';
 import Product from './models/Product';
 import AbstractShowPage from './pages/AbstractShowPage';
 import AbstractListState from './states/AbstractListState';
@@ -38,6 +39,7 @@ export const common = {
     'models/Cart': Cart,
     'models/Order': Order,
     'models/OrderLine': OrderLine,
+    'models/Payment': Payment,
     'models/Product': Product,
     'pages/AbstractShowPage': AbstractShowPage,
     'states/AbstractListState': AbstractListState,

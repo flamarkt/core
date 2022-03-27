@@ -13,6 +13,8 @@ import UserRelationshipSelect from '../components/UserRelationshipSelect';
 import OrderLineEditState from '../states/OrderLineEditState';
 import SoftDeleteButton from '../components/SoftDeleteButton';
 import PermanentDeleteButton from '../components/PermanentDeleteButton';
+import PaymentList from '../components/PaymentList';
+import PaymentListPassthroughState from '../states/PaymentListPassthroughState';
 
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null = null;
@@ -153,6 +155,13 @@ export default class OrderShowPage extends AbstractShowPage {
                 },
             }),
         ]), -10);
+
+        fields.add('payments', m('.Form-group', [
+            m('label', app.translator.trans('flamarkt-core.backoffice.payments.title')),
+            m(PaymentList, {
+                state: new PaymentListPassthroughState(this.order!),
+            }),
+        ]), -20);
 
         return fields;
     }
