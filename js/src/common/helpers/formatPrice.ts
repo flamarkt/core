@@ -1,3 +1,5 @@
+import app from 'flarum/common/app';
+
 /**
  * @deprecated replaced with PriceLabel
  */

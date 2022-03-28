@@ -4,5 +4,5 @@ export interface PriceLabelAttrs extends DecimalLabelAttrs {
 }
 export default class PriceLabel<T extends PriceLabelAttrs = PriceLabelAttrs> extends DecimalLabel<T> {
     decimals(): number;
-    view(): any[];
+    view(): any;
 }

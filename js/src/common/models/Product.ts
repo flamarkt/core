@@ -1,4 +1,4 @@
-import Model from './Model';
+import Model from 'flarum/common/Model';
 
 export default class Product extends Model {
     title = Model.attribute<string>('title');
@@ -22,6 +22,7 @@ export default class Product extends Model {
     }
 
     apiEndpoint() {
+        // @ts-ignore data.id not type-hinted for non-existent models
         return '/flamarkt/products' + (this.exists ? '/' + this.data.id : '');
     }
 }

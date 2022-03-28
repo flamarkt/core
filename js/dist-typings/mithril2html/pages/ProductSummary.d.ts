@@ -5,6 +5,6 @@ import ItemList from 'flarum/common/utils/ItemList';
 export declare class ProductSummary extends Page {
     product: Product;
     oninit(vnode: Vnode): void;
-    view(): Vnode<any, any>;
+    view(): any;
     sections(): ItemList;
 }

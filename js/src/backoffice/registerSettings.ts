@@ -1,3 +1,4 @@
+import app from 'flamarkt/backoffice/backoffice/app';
 import ExtensionPage from 'flarum/admin/components/ExtensionPage';
 import Select from 'flarum/common/components/Select';
 

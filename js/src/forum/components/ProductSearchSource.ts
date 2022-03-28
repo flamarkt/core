@@ -1,4 +1,5 @@
 import {Vnode} from 'mithril';
+import app from 'flarum/forum/app';
 import {SearchSource} from 'flarum/forum/components/Search';
 import Link from 'flarum/common/components/Link';
 import highlight from 'flarum/common/helpers/highlight';
@@ -42,7 +43,7 @@ export default class ProductSearchSource implements SearchSource {
         ];
     }
 
-    product(product: Product, query: string): ItemList {
+    product(product: Product, query: string): ItemList<any> {
         const items = new ItemList();
 
         items.add('title', highlight(product.title(), query));

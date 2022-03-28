@@ -1,7 +1,7 @@
 import { Vnode } from 'mithril';
 import User from 'flarum/common/models/User';
 import ItemList from 'flarum/common/utils/ItemList';
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
 import OrderLine from '../../common/models/OrderLine';
 import OrderLineEditState from '../states/OrderLineEditState';
@@ -15,12 +15,12 @@ export default class OrderShowPage extends AbstractShowPage {
     oninit(vnode: Vnode): void;
     initNewLine(): void;
     initLineState(line: OrderLine): OrderLineEditState;
-    newRecord(): any;
+    newRecord(): import("flarum/common/Model").default;
     findType(): string;
     show(order: Order): void;
     view(): any;
-    fields(): ItemList;
-    tableHead(): ItemList;
+    fields(): ItemList<any>;
+    tableHead(): ItemList<unknown>;
     data(): {
         relationships: {
             lines: any[];

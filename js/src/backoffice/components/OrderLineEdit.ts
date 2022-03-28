@@ -1,5 +1,5 @@
 import {Attributes, ClassComponent, Vnode} from 'mithril';
-import SortableHandle from '../../common/components/SortableHandle';
+import SortableHandle from 'flamarkt/backoffice/common/components/SortableHandle';
 import ItemList from 'flarum/common/utils/ItemList';
 import Select from 'flarum/common/components/Select';
 import ProductRelationshipSelect from './ProductRelationshipSelect';
@@ -28,7 +28,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
         }, this.columns(line, control, onchange, sortable).toArray());
     }
 
-    columns(line: OrderLineEditState, control: Vnode, onchange: () => void, sortable?: boolean): ItemList {
+    columns(line: OrderLineEditState, control: Vnode, onchange: () => void, sortable?: boolean): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('handle', m('td.OrderLineEdit-Handle', sortable ? m(SortableHandle) : null), 100);
@@ -94,7 +94,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
         return line.type === 'product' || line.type === 'manual';
     }
 
-    fields(line: OrderLineEditState, onchange: () => void): ItemList {
+    fields(line: OrderLineEditState, onchange: () => void): ItemList<any> {
         const fields = new ItemList();
 
         if (this.showInfoProduct(line)) {

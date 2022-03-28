@@ -6,11 +6,8 @@ interface ProductListItemAttrs extends ComponentAttrs {
     product: Product;
 }
 export default class ProductListItem extends Component<ProductListItemAttrs> {
-    view(): import("mithril").Vnode<any, any>;
-    link(children: Children): import("mithril").Vnode<{
-        className: string;
-        href: string;
-    }, unknown>;
-    items(): ItemList;
+    view(): any;
+    link(children: Children): any;
+    items(): ItemList<any>;
 }
 export {};

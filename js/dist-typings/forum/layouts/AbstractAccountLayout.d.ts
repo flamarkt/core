@@ -2,5 +2,5 @@ import AbstractShopLayout, { AbstractShopLayoutAttrs } from './AbstractShopLayou
 export interface AbstractAccountLayoutAttrs extends AbstractShopLayoutAttrs {
 }
 export default abstract class AbstractAccountLayout<T = AbstractAccountLayoutAttrs> extends AbstractShopLayout<T> {
-    breadcrumbItems(): import("flarum/common/utils/ItemList").default;
+    breadcrumbItems(): import("flarum/common/utils/ItemList").default<any>;
 }

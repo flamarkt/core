@@ -1,4 +1,3 @@
-/// <reference types="mithril" />
 import Component, { ComponentAttrs } from 'flarum/common/Component';
 import Product from '../models/Product';
 export interface DecimalInputAttrs extends ComponentAttrs {
@@ -19,5 +18,5 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
     step(): number | undefined;
     fromIntegerValue(value: number): number;
     toIntegerValue(value: number): number;
-    view(): import("mithril").Vnode<any, any>;
+    view(): any;
 }

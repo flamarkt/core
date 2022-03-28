@@ -7,43 +7,24 @@ use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
-use Flarum\Frontend\Document;
 use Flarum\User\Event as UserEvent;
 use Flarum\User\User;
-use Illuminate\Support\Arr;
 
 return [
     (new Extend\ServiceProvider())
-        // It's important for the provider to run before we call the Frontend extender with our new frontend
-        ->register(Backoffice\BackofficeServiceProvider::class)
         ->register(Order\OrderServiceProvider::class)
         ->register(Product\ProductServiceProvider::class),
 
     (new Extend\Frontend('admin'))
-        ->js(__DIR__ . '/js/dist/admin.js')
-        ->content(function (Document $document) {
-            if (!$document->payload['extensions']) {
-                return;
-            }
-
-            foreach ($document->payload['extensions'] as $key => $attributes) {
-                if (Arr::get($attributes, 'extra.flamarkt-backoffice.hideFromAdmin')) {
-                    unset($document->payload['extensions'][$key]);
-                }
-            }
-        }),
+        ->js(__DIR__ . '/js/dist/admin.js'),
 
     (new Extend\Frontend('backoffice'))
-        //->js(__DIR__ . '/js/dist/backoffice.js')
+        ->js(__DIR__ . '/js/dist/backoffice.js')
         ->css(__DIR__ . '/resources/less/backoffice.less')
-        ->route('/dashboard', 'dashboard', Backoffice\Content\Dashboard::class)
         ->route('/orders', 'orders.index')
         ->route('/orders/{id}', 'orders.show')
         ->route('/products', 'products.index')
-        ->route('/products/{id}', 'products.show')
-        ->route('/users', 'users.index')
-        ->route('/users/{id:[0-9]+|new}', 'users.show')
-        ->route('/extension/{id:[a-zA-Z0-9_-]+}', 'extension'),
+        ->route('/products/{id}', 'products.show'),
 
     (new Extend\Frontend('forum'))
         ->js(__DIR__ . '/js/dist/forum.js')
@@ -82,7 +63,6 @@ return [
         ->delete('/flamarkt/products/{id}', 'flamarkt.products.delete', Api\Controller\ProductDeleteController::class),
 
     (new Extend\Middleware('forum'))
-        ->insertBefore('flarum.forum.route_resolver', Backoffice\Middleware\SubForumRouter::class)
         ->add(Cart\CartMiddleware::class),
 
     (new Extend\Middleware('api'))
@@ -116,8 +96,7 @@ return [
 
     (new Extend\Policy())
         ->modelPolicy(Order\Order::class, Order\Access\OrderPolicy::class)
-        ->modelPolicy(Product\Product::class, Product\Access\ProductPolicy::class)
-        ->globalPolicy(GlobalPolicy::class),
+        ->modelPolicy(Product\Product::class, Product\Access\ProductPolicy::class),
 
     (new Extend\ModelVisibility(Cart\Cart::class))
         ->scope(Cart\Access\ScopeCartVisibility::class),

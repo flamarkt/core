@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Button from 'flarum/common/components/Button';
@@ -38,7 +39,7 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
         }, this.sections().toArray());
     }
 
-    sectionProducts(): ItemList {
+    sectionProducts(): ItemList<any> {
         const items = new ItemList();
 
         items.add('table', CartTable.component({
@@ -48,11 +49,11 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
         return items;
     }
 
-    sectionPayment(): ItemList {
+    sectionPayment(): ItemList<any> {
         return new ItemList();
     }
 
-    sections(): ItemList {
+    sections(): ItemList<any> {
         const sections = new ItemList();
 
         sections.add('products', CartPageSection.component({

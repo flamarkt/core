@@ -1,12 +1,13 @@
+import app from 'flamarkt/backoffice/backoffice/app';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage';
 import Product from '../../common/models/Product';
-import SubmitButton from '../components/SubmitButton';
+import SubmitButton from 'flamarkt/backoffice/backoffice/components/SubmitButton';
 import ItemList from 'flarum/common/utils/ItemList';
 import TextEditor from 'flarum/common/components/TextEditor';
 import Select from 'flarum/common/components/Select';
-import SoftDeleteButton from '../components/SoftDeleteButton';
-import PermanentDeleteButton from '../components/PermanentDeleteButton';
+import SoftDeleteButton from 'flamarkt/backoffice/backoffice/components/SoftDeleteButton';
+import PermanentDeleteButton from 'flamarkt/backoffice/backoffice/components/PermanentDeleteButton';
 import PriceInput from '../../common/components/PriceInput';
 
 export default class ProductShowPage extends AbstractShowPage {
@@ -60,7 +61,7 @@ export default class ProductShowPage extends AbstractShowPage {
         }, m('.container.container--narrow', this.fields().toArray()));
     }
 
-    fields(): ItemList {
+    fields(): ItemList<any> {
         const fields = new ItemList();
 
         // We need to patch our way through the global app object because of https://github.com/flarum/markdown/pull/28
@@ -196,7 +197,7 @@ export default class ProductShowPage extends AbstractShowPage {
 
         // We can't use product.save() because Flarum updates the internal data object before saving
         // Which interferes with the rendering of the Form that reads those values (including taxonomy fields and variants)
-        this.saveThroughNewRecord<Product>(this.product?.id(), this.data()).then(product => {
+        this.saveThroughNewRecord<Product>(this.product?.id()!, this.data()).then(product => {
             this.product = product;
 
             this.saving = false;

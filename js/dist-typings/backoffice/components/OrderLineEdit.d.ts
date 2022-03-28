@@ -8,11 +8,11 @@ interface OrderLineAttrs extends Attributes {
     onchange: () => void;
 }
 export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
-    view(vnode: Vnode<OrderLineAttrs>): Vnode<any, any>;
-    columns(line: OrderLineEditState, control: Vnode, onchange: () => void, sortable?: boolean): ItemList;
+    view(vnode: Vnode<OrderLineAttrs>): any;
+    columns(line: OrderLineEditState, control: Vnode, onchange: () => void, sortable?: boolean): ItemList<any>;
     showInfoProduct(line: OrderLineEditState): boolean;
     showInfoLabel(line: OrderLineEditState): boolean;
     showInfoComment(line: OrderLineEditState): boolean;
-    fields(line: OrderLineEditState, onchange: () => void): ItemList;
+    fields(line: OrderLineEditState, onchange: () => void): ItemList<any>;
 }
 export {};

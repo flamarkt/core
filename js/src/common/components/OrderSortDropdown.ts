@@ -1,4 +1,4 @@
-import AbstractSortDropdown, {SortDropdownAttrs, SortOptions} from './AbstractSortDropdown';
+import AbstractSortDropdown, {SortDropdownAttrs, SortOptions} from 'flamarkt/backoffice/common/components/AbstractSortDropdown';
 import OrderListState from '../states/OrderListState';
 
 export interface OrderSortDropdownAttrs extends SortDropdownAttrs {

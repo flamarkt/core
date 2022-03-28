@@ -1,4 +1,5 @@
-import AbstractRelationshipSelect from './AbstractRelationshipSelect';
+import app from 'flamarkt/backoffice/backoffice/app';
+import AbstractRelationshipSelect from 'flamarkt/backoffice/common/components/AbstractRelationshipSelect';
 import highlight from 'flarum/common/helpers/highlight';
 import Product from '../../common/models/Product';
 
@@ -39,7 +40,7 @@ export default class ProductRelationshipSelect extends AbstractRelationshipSelec
         return (results || [])
             .concat(
                 app.store
-                    .all('flamarkt-products')
+                    .all<Product>('flamarkt-products')
                     .filter(product => product.title().toLowerCase().substr(0, query.length) === query)
             )
             .filter((e, i, arr) => arr.lastIndexOf(e) === i)

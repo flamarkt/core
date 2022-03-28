@@ -1,4 +1,5 @@
-import AbstractSortDropdown, {SortDropdownAttrs, SortOptions} from './AbstractSortDropdown';
+import app from 'flarum/common/app';
+import AbstractSortDropdown, {SortDropdownAttrs, SortOptions} from 'flamarkt/backoffice/common/components/AbstractSortDropdown';
 import ProductListState from '../states/ProductListState';
 
 export interface ProductSortDropdownAttrs extends SortDropdownAttrs {
@@ -12,12 +13,12 @@ export default class ProductSortDropdown extends AbstractSortDropdown<ProductSor
 
     options(): SortOptions {
         return {
-            '-createdAt': app.translator.trans('flamarkt-core.lib.sort.products.createdAtDesc'),
-            'createdAt': app.translator.trans('flamarkt-core.lib.sort.products.createdAtAsc'),
-            'price': app.translator.trans('flamarkt-core.lib.sort.products.priceAsc'),
-            '-price': app.translator.trans('flamarkt-core.lib.sort.products.priceDesc'),
-            'title': app.translator.trans('flamarkt-core.lib.sort.products.titleAsc'),
-            '-title': app.translator.trans('flamarkt-core.lib.sort.products.titleDesc'),
+            '-createdAt': app.translator.trans('flamarkt-core.lib.sort.products.createdAtDesc') as string,
+            'createdAt': app.translator.trans('flamarkt-core.lib.sort.products.createdAtAsc') as string,
+            'price': app.translator.trans('flamarkt-core.lib.sort.products.priceAsc') as string,
+            '-price': app.translator.trans('flamarkt-core.lib.sort.products.priceDesc') as string,
+            'title': app.translator.trans('flamarkt-core.lib.sort.products.titleAsc') as string,
+            '-title': app.translator.trans('flamarkt-core.lib.sort.products.titleDesc') as string,
         };
     }
 }

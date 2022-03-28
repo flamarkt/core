@@ -11,6 +11,9 @@
         "declarationDir": "./dist-typings",
         "baseUrl": ".",
         "paths": {
+            "flamarkt/backoffice/*": [
+                "../vendor/flamarkt/backoffice/js/dist-typings/*"
+            ],
             "flarum/*": [
                 "../vendor/flarum/core/js/dist-typings/*"
             ]

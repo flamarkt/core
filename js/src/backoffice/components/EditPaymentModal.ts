@@ -1,8 +1,9 @@
 import {Vnode} from 'mithril';
+import app from 'flamarkt/backoffice/backoffice/app';
 import Modal from 'flarum/common/components/Modal';
 import ItemList from 'flarum/common/utils/ItemList';
-import SubmitButton from './SubmitButton';
-import PermanentDeleteButton from './PermanentDeleteButton';
+import SubmitButton from 'flamarkt/backoffice/backoffice/components/SubmitButton';
+import PermanentDeleteButton from 'flamarkt/backoffice/backoffice/components/PermanentDeleteButton';
 import Payment from '../../common/models/Payment';
 import PriceInput from '../../common/components/PriceInput';
 
@@ -10,6 +11,7 @@ interface EditPaymentModalAttrs {
     payment?: Payment
 }
 
+// @ts-ignore non-abstract className() method
 export default class EditPaymentModal extends Modal {
     payment!: Payment
     method: string = ''
@@ -35,7 +37,7 @@ export default class EditPaymentModal extends Modal {
         return m('.Modal-body', this.fields().toArray());
     }
 
-    fields(): ItemList {
+    fields(): ItemList<any> {
         const fields = new ItemList();
 
         fields.add('method', m('.Form-group', [

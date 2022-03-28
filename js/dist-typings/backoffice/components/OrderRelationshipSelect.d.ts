@@ -1,4 +1,4 @@
-import AbstractRelationshipSelect from './AbstractRelationshipSelect';
+import AbstractRelationshipSelect from 'flamarkt/backoffice/common/components/AbstractRelationshipSelect';
 import Order from '../../common/models/Order';
 export default class OrderRelationshipSelect extends AbstractRelationshipSelect<Order> {
     protected resultsCache: Map<string, Order[]>;

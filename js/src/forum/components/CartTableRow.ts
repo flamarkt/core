@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Link from 'flarum/common/components/Link';
@@ -15,7 +16,7 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
         return m('tr', this.columns().toArray());
     }
 
-    columns(): ItemList {
+    columns(): ItemList<any> {
         const columns = new ItemList();
 
         const {product} = this.attrs;

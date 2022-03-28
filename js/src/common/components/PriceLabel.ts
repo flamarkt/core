@@ -1,3 +1,4 @@
+import app from 'flarum/common/app';
 import DecimalLabel, {DecimalLabelAttrs} from './DecimalLabel';
 
 export interface PriceLabelAttrs extends DecimalLabelAttrs {
@@ -9,7 +10,7 @@ export default class PriceLabel<T extends PriceLabelAttrs = PriceLabelAttrs> ext
         return app.forum.attribute('priceDecimals');
     }
 
-    view() {
+    view(): any {
         return [
             super.view(),
             ' ',

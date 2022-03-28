@@ -1,18 +1,19 @@
 import {Vnode} from 'mithril';
+import app from 'flamarkt/backoffice/backoffice/app';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import User from 'flarum/common/models/User';
 import ItemList from 'flarum/common/utils/ItemList';
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
 import OrderLine from '../../common/models/OrderLine';
-import Sortable from '../../common/components/Sortable';
+import Sortable from 'flamarkt/backoffice/common/components/Sortable';
 import OrderLineEdit from '../components/OrderLineEdit';
-import SubmitButton from '../components/SubmitButton';
-import UserRelationshipSelect from '../components/UserRelationshipSelect';
+import SubmitButton from 'flamarkt/backoffice/backoffice/components/SubmitButton';
+import UserRelationshipSelect from 'flamarkt/backoffice/common/components/UserRelationshipSelect';
 import OrderLineEditState from '../states/OrderLineEditState';
-import SoftDeleteButton from '../components/SoftDeleteButton';
-import PermanentDeleteButton from '../components/PermanentDeleteButton';
+import SoftDeleteButton from 'flamarkt/backoffice/backoffice/components/SoftDeleteButton';
+import PermanentDeleteButton from 'flamarkt/backoffice/backoffice/components/PermanentDeleteButton';
 import PaymentList from '../components/PaymentList';
 import PaymentListPassthroughState from '../states/PaymentListPassthroughState';
 
@@ -51,7 +52,7 @@ export default class OrderShowPage extends AbstractShowPage {
     show(order: Order) {
         this.order = order;
         this.user = order.user() || null;
-        this.lines = (order.lines() || []).map(this.initLineState);
+        this.lines = (order.lines() as OrderLine[] || []).map(this.initLineState.bind(this));
 
         //app.setTitle(order.title());
         app.setTitleCount(0);
@@ -67,7 +68,7 @@ export default class OrderShowPage extends AbstractShowPage {
         }, m('.container.container--narrow', this.fields().toArray()));
     }
 
-    fields(): ItemList {
+    fields(): ItemList<any> {
         const fields = new ItemList();
 
         fields.add('number', m('.Form-group', [
@@ -201,7 +202,7 @@ export default class OrderShowPage extends AbstractShowPage {
 
         this.saving = true;
 
-        this.saveThroughNewRecord<Order>(this.order?.id(), this.data()).then(order => {
+        this.saveThroughNewRecord<Order>(this.order?.id()!, this.data()).then(order => {
             this.order = order;
 
             this.saving = false;

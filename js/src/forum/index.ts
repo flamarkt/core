@@ -1,7 +1,5 @@
 import app from 'flarum/forum/app';
 import {extend, override} from 'flarum/common/extend';
-import SessionDropdown from 'flarum/forum/components/SessionDropdown';
-import LinkButton from 'flarum/common/components/LinkButton';
 import ItemList from 'flarum/common/utils/ItemList';
 import Cart from '../common/models/Cart';
 import Order from '../common/models/Order';
@@ -15,10 +13,8 @@ import Model from 'flarum/common/Model';
 import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
 import CartDropdown from './components/CartDropdown';
 import CartState from './states/CartState';
-import ActiveLinkButton from '../common/components/ActiveLinkButton';
+import ActiveLinkButton from 'flamarkt/backoffice/common/components/ActiveLinkButton';
 import routes from './routes';
-import patchModelHasOneNull from '../common/patchModelHasOneNull';
-import patchStoreAllowVerbatimRelationships from '../common/patchStoreAllowVerbatimRelationships';
 import NotificationGrid from 'flarum/forum/components/NotificationGrid';
 import Search from 'flarum/forum/components/Search';
 import ForumApplication from 'flarum/forum/ForumApplication';
@@ -55,16 +51,6 @@ app.initializers.add('flamarkt-core', () => {
                 app.cart.load();
             }
         });
-    });
-
-    extend(SessionDropdown.prototype, 'items', function (items: ItemList) {
-        if (app.forum.attribute('backofficeUrl')) {
-            items.add('flamarkt-backoffice', LinkButton.component({
-                icon: 'fas fa-shopping-cart',
-                href: app.forum.attribute('backofficeUrl'),
-                target: '_blank',
-            }, app.translator.trans('flamarkt-core.forum.nav.backoffice')));
-        }
     });
 
     extend(IndexPage.prototype, 'navItems', function (items: ItemList) {
@@ -113,8 +99,3 @@ app.initializers.add('flamarkt-core', () => {
         items.add('products', new ProductSearchSource(), -10);
     });
 });
-
-app.initializers.add('flamarkt-core-patch', () => {
-    patchModelHasOneNull();
-    patchStoreAllowVerbatimRelationships();
-}, 100);

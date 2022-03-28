@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import AbstractAccountLayout, {AbstractAccountLayoutAttrs} from './AbstractAccountLayout';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Order from '../../common/models/Order';
@@ -27,7 +28,7 @@ export default class OrderShowLayout extends AbstractAccountLayout<OrderShowLayo
         return this.sections().toArray();
     }
 
-    sections(): ItemList {
+    sections(): ItemList<any> {
         const sections = new ItemList();
 
         sections.add('table', OrderTable.component({

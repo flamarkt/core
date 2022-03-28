@@ -1,4 +1,4 @@
-import Model from './Model';
+import Model from 'flarum/common/Model';
 import Product from './Product';
 
 export default class Cart extends Model {
@@ -8,10 +8,11 @@ export default class Cart extends Model {
     products = Model.hasMany<Product>('products');
 
     priceTotalLocal(): number {
-        return (this.products() || []).reduce((total, product) => total + product.cartPriceTotalLocal(), 0);
+        return (this.products() || []).reduce((total, product) => total + (product ? product.cartPriceTotalLocal() : 0), 0);
     }
 
     apiEndpoint() {
+        // @ts-ignore data.id not type-hinted for non-existent models
         return '/flamarkt/carts' + (this.exists ? '/' + this.data.id : '');
     }
 }

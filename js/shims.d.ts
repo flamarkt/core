@@ -1,10 +1,3 @@
-// Mithril
-import Mithril from 'mithril';
-
-declare global {
-    const m: Mithril.Static;
-}
-
 import ForumApplication from 'flarum/forum/ForumApplication';
 import AdminApplication from 'flarum/admin/AdminApplication';
 import User from 'flarum/common/models/User';

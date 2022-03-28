@@ -1,4 +1,4 @@
-import Model from './Model';
+import Model from 'flarum/common/Model';
 
 export default class Payment extends Model {
     method = Model.attribute<string | null>('method');
@@ -8,6 +8,7 @@ export default class Payment extends Model {
     isHidden = Model.attribute<boolean>('isHidden');
 
     apiEndpoint() {
+        // @ts-ignore data.id not type-hinted for non-existent models
         return '/flamarkt/payments' + (this.exists ? '/' + this.data.id : '');
     }
 }

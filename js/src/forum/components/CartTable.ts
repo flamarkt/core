@@ -16,7 +16,7 @@ export default class CartTable extends Component<CartTableAttrs> {
         ]);
     }
 
-    head(): ItemList {
+    head(): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('product', m('th', 'Product'));
@@ -27,12 +27,16 @@ export default class CartTable extends Component<CartTableAttrs> {
         return columns;
     }
 
-    rows(): ItemList {
+    rows(): ItemList<any> {
         const rows = new ItemList();
 
         const products = this.attrs.cart.products() || [];
 
         products.forEach(product => {
+            if (!product) {
+                return;
+            }
+
             rows.add('product-' + product.id(), CartTableRow.component({
                 product,
             }));

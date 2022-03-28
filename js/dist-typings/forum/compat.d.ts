@@ -28,7 +28,7 @@ export const forum: {
     'pages/ProductIndexPage': typeof ProductIndexPage;
     'pages/ProductShowPage': typeof ProductShowPage;
     'utils/AccountControls': {
-        controls(user: import("flarum/common/models/User").default): import("flarum/common/utils/ItemList").default;
+        controls(user: import("flarum/common/models/User").default): import("flarum/common/utils/ItemList").default<any>;
     };
 };
 import Breadcrumb from "./components/Breadcrumb";
@@ -56,6 +56,6 @@ import AbstractShopPage from "./pages/AbstractShopPage";
 import AccountPage from "./pages/AccountPage";
 import CartPage from "./pages/CartPage";
 import OrderIndexPage from "./pages/OrderIndexPage";
-import OrderShowPage from "../backoffice/pages/OrderShowPage";
+import OrderShowPage from "./pages/OrderShowPage";
 import ProductIndexPage from "./pages/ProductIndexPage";
 import ProductShowPage from "./pages/ProductShowPage";

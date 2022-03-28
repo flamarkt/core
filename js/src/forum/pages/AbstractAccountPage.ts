@@ -1,5 +1,6 @@
-import AbstractShopPage from './AbstractShopPage';
+import app from 'flarum/forum/app';
 import LinkButton from 'flarum/common/components/LinkButton';
+import AbstractShopPage from './AbstractShopPage';
 
 /**
  * @deprecated replaced by Layout

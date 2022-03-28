@@ -1,4 +1,5 @@
 import {Children} from 'mithril';
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import Link from 'flarum/common/components/Link';
@@ -21,7 +22,7 @@ export default class ProductListItem extends Component<ProductListItemAttrs> {
         }, children);
     }
 
-    items(): ItemList {
+    items(): ItemList<any> {
         const items = new ItemList();
 
         const {product} = this.attrs;

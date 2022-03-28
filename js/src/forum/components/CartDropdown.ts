@@ -2,6 +2,7 @@ import app from 'flarum/forum/app';
 import {ComponentAttrs} from 'flarum/common/Component';
 import Dropdown from 'flarum/common/components/Dropdown';
 import icon from 'flarum/common/helpers/icon';
+import extractText from 'flarum/common/utils/extractText';
 import CartList from './CartList';
 import CartState from '../states/CartState';
 import PriceLabel from '../../common/components/PriceLabel';
@@ -24,7 +25,7 @@ export default class CartDropdown extends Dropdown {
         attrs.className = attrs.className || 'CartDropdown';
         attrs.buttonClassName = attrs.buttonClassName || 'Button Button--flat';
         attrs.menuClassName = attrs.menuClassName || 'Dropdown-menu--right';
-        attrs.label = attrs.label || app.translator.trans('flamarkt-core.forum.cartDropdown.label');
+        attrs.label = attrs.label || extractText(app.translator.trans('flamarkt-core.forum.cartDropdown.label'));
 
         super.initAttrs(attrs);
     }
@@ -78,7 +79,7 @@ export default class CartDropdown extends Dropdown {
         m.route.set(app.route('flamarkt.cart'));
     }
 
-    menuClick(e) {
+    menuClick(e: MouseEvent) {
         // Don't close the notifications dropdown if the user is opening a link in a new tab or window.
         if (e.shiftKey || e.metaKey || e.ctrlKey || e.which === 2) e.stopPropagation();
     }

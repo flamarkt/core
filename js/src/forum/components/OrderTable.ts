@@ -22,7 +22,7 @@ export default class OrderTable extends Component<OrderTableAttrs> {
         ]);
     }
 
-    head(): ItemList {
+    head(): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('number', m('th'), 100); // Empty on purpose
@@ -34,7 +34,7 @@ export default class OrderTable extends Component<OrderTableAttrs> {
         return columns;
     }
 
-    foot(): ItemList {
+    foot(): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('number', m('th'), 100);
@@ -49,7 +49,7 @@ export default class OrderTable extends Component<OrderTableAttrs> {
         return columns;
     }
 
-    rows(): ItemList {
+    rows(): ItemList<any> {
         const rows = new ItemList();
 
         let isFirstGroup = true;
@@ -57,6 +57,10 @@ export default class OrderTable extends Component<OrderTableAttrs> {
         let linesInGroup: OrderLine[] = [];
 
         (this.attrs.order.lines() || []).forEach(line => {
+            if (!line) {
+                return;
+            }
+
             if (line.group() !== group) {
                 if (!isFirstGroup) {
                     rows.add('group-foot-' + group, m(OrderTableGroupFoot, {

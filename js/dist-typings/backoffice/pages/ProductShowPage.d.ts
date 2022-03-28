@@ -1,4 +1,4 @@
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage';
 import Product from '../../common/models/Product';
 import ItemList from 'flarum/common/utils/ItemList';
 export default class ProductShowPage extends AbstractShowPage {
@@ -13,11 +13,11 @@ export default class ProductShowPage extends AbstractShowPage {
     composer: {
         editor: null;
     };
-    newRecord(): any;
+    newRecord(): import("flarum/common/Model").default;
     findType(): string;
     show(product: Product): void;
     view(): any;
-    fields(): ItemList;
+    fields(): ItemList<any>;
     availabilityDriverOptions(): any;
     priceDriverOptions(): any;
     data(): {

@@ -1,4 +1,5 @@
-import * as Mithril from 'mithril';
+import {Children} from 'mithril';
+import app from 'flarum/forum/app';
 import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout';
 import Product from '../../common/models/Product';
 import LinkButton from 'flarum/common/components/LinkButton';
@@ -55,19 +56,19 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return product ? this.loadedContent(product) : this.loadingContent();
     }
 
-    loadingContent(): Mithril.Children {
+    loadingContent(): Children {
         return LoadingIndicator.component({
             className: 'LoadingIndicator--block',
         });
     }
 
-    loadedContent(product: Product): Mithril.Children {
+    loadedContent(product: Product): Children {
         return m('.ProductShowSections', m.fragment({
             key: product.id(), // Ensures a full redraw when the product changes in flamarkt/variants
         }, this.sections(product).toArray()));
     }
 
-    sections(product: Product): ItemList {
+    sections(product: Product): ItemList<any> {
         const sections = new ItemList();
 
         const galleryItems = this.gallerySection(product).toArray();
@@ -83,11 +84,11 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return sections;
     }
 
-    gallerySection(product: Product): ItemList {
+    gallerySection(product: Product): ItemList<any> {
         return new ItemList();
     }
 
-    priceSection(product: Product): ItemList {
+    priceSection(product: Product): ItemList<any> {
         const items = new ItemList();
 
         if (product.canEdit()) {
@@ -118,7 +119,7 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return !!product.canOrder();
     }
 
-    descriptionSection(product: Product): ItemList {
+    descriptionSection(product: Product): ItemList<any> {
         const items = new ItemList();
 
         const descriptionHtml = product.descriptionHtml();

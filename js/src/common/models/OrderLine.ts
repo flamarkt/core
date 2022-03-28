@@ -1,4 +1,4 @@
-import Model from './Model';
+import Model from 'flarum/common/Model';
 import Product from './Product';
 
 export default class OrderLine extends Model {

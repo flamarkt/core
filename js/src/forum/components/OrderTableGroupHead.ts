@@ -20,7 +20,7 @@ export default class OrderTableGroupHead extends Component<OrderTableGroupHeadAt
         return false;
     }
 
-    columns(): ItemList {
+    columns(): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('number', m('th'), 100);

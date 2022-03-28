@@ -6,5 +6,5 @@ export default class ProductSearchSource implements SearchSource {
     protected results: Map<string, Product[]>;
     search(query: string): Promise<void>;
     view(query: string): Array<Vnode>;
-    product(product: Product, query: string): ItemList;
+    product(product: Product, query: string): ItemList<any>;
 }

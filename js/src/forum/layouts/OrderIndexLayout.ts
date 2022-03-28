@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import AbstractAccountLayout, {AbstractAccountLayoutAttrs} from './AbstractAccountLayout';
 import OrderListState from '../../common/states/OrderListState';
 import OrderSortDropdown from '../../common/components/OrderSortDropdown';
@@ -40,7 +41,7 @@ export default class OrderIndexLayout extends AbstractAccountLayout<OrderIndexLa
         ]);
     }
 
-    headerRow(): ItemList {
+    headerRow(): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('number', m('th', '#'), 40);
@@ -51,7 +52,7 @@ export default class OrderIndexLayout extends AbstractAccountLayout<OrderIndexLa
         return columns;
     }
 
-    orderRow(order: Order): ItemList {
+    orderRow(order: Order): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('number', m('td', m(Link, {

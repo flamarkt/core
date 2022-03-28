@@ -1,6 +1,7 @@
-import Model from './Model';
+import Model from 'flarum/common/Model';
 import User from 'flarum/common/models/User';
 import OrderLine from './OrderLine';
+import Payment from './Payment';
 
 export default class Order extends Model {
     number = Model.attribute('number');
@@ -13,9 +14,10 @@ export default class Order extends Model {
 
     user = Model.hasOne<User>('user');
     lines = Model.hasMany<OrderLine>('lines');
-    payments = Model.hasMany('payments');
+    payments = Model.hasMany<Payment>('payments');
 
     apiEndpoint() {
+        // @ts-ignore data.id not type-hinted for non-existent models
         return '/flamarkt/orders' + (this.exists ? '/' + this.data.id : '');
     }
 }

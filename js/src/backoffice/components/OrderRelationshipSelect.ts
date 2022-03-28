@@ -1,4 +1,5 @@
-import AbstractRelationshipSelect from './AbstractRelationshipSelect';
+import app from 'flamarkt/backoffice/backoffice/app';
+import AbstractRelationshipSelect from 'flamarkt/backoffice/common/components/AbstractRelationshipSelect';
 import highlight from 'flarum/common/helpers/highlight';
 import Order from '../../common/models/Order';
 

@@ -1,4 +1,4 @@
-import * as Mithril from 'mithril';
+import { Vnode } from 'mithril';
 import Component, { ComponentAttrs } from 'flarum/common/Component';
 import Product from '../../common/models/Product';
 interface ProductQuantityAttrs extends ComponentAttrs {
@@ -7,7 +7,7 @@ interface ProductQuantityAttrs extends ComponentAttrs {
 export default class ProductQuantity extends Component<ProductQuantityAttrs> {
     cartQuantity: number;
     savingQuantity: boolean;
-    oninit(vnode: Mithril.Vnode<ProductQuantityAttrs, this>): void;
-    view(): Mithril.Vnode<any, any>;
+    oninit(vnode: Vnode<ProductQuantityAttrs, this>): void;
+    view(): any;
 }
 export {};

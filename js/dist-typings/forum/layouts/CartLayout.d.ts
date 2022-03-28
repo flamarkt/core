@@ -1,3 +1,4 @@
+/// <reference path="../../../../vendor/flarum/core/js/src/common/translator-icu-rich.d.ts" />
 import AbstractShopLayout, { AbstractShopLayoutAttrs } from './AbstractShopLayout';
 import Cart from '../../common/models/Cart';
 import Order from '../../common/models/Order';
@@ -8,11 +9,11 @@ export interface CartLayoutAttrs extends AbstractShopLayoutAttrs {
 export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
     submitting: boolean;
     className(): string;
-    title(): any;
+    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
     content(): any;
-    sectionProducts(): ItemList;
-    sectionPayment(): ItemList;
-    sections(): ItemList;
+    sectionProducts(): ItemList<any>;
+    sectionPayment(): ItemList<any>;
+    sections(): ItemList<any>;
     data(): {
         relationships: {
             cart: Cart | undefined;

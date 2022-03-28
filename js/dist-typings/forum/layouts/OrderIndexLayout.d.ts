@@ -1,4 +1,4 @@
-/// <reference types="mithril" />
+/// <reference path="../../../../vendor/flarum/core/js/src/common/translator-icu-rich.d.ts" />
 import AbstractAccountLayout, { AbstractAccountLayoutAttrs } from './AbstractAccountLayout';
 import OrderListState from '../../common/states/OrderListState';
 import Order from '../../common/models/Order';
@@ -8,10 +8,10 @@ export interface OrderIndexLayoutAttrs extends AbstractAccountLayoutAttrs {
 }
 export default class OrderIndexLayout extends AbstractAccountLayout<OrderIndexLayoutAttrs> {
     className(): string;
-    title(): any;
-    content(): import("mithril").Vnode<any, any>;
-    headerRow(): ItemList;
-    orderRow(order: Order): ItemList;
+    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
+    content(): any;
+    headerRow(): ItemList<any>;
+    orderRow(order: Order): ItemList<any>;
     bottomRowContent(): any;
-    bottomRow(): import("mithril").Vnode<any, any> | null;
+    bottomRow(): any;
 }

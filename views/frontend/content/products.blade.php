@@ -7,7 +7,7 @@
         @foreach ($apiDocument->data as $product)
             <li>
                 <a href="{{ $url->to('forum')->route('flamarkt.products.show', [
-                    'id' => $discussion->attributes->slug
+                    'id' => $product->attributes->slug
                 ]) }}">
                     {{ $product->attributes->title }}
                 </a>

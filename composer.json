@@ -10,7 +10,8 @@
     "type": "flarum-extension",
     "license": "MIT",
     "require": {
-        "flarum/core": "^1.0",
+        "flarum/core": "^1.2",
+        "flamarkt/backoffice": "^0.1.0",
         "clarkwinkelmann/flarum-mithril2html": "^1.0",
         "ext-json": "*"
     },
@@ -45,6 +46,12 @@
         },
         "branch-alias": {
             "dev-main": "0.1.x-dev"
+        }
+    },
+    "repositories": {
+        "workbench": {
+            "type": "path",
+            "url": "../backoffice"
         }
     }
 }

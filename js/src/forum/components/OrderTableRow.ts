@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import Link from 'flarum/common/components/Link';
 import OrderLine from '../../common/models/OrderLine';
@@ -14,7 +15,7 @@ export default class OrderTableRow extends Component<OrderTableRowAttrs> {
         return m('tr', this.columns().toArray());
     }
 
-    columns(): ItemList {
+    columns(): ItemList<any> {
         const columns = new ItemList();
 
         const {line} = this.attrs;

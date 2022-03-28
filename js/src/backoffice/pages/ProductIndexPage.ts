@@ -1,20 +1,22 @@
 import {Vnode} from 'mithril';
+import app from 'flamarkt/backoffice/backoffice/app';
 import Page from 'flarum/common/components/Page';
 import LinkButton from 'flarum/common/components/LinkButton';
+import extractText from 'flarum/common/utils/extractText';
 import ProductList from '../components/ProductList';
 import ProductListState from '../../common/states/ProductListState';
 import ProductSortDropdown from '../../common/components/ProductSortDropdown';
 
 export default class ProductIndexPage extends Page {
-    state!: ProductListState;
+    list!: ProductListState;
 
     oninit(vnode: Vnode) {
         super.oninit(vnode);
 
-        this.state = this.initState();
-        this.state.refresh();
+        this.list = this.initState();
+        this.list.refresh();
 
-        app.setTitle(app.translator.trans('flamarkt-core.backoffice.products.title'));
+        app.setTitle(extractText(app.translator.trans('flamarkt-core.backoffice.products.title')));
         app.setTitleCount(0);
     }
 
@@ -36,11 +38,11 @@ export default class ProductIndexPage extends Page {
                     }),
                 }, app.translator.trans('flamarkt-core.backoffice.products.new')),
                 m(ProductSortDropdown, {
-                    state: this.state,
+                    state: this.list,
                 }),
             ]),
             m(ProductList, {
-                state: this.state,
+                state: this.list,
             }),
         ]));
     }

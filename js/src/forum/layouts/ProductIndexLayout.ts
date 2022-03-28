@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout';
 import ProductListState from '../../common/states/ProductListState';
 import ProductListItem from '../components/ProductListItem';
@@ -64,7 +65,7 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
         }
     }
 
-    filters(): ItemList {
+    filters(): ItemList<any> {
         const items = new ItemList();
 
         items.add('sort', m(ProductSortDropdown, {

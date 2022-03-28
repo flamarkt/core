@@ -1,4 +1,5 @@
-import * as Mithril from 'mithril';
+import {Vnode} from 'mithril';
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Product from '../../common/models/Product';
@@ -12,7 +13,7 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
     cartQuantity: number = 1;
     savingQuantity: boolean = false;
 
-    oninit(vnode: Mithril.Vnode<ProductQuantityAttrs, this>) {
+    oninit(vnode: Vnode<ProductQuantityAttrs, this>) {
         super.oninit(vnode);
 
         this.cartQuantity = this.attrs.product.cartQuantity() || 1;

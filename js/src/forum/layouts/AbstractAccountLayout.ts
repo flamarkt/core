@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout';
 import LinkButton from 'flarum/common/components/LinkButton';
 
@@ -12,7 +13,7 @@ export default abstract class AbstractAccountLayout<T = AbstractAccountLayoutAtt
         if (this.currentPageHref() !== app.route('flamarkt.account')) {
             items.add('account', LinkButton.component({
                 href: app.route('flamarkt.account'),
-            }, 'Account' as any));
+            }, 'Account'));
         }
 
         return items;

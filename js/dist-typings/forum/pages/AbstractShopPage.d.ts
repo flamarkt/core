@@ -5,8 +5,8 @@ import ItemList from 'flarum/common/utils/ItemList';
  * @deprecated replaced by Layout
  */
 export default abstract class AbstractShopPage extends Page {
-    view(): import("mithril").Vnode<any, any>;
-    sidebarItems(): ItemList;
-    breadcrumbItems(): ItemList;
+    view(): any;
+    sidebarItems(): ItemList<any>;
+    breadcrumbItems(): ItemList<any>;
     abstract content(): Children;
 }

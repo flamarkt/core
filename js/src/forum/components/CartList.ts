@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import LinkButton from 'flarum/common/components/LinkButton';
 import CartState from '../states/CartState';
@@ -14,7 +15,7 @@ export default class CartList extends Component<CartListAttrs> {
         return m('.CartDropdownList', this.items().toArray());
     }
 
-    items(): ItemList {
+    items(): ItemList<any> {
         const items = new ItemList();
 
         items.add('products', m('p', app.translator.trans('flamarkt-core.forum.cartDropdown.products', {

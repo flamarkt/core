@@ -1,5 +1,6 @@
+import app from 'flamarkt/backoffice/backoffice/app';
 import LinkButton from 'flarum/common/components/LinkButton';
-import AbstractList from './AbstractList';
+import AbstractList from 'flamarkt/backoffice/backoffice/components/AbstractList';
 import Order from '../../common/models/Order';
 import username from 'flarum/common/helpers/username';
 import humanTime from 'flarum/common/helpers/humanTime';

@@ -1,4 +1,4 @@
-/// <reference types="mithril" />
+/// <reference path="../../../../vendor/flarum/core/js/src/common/translator-icu-rich.d.ts" />
 import AbstractShopLayout, { AbstractShopLayoutAttrs } from './AbstractShopLayout';
 import ProductListState from '../../common/states/ProductListState';
 import ItemList from 'flarum/common/utils/ItemList';
@@ -7,10 +7,10 @@ export interface ProductIndexLayoutAttrs extends AbstractShopLayoutAttrs {
 }
 export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = ProductIndexLayoutAttrs> extends AbstractShopLayout<T> {
     className(): string;
-    title(): any;
+    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
     currentPageHref(): string;
-    contentTitle(): import("mithril").Vnode<any, any> | null;
+    contentTitle(): any;
     content(): any[];
     bottomControls(): any;
-    filters(): ItemList;
+    filters(): ItemList<any>;
 }

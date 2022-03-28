@@ -50,6 +50,7 @@ export default class OrderLineEditState {
             },
             relationships: {
                 product: {
+                    // @ts-ignore Model.getIdentifier is protected
                     data: Model.getIdentifier(this.product),
                 },
             },

@@ -1,8 +1,9 @@
+import app from 'flamarkt/backoffice/backoffice/app';
 import Button from 'flarum/common/components/Button';
 import humanTime from 'flarum/common/helpers/humanTime';
 import PriceLabel from '../../common/components/PriceLabel';
 import Payment from '../../common/models/Payment';
-import AbstractList from './AbstractList';
+import AbstractList from 'flamarkt/backoffice/backoffice/components/AbstractList';
 import EditPaymentModal from './EditPaymentModal';
 
 export default class PaymentList extends AbstractList<Payment> {

@@ -1,5 +1,6 @@
 import {Vnode} from 'mithril';
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import app from 'flarum/forum/app';
+import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage';
 import Product from '../../common/models/Product';
 import ProductShowLayout from '../layouts/ProductShowLayout';
 
@@ -30,7 +31,7 @@ export default class ProductShowPage extends AbstractShowPage {
         this.product = product;
 
         //app.history.push('product', product.title());
-        app.setTitle(product.title() as string);
+        app.setTitle(product.title());
         app.setTitleCount(0);
     }
 

@@ -1,4 +1,4 @@
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null;

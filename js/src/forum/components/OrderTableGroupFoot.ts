@@ -25,7 +25,7 @@ export default class OrderTableGroupFoot extends Component<OrderTableGroupFootAt
         return this.attrs.lines.reduce((subtotal, line) => subtotal + (line.priceTotal() || 0), 0);
     }
 
-    columns(): ItemList {
+    columns(): ItemList<any> {
         const columns = new ItemList();
 
         columns.add('number', m('th'), 100);

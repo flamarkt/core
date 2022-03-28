@@ -1,4 +1,4 @@
-import AbstractListState, {Page} from '../../common/states/AbstractListState';
+import AbstractListState, {Page} from 'flamarkt/backoffice/common/states/AbstractListState';
 import Payment from '../../common/models/Payment';
 import Order from '../../common/models/Order';
 
@@ -13,9 +13,11 @@ export default class PaymentListPassthroughState extends AbstractListState<Payme
     constructor(order: Order) {
         super();
 
+        const payments = order.payments() as Payment[] | false;
+
         this.loading = false;
         this.pages = [
-            new Page<Payment>(1, order.payments() || []),
+            new Page<Payment>(1, payments || []),
         ];
     }
 }

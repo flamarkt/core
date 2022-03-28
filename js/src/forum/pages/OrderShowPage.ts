@@ -1,4 +1,5 @@
-import AbstractShowPage from '../../common/pages/AbstractShowPage';
+import app from 'flarum/forum/app';
+import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage';
 import Order from '../../common/models/Order';
 import OrderShowLayout from '../layouts/OrderShowLayout';
 import extractText from 'flarum/common/utils/extractText';

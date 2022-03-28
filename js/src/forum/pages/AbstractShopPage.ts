@@ -1,4 +1,5 @@
 import {Children} from 'mithril';
+import app from 'flarum/forum/app';
 import Page from 'flarum/common/components/Page';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import ItemList from 'flarum/common/utils/ItemList';
@@ -25,11 +26,11 @@ export default abstract class AbstractShopPage extends Page {
         ]);
     }
 
-    sidebarItems(): ItemList {
+    sidebarItems(): ItemList<any> {
         return IndexPage.prototype.sidebarItems();
     }
 
-    breadcrumbItems(): ItemList {
+    breadcrumbItems(): ItemList<any> {
         const items = new ItemList();
 
         items.add('home', LinkButton.component({

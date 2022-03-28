@@ -3,7 +3,7 @@ import listItems from 'flarum/common/helpers/listItems';
 import ItemList from 'flarum/common/utils/ItemList';
 
 interface BreadcrumbAttrs extends ComponentAttrs {
-    items: ItemList,
+    items: ItemList<any>,
 }
 
 export default class Breadcrumb extends Component<BreadcrumbAttrs> {
@@ -11,7 +11,7 @@ export default class Breadcrumb extends Component<BreadcrumbAttrs> {
         return m('ul.Breadcrumb', listItems(this.items().toArray()));
     }
 
-    items(): ItemList {
+    items(): ItemList<any> {
         return this.attrs.items;
     }
 }

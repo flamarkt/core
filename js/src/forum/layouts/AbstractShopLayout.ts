@@ -34,11 +34,11 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
         ]);
     }
 
-    sidebarItems(): ItemList {
+    sidebarItems(): ItemList<any> {
         return IndexPage.prototype.sidebarItems();
     }
 
-    breadcrumbItems(): ItemList {
+    breadcrumbItems(): ItemList<any> {
         const items = new ItemList();
 
         if (this.currentPageHref() !== '/') {
@@ -64,7 +64,7 @@ export default abstract class AbstractShopLayout<T = AbstractShopLayoutAttrs> ex
      * Used as the breadcrumb current item as well as the <h1> title of the content
      * The title of the browser page needs to be set in the page itself and not the layout
      */
-    title(): string {
+    title(): Children {
         return '';
     }
 

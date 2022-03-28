@@ -1,16 +1,17 @@
-import Model from './Model';
+import Model from 'flarum/common/Model';
 import User from 'flarum/common/models/User';
 import OrderLine from './OrderLine';
+import Payment from './Payment';
 export default class Order extends Model {
-    number: (value?: string | undefined) => any;
-    slug: (value?: string | undefined) => any;
-    productCount: (value?: string | undefined) => any;
-    priceTotal: (value?: string | undefined) => any;
-    paidAmount: (value?: string | undefined) => any;
-    createdAt: (value?: string | undefined) => any;
-    isHidden: (value?: string | undefined) => boolean | undefined;
-    user: () => false | User | undefined;
-    lines: () => false | OrderLine[];
-    payments: () => false | import("flarum/common/Model").default[];
+    number: () => unknown;
+    slug: () => unknown;
+    productCount: () => unknown;
+    priceTotal: () => unknown;
+    paidAmount: () => unknown;
+    createdAt: () => Date | null | undefined;
+    isHidden: () => boolean;
+    user: () => false | User;
+    lines: () => false | (OrderLine | undefined)[];
+    payments: () => false | (Payment | undefined)[];
     apiEndpoint(): string;
 }
