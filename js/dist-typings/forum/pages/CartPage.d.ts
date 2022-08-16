@@ -5,5 +5,5 @@ export default class CartPage extends Page {
     loading: boolean;
     cart: Cart | null;
     oninit(vnode: Vnode): void;
-    view(): any;
+    view(): Mithril.Vnode;
 }

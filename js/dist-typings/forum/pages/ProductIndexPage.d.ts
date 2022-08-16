@@ -5,5 +5,5 @@ export default class ProductIndexPage extends Page {
     state: ProductGridListState;
     oninit(vnode: Vnode): void;
     initState(): ProductGridListState;
-    view(): any;
+    view(): Mithril.Vnode;
 }

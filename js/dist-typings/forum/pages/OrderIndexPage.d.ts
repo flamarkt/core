@@ -5,5 +5,5 @@ export default class OrderIndexPage extends Page {
     state: OrderListState;
     oninit(vnode: Vnode): void;
     initState(): OrderListState;
-    view(): any;
+    view(): Mithril.Vnode;
 }

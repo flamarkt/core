@@ -7,5 +7,5 @@ export default class ProductShowPage extends AbstractShowPage {
     findType(): string;
     requestParams(): any;
     show(product: Product): void;
-    view(): any;
+    view(): Mithril.Vnode;
 }

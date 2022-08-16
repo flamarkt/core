@@ -5,5 +5,5 @@ export default class OrderShowPage extends AbstractShowPage {
     findType(): string;
     requestParams(): any;
     show(order: Order): void;
-    view(): any;
+    view(): Mithril.Vnode;
 }
