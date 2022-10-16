@@ -8,62 +8,62 @@ flamarkt-core:
             orders: => flamarkt-core.ref.page.orders
         users:
             title: => flamarkt-core.ref.page.customers
-            new: Create customer
+            new: Kunde erstellen
             head:
                 orders: flamarkt-core.ref.page.orders
         orders:
             title: => flamarkt-core.ref.page.orders
-            new: Create manual order
+            new: Bestellung manuell erstellen
             head:
-                number: Number
-                date: Date
-                user: Customer
-                priceTotal: Total
-                paidAmount: Paid
+                number: Nummer
+                date: Datum
+                user: Kunde
+                priceTotal: Insgesamt
+                paidAmount: Bezahlt
                 productCount: => flamarkt-core.admin.homepage.products
             field:
                 number: => flamarkt-core.backoffice.oders.head.number
                 user: => flamarkt-core.backoffice.oders.head.user
             lines:
                 head:
-                    group: Group
-                    type: Type
+                    group: Gruppe
+                    type: Typ
                     info: Info
-                    priceUnit: Unit price
-                    quantity: Quantity
-                    priceTotal: Total price
+                    priceUnit: Stückpreis
+                    quantity: Menge
+                    priceTotal: Gesamtpreis
                 control:
-                    delete: Delete line
-                    add: Add line
+                    delete: Zeile entfernen
+                    add: Zeile hinzufügen
         payments:
             title: => flamarkt-core.ref.page.payments
             head:
                 date: => flamarkt-core.backoffice.orders.head.date
-                method: Method
-                identifier: Identifier
-                amount: Amount
+                method: Methode
+                identifier: Kennzeichnung
+                amount: Menge
             field:
                 method: => flamarkt-core.backoffice.payments.head.method
                 identifier: => flamarkt-core.backoffice.payments.head.identifier
                 amount: => flamarkt-core.backoffice.payments.head.amount
         products:
             title: => flamarkt-core.ref.page.products
-            new: Create product
+            new: Produkt erstellen
             head:
-                title: Title
+                title: Titel
             field:
                 title: => flamarkt-core.backoffice.products.head.title
-                description: Description
-                price: Price
-                availabilityDriver: Availability Driver
-                priceDriver: Price Driver
+                description: Beschreibung
+                price: Preis
+                availabilityDriver: Verfügbarkeitstreiber
+                priceDriver: Preistreiber
         settings:
-            defaultAvailabilityDriver: Default Availability Driver
-            defaultPriceDriver: Default Price Driver
-            forceOrderPrepayment: Force orders to be paid in full during submission
+            defaultAvailabilityDriver: Standardverfügbarkeitstreiber
+            defaultPriceDriver: Standardpreistreiber
+            forceOrderPrepayment: Vollständige Zahlung von Bestellungen während der Übermittlung erzwingen
         permissions:
             shop: Shop
-            backoffice: Use backoffice
+            backoffice: Backoffice verwenden
     forum:
         nav:
             backoffice: Backoffice
@@ -82,45 +82,45 @@ flamarkt-core:
             browserTitle: => flamarkt-core.ref.page.orders
             headingTitle: => flamarkt-core.ref.page.orders
         product:
-            addToCart: Add to cart
-            updateCartQuantity: Update cart
-            removeFromCart: Remove from cart
+            addToCart: Zum Warenkrob hinzufügen
+            updateCartQuantity: Warenkorb aktualisieren
+            removeFromCart: Vom Warnkorb entfernen
         products:
             browserTitle: => flamarkt-core.ref.page.products
             headingTitle: => flamarkt-core.ref.page.products
         settings:
-            notifyOrderReceived: Order confirmation
+            notifyOrderReceived: Bestellbestätigung
         cartDropdown:
             label: => flamarkt-core.ref.page.cart
             products: "{count, plural, one {# product} other {# products}}"
-            action: Checkout
+            action: Zur Kasse
         search:
             products:
                 heading: => flamarkt-core.ref.page.products
-                all: 'Search all products for "{query}"'
+                all: 'Durchsuche alle Produkt nach "{query}"'
         breadcrumb:
             products: => flamarkt-core.ref.page.products
     lib:
         sort:
             products:
-                createdAtAsc: Oldest
-                createdAtDesc: Newest
-                priceAsc: Cheapest
-                priceDesc: Most expensive
-                titleAsc: Title A-Z
-                titleDesc: Title Z-A
+                createdAtAsc: Älteste
+                createdAtDesc: Neuste
+                priceAsc: Günstigste
+                priceDesc: Teuerste
+                titleAsc: Name A-Z
+                titleDesc: Name Z-A
     email:
         orderReceived:
-            subject: Your order {number} has been received
+            subject: Deine Bestellung {number} wurde erhalten
     ref:
         page:
-            account: Account
-            cart: Cart
-            customers: Customers
-            order: Order {number}
-            orders: Orders
-            payments: Payments
-            products: Products
+            account: Konto
+            cart: Warenkorb
+            customers: Kunden
+            order: Bestellung {number}
+            orders: Bestellungen
+            payments: Zahlungen
+            products: Produkte
 
 flamarkt-backoffice:
     backoffice:
