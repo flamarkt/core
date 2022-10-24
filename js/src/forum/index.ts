@@ -1,6 +1,5 @@
 import app from 'flarum/forum/app';
 import {extend, override} from 'flarum/common/extend';
-import ItemList from 'flarum/common/utils/ItemList';
 import Cart from '../common/models/Cart';
 import Order from '../common/models/Order';
 import OrderLine from '../common/models/OrderLine';
@@ -46,14 +45,13 @@ app.initializers.add('flamarkt-core', () => {
             if (e.ctrlKey || e.metaKey || e.which === 2) return;
             // We won't prevent default here, the Flarum handler for the same event already does
 
-            // Reload the current user so that their unread notification count is refreshed.
             if (app.session.user) {
                 app.cart.load();
             }
         });
     });
 
-    extend(IndexPage.prototype, 'navItems', function (items: ItemList) {
+    extend(IndexPage.prototype, 'navItems', function (items) {
         items.add('flamarkt-products', ActiveLinkButton.component({
             icon: 'fas fa-shopping-cart',
             href: app.route('flamarkt.products.index'),
@@ -72,11 +70,11 @@ app.initializers.add('flamarkt-core', () => {
         }, app.translator.trans('flamarkt-core.forum.nav.account')));
     });
 
-    extend(HeaderSecondary.prototype, 'items', function (items: ItemList) {
+    extend(HeaderSecondary.prototype, 'items', function (items) {
         items.add('flamarkt-cart', CartDropdown.component({state: app.cart}), 15);
     });
 
-    extend(NotificationGrid.prototype, 'notificationTypes', function (items: ItemList) {
+    extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
         items.add('orderReceived', {
             name: 'orderReceived',
             icon: 'far fa-thumbs-up',
@@ -94,7 +92,7 @@ app.initializers.add('flamarkt-core', () => {
         return original(type, method);
     });
 
-    extend(Search.prototype, 'sourceItems', function (items: ItemList) {
+    extend(Search.prototype, 'sourceItems', function (items) {
         // Ideally we'd insert it between discussions and users, but they have the same priority, so we insert before everything
         items.add('products', new ProductSearchSource(), -10);
     });
