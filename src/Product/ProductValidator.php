@@ -9,7 +9,7 @@ class ProductValidator extends AbstractValidator
     protected $product;
 
     // Not used internally, but necessary for extensions using the Validator extender
-    public function getProduct(): Product
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
