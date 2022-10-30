@@ -23,6 +23,6 @@ class OrderDeleteController extends AbstractDeleteController
 
         $order = $this->repository->findUidOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        $this->repository->delete($order, $actor);
+        $this->repository->delete($order, $actor, (array)$request->getParsedBody());
     }
 }

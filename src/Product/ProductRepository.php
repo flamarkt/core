@@ -5,9 +5,7 @@ namespace Flamarkt\Core\Product;
 use Flamarkt\Core\Cart\Cart;
 use Flamarkt\Core\Cart\Event\ProductQuantityUpdated;
 use Flamarkt\Core\Cart\Event\UpdatingProductQuantity;
-use Flamarkt\Core\Product\Event\Deleted;
-use Flamarkt\Core\Product\Event\Deleting;
-use Flamarkt\Core\Product\Event\Saving;
+use Flamarkt\Core\Product\Event;
 use Flarum\Foundation\DispatchEventsTrait;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
@@ -59,7 +57,7 @@ class ProductRepository
         return $this->visibleTo($actor)->where('uid', $uid)->firstOrFail();
     }
 
-    public function save(Product $product, User $actor, array $data, Cart $cart = null): Product
+    public function save(Product $product, User $actor, array $data, Cart $cart = null)
     {
         $attributes = (array)Arr::get($data, 'data.attributes');
 
@@ -72,13 +70,25 @@ class ProductRepository
         if (Arr::exists($attributes, 'title')) {
             $actor->assertCan('edit', $product);
 
-            $product->title = Arr::get($attributes, 'title');
+            $oldTitle = $product->title;
+            $newTitle = Arr::get($attributes, 'title');
+
+            if ($newTitle !== $oldTitle) {
+                $product->title = $newTitle;
+                $product->raise(new Event\Renamed($product, $oldTitle));
+            }
         }
 
         if (Arr::exists($attributes, 'description')) {
             $actor->assertCan('edit', $product);
 
-            $product->description = Arr::get($attributes, 'description');
+            $oldDescription = $product->description;
+            $newDescription = Arr::get($attributes, 'description');
+
+            if ($newDescription !== $oldDescription) {
+                $product->description = $newDescription;
+                $product->raise(new Event\DescriptionChanged($product, $oldDescription));
+            }
         }
 
         if (Arr::exists($attributes, 'price')) {
@@ -142,7 +152,11 @@ class ProductRepository
             }
         }
 
-        $this->events->dispatch(new Saving($product, $actor, $data));
+        $this->events->dispatch(new Event\Saving($product, $actor, $data));
+
+        if (!$product->exists) {
+            $product->raise(new Event\Created($product));
+        }
 
         $product->save();
 
@@ -166,14 +180,14 @@ class ProductRepository
         return $this->save($product, $actor, $data, $cart);
     }
 
-    public function delete(Product $product, User $actor)
+    public function delete(Product $product, User $actor, array $data = [])
     {
         $actor->assertCan('delete', $product);
 
-        $this->events->dispatch(new Deleting($product, $actor));
+        $this->events->dispatch(new Event\Deleting($product, $actor, $data));
 
         $product->delete();
 
-        $this->events->dispatch(new Deleted($product, $actor));
+        $this->events->dispatch(new Event\Deleted($product, $actor));
     }
 }

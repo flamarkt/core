@@ -29,7 +29,7 @@ class ProductUpdateController extends AbstractShowController
 
         $product = $this->repository->findUidOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        $product = $this->repository->update($product, $actor, $request->getParsedBody(), $cart);
+        $product = $this->repository->update($product, $actor, (array)$request->getParsedBody(), $cart);
 
         Product::setStateCart($cart);
 

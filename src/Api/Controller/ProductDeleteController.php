@@ -23,6 +23,6 @@ class ProductDeleteController extends AbstractDeleteController
 
         $product = $this->repository->findUidOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        $this->repository->delete($product, $actor);
+        $this->repository->delete($product, $actor, (array)$request->getParsedBody());
     }
 }

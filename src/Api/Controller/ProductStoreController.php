@@ -22,6 +22,6 @@ class ProductStoreController extends AbstractCreateController
 
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        return $this->repository->store(RequestUtil::getActor($request), $request->getParsedBody());
+        return $this->repository->store(RequestUtil::getActor($request), (array)$request->getParsedBody());
     }
 }

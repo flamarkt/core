@@ -5,16 +5,14 @@ namespace Flamarkt\Core\Product\Event;
 use Flamarkt\Core\Product\Product;
 use Flarum\User\User;
 
-class Deleting
+class Created
 {
     public $product;
     public $actor;
-    public $data;
 
-    public function __construct(Product $product, User $actor, array $data = [])
+    public function __construct(Product $product, User $actor = null)
     {
         $this->product = $product;
         $this->actor = $actor;
-        $this->data = $data;
     }
 }

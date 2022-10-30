@@ -4,6 +4,8 @@ namespace Flamarkt\Core;
 
 use ClarkWinkelmann\Mithril2Html\Extend as M2HExtend;
 use ClarkWinkelmann\Scout\Extend\Scout;
+use Flamarkt\Core\Order\Event as OrderEvent;
+use Flamarkt\Core\Product\Event as ProductEvent;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
@@ -130,6 +132,18 @@ $extenders = [
 
 if (class_exists(Scout::class)) {
     $extenders[] = (new Scout(Product\Product::class))
+        ->listenSaved(ProductEvent\Created::class, function (ProductEvent\Created $event) {
+            return $event->product;
+        })
+        ->listenSaved(ProductEvent\Renamed::class, function (ProductEvent\Renamed $event) {
+            return $event->product;
+        })
+        ->listenSaved(ProductEvent\DescriptionChanged::class, function (ProductEvent\DescriptionChanged $event) {
+            return $event->product;
+        })
+        ->listenDeleted(ProductEvent\Deleted::class, function (ProductEvent\Deleted $event) {
+            return $event->product;
+        })
         ->attributes(function (Product\Product $product): array {
             return [
                 'title' => $product->title,
@@ -137,9 +151,17 @@ if (class_exists(Scout::class)) {
             ];
         });
     $extenders[] = (new Scout(Order\Order::class))
+        ->listenSaved(OrderEvent\Created::class, function (OrderEvent\Created $event) {
+            return $event->order;
+        })
+        ->listenDeleted(OrderEvent\Deleted::class, function (OrderEvent\Deleted $event) {
+            return $event->order;
+        })
+        // TODO: event for user change
         ->attributes(function (Order\Order $order): array {
             return [
                 'user' => optional($order->user)->display_name,
+                // TODO: use number attribute when it's added in a future update
                 'number' => $order->id,
             ];
         });

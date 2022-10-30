@@ -248,11 +248,11 @@ class OrderRepository
         return $this->save($order, $actor, $data);
     }
 
-    public function delete(Order $order, User $actor)
+    public function delete(Order $order, User $actor, array $data = [])
     {
         $actor->assertCan('delete', $order);
 
-        $this->events->dispatch(new Deleting($order, $actor));
+        $this->events->dispatch(new Deleting($order, $actor, $data));
 
         $order->delete();
 

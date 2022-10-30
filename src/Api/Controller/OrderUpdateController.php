@@ -33,6 +33,6 @@ class OrderUpdateController extends AbstractShowController
 
         $order = $this->repository->findUidOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        return $this->repository->update($order, $actor, $request->getParsedBody());
+        return $this->repository->update($order, $actor, (array)$request->getParsedBody());
     }
 }

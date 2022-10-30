@@ -9,10 +9,12 @@ class Deleting
 {
     public $order;
     public $actor;
+    public $data;
 
-    public function __construct(Order $order, User $actor)
+    public function __construct(Order $order, User $actor, array $data = [])
     {
         $this->order = $order;
         $this->actor = $actor;
+        $this->data = $data;
     }
 }
