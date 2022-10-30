@@ -3,6 +3,7 @@
 namespace Flamarkt\Core;
 
 use ClarkWinkelmann\Mithril2Html\Extend as M2HExtend;
+use ClarkWinkelmann\Scout\Extend\Scout;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Api\Serializer\UserSerializer;
@@ -10,7 +11,7 @@ use Flarum\Extend;
 use Flarum\User\Event as UserEvent;
 use Flarum\User\User;
 
-return [
+$extenders = [
     (new Extend\ServiceProvider())
         ->register(Order\OrderServiceProvider::class)
         ->register(Product\ProductServiceProvider::class),
@@ -126,3 +127,22 @@ return [
     (new Extend\Notification())
         ->type(Notification\OrderReceivedBlueprint::class, Api\Serializer\BasicOrderSerializer::class, ['email']),
 ];
+
+if (class_exists(Scout::class)) {
+    $extenders[] = (new Scout(Product\Product::class))
+        ->attributes(function (Product\Product $product): array {
+            return [
+                'title' => $product->title,
+                'description' => $product->description,
+            ];
+        });
+    $extenders[] = (new Scout(Order\Order::class))
+        ->attributes(function (Order\Order $order): array {
+            return [
+                'user' => optional($order->user)->display_name,
+                'number' => $order->id,
+            ];
+        });
+}
+
+return $extenders;

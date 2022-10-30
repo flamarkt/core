@@ -38,7 +38,10 @@
                 "name": "fas fa-shopping-cart",
                 "backgroundColor": "#266a13",
                 "color": "#fff"
-            }
+            },
+            "optional-dependencies": [
+                "clarkwinkelmann/flarum-ext-scout"
+            ]
         },
         "flamarkt-backoffice": {
             "settingsInBackoffice": true,

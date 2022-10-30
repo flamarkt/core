@@ -28,7 +28,7 @@ export default class OrderIndexLayout extends AbstractAccountLayout<OrderIndexLa
         return m('div', [
             m('.Form-group', [
                 m(OrderSortDropdown, {
-                    state: this.attrs.state,
+                    list: this.attrs.state,
                 }),
             ]),
             m('table.CartTable', [

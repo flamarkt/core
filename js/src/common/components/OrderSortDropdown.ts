@@ -2,7 +2,7 @@ import AbstractSortDropdown, {SortDropdownAttrs, SortOptions} from 'flamarkt/bac
 import OrderListState from '../states/OrderListState';
 
 export interface OrderSortDropdownAttrs extends SortDropdownAttrs {
-    state: OrderListState
+    list: OrderListState
 }
 
 export default class OrderSortDropdown extends AbstractSortDropdown<OrderSortDropdownAttrs> {

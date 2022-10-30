@@ -10,11 +10,13 @@ flamarkt-core:
         users:
             title: => flamarkt-core.ref.page.customers
             new: Create customer
+            searchPlaceholder: Search customers...
             head:
                 orders: Orders
         orders:
             title: => flamarkt-core.ref.page.orders
             new: Create manual order
+            searchPlaceholder: Search orders...
             head:
                 number: Number
                 date: Date
@@ -50,6 +52,7 @@ flamarkt-core:
         products:
             title: => flamarkt-core.ref.page.products
             new: Create product
+            searchPlaceholder: Search products...
             head:
                 title: Title
             field:

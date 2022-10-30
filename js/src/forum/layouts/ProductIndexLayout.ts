@@ -69,7 +69,7 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
         const items = new ItemList();
 
         items.add('sort', m(ProductSortDropdown, {
-            state: this.attrs.state,
+            list: this.attrs.state,
             updateUrl: true,
         }));
 
