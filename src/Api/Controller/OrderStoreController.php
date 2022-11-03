@@ -38,7 +38,7 @@ class OrderStoreController extends AbstractCreateController
         $actor = RequestUtil::getActor($request);
         $data = (array)Arr::get($request->getParsedBody(), 'data');
 
-        $cartId = Arr::get($data, 'data.relationships.cart.data.id');
+        $cartId = Arr::get($data, 'relationships.cart.data.id');
 
         if ($cartId) {
             $cart = $this->cartRepository->findUidOrFail($cartId, $actor);
@@ -46,6 +46,7 @@ class OrderStoreController extends AbstractCreateController
             return $this->orderBuilder->build($actor, $cart, $data, $request);
         }
 
+        // If no cart ID was passed, continue to manual admin order creation
         return $this->orderRepository->store($actor, $data);
     }
 }
