@@ -23,6 +23,6 @@ class PaymentDeleteController extends AbstractDeleteController
 
         $payment = $this->repository->findUidOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        $this->repository->delete($payment, $actor);
+        $this->repository->delete($payment, $actor, (array)Arr::get($request->getParsedBody(), 'data'));
     }
 }

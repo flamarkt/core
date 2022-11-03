@@ -36,7 +36,7 @@ class OrderStoreController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         $actor = RequestUtil::getActor($request);
-        $data = (array)$request->getParsedBody();
+        $data = (array)Arr::get($request->getParsedBody(), 'data');
 
         $cartId = Arr::get($data, 'data.relationships.cart.data.id');
 

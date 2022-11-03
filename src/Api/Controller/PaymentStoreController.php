@@ -30,6 +30,6 @@ class PaymentStoreController extends AbstractShowController
 
         $order = $this->orderRepository->findUidOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        return $this->paymentRepository->store($order, $actor, $request->getParsedBody());
+        return $this->paymentRepository->store($order, $actor, (array)Arr::get($request->getParsedBody(), 'data'));
     }
 }

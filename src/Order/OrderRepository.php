@@ -177,9 +177,9 @@ class OrderRepository
             });
         }
 
-        $attributes = (array)Arr::get($data, 'data.attributes');
+        $attributes = (array)Arr::get($data, 'attributes');
 
-        $relationships = (array)Arr::get($data, 'data.relationships');
+        $relationships = (array)Arr::get($data, 'relationships');
 
         if (Arr::exists($relationships, 'user')) {
             $attributes['userId'] = Arr::get($relationships, 'user.data.id');

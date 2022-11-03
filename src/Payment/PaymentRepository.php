@@ -44,7 +44,7 @@ class PaymentRepository
     {
         $actor->assertCan('backoffice');
 
-        $attributes = (array)Arr::get($data, 'data.attributes');
+        $attributes = (array)Arr::get($data, 'attributes');
 
         if ($payment->exists) {
             $this->validator->setPayment($payment);
@@ -102,11 +102,11 @@ class PaymentRepository
         return $this->save($payment, $actor, $data);
     }
 
-    public function delete(Payment $payment, User $actor)
+    public function delete(Payment $payment, User $actor, array $data)
     {
         $actor->assertCan('delete', $payment);
 
-        $this->events->dispatch(new Deleting($payment, $actor));
+        $this->events->dispatch(new Deleting($payment, $actor, $data));
 
         $payment->delete();
 

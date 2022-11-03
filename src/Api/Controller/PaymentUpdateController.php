@@ -27,6 +27,6 @@ class PaymentUpdateController extends AbstractShowController
 
         $payment = $this->repository->findUidOrFail(Arr::get($request->getQueryParams(), 'id'), $actor);
 
-        return $this->repository->update($payment, $actor, $request->getParsedBody());
+        return $this->repository->update($payment, $actor, (array)Arr::get($request->getParsedBody(), 'data'));
     }
 }

@@ -59,7 +59,7 @@ class ProductRepository
 
     public function save(Product $product, User $actor, array $data, Cart $cart = null)
     {
-        $attributes = (array)Arr::get($data, 'data.attributes');
+        $attributes = (array)Arr::get($data, 'attributes');
 
         if ($product->exists) {
             $this->validator->setProduct($product);
