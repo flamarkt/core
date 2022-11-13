@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import {OrderSummary} from './pages/OrderSummary';
 import {ProductSummary} from './pages/ProductSummary';
 import {mithril2html} from './compat';

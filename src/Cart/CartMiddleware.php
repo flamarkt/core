@@ -25,6 +25,12 @@ class CartMiddleware implements MiddlewareInterface
          */
         $session = $request->getAttribute('session');
 
+        // Most of the time Flarum will run with a session, but requests to the mithril2html frontend will skip it
+        // In that case we just ignore that part just like we do for guests
+        if (!$session) {
+            return $handler->handle($request);
+        }
+
         $actor = RequestUtil::getActor($request);
 
         if ($actor->isGuest()) {

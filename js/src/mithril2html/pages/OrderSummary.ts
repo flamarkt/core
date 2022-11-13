@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import {Vnode} from 'mithril';
 import Page from 'flarum/common/components/Page';
 import Order from '../../common/models/Order';
@@ -6,18 +7,18 @@ import ItemList from 'flarum/common/utils/ItemList';
 import LinkButton from 'flarum/common/components/LinkButton';
 
 export class OrderSummary extends Page {
-    order!: Order
+    order: Order | null = null
 
     oninit(vnode: Vnode) {
         super.oninit(vnode);
 
-        this.order = app.preloadedApiDocument() as Order;
+        this.order = app.preloadedApiDocument<Order>();
 
         const id = m.route.param().id;
 
         // Only for testing
         if (id) {
-            app.store.find('flamarkt/orders', id).then(order => {
+            app.store.find<Order>('flamarkt/orders', id).then(order => {
                 this.order = order;
                 m.redraw();
             });
@@ -32,7 +33,7 @@ export class OrderSummary extends Page {
         return m('div', this.sections().toArray());
     }
 
-    sections(): ItemList {
+    sections(): ItemList<any> {
         const sections = new ItemList();
 
         sections.add('table', m(OrderTable, {
