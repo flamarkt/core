@@ -103,6 +103,14 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
         // Not setting submitting to false on purpose
         // We don't want the users to think the page stopped processing until it's redirected
 
+        // Reset the cached quantities for each product still in the store
+        // Otherwise if we immediately go back to their product page they will still show being already in cart
+        app.store.all('flamarkt-products').forEach(product => {
+            product.pushAttributes({
+                cartQuantity: null,
+            });
+        });
+
         m.route.set(app.route.order(order));
 
         // Refresh cart, otherwise the cart icon in the header will continue to show the old total
