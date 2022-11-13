@@ -40,7 +40,8 @@ export class OrderSummary extends Page {
             order: this.order,
         }), 100);
 
-        sections.add('link', m('div', LinkButton.component({
+        sections.add('link', m('.ButtonBlock', LinkButton.component({
+            className: 'Button',
             href: app.route.order(this.order),
         }, 'Order page')), -100); //TODO: translate
 

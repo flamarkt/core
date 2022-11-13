@@ -37,7 +37,8 @@ export class ProductSummary extends Page {
 
         sections.add('title', m('h1', this.product!.title()), 100);
 
-        sections.add('link', m('div', LinkButton.component({
+        sections.add('link', m('.ButtonBlock', LinkButton.component({
+            className: 'Button',
             href: app.route.product(this.product),
         }, 'Product page')), -100); //TODO: translate
 
