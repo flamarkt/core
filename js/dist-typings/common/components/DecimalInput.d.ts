@@ -10,6 +10,7 @@ export interface DecimalInputAttrs extends ComponentAttrs {
     max?: number;
     step?: number;
     decimals?: number;
+    className?: string;
 }
 export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttrs> extends Component<T> {
     decimals(): number;
@@ -18,5 +19,6 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
     step(): number | undefined;
     fromIntegerValue(value: number): number;
     toIntegerValue(value: number): number;
+    inputAttrs(): any;
     view(): any;
 }
