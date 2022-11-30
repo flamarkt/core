@@ -2,8 +2,9 @@ import ForumApplication from 'flarum/forum/ForumApplication';
 import AdminApplication from 'flarum/admin/AdminApplication';
 import User from 'flarum/common/models/User';
 import CartState from './src/forum/states/CartState';
-import Product from './src/common/models/Product';
+import Cart from './src/common/models/Cart';
 import Order from './src/common/models/Order';
+import Product from './src/common/models/Product';
 
 export interface AdditionalApplication {
     cart: CartState
@@ -11,16 +12,6 @@ export interface AdditionalApplication {
         product(product: Product): string,
         user(user: User): string,
         order(order: Order): string,
-    }
-}
-
-declare module 'flarum/common/Store' {
-    interface StoreModels {
-        [key: string]: any
-    }
-
-    export default interface Store {
-        models: StoreModels
     }
 }
 
@@ -53,5 +44,11 @@ declare module 'flarum/common/models/User' {
         email(value?: string): string
 
         flamarktOrderCount(value?: number): number
+    }
+}
+
+declare module 'flarum/common/models/Forum' {
+    export default interface Forum {
+        cart(): Cart | false
     }
 }

@@ -1,3 +1,5 @@
+import app from 'flarum/forum/app';
+import {ApiPayloadSingle} from 'flarum/common/Store';
 import Cart from '../../common/models/Cart';
 
 export default class CartState {
@@ -13,19 +15,19 @@ export default class CartState {
     }
 
     boot() {
-        this.cart = app.forum.cart();
+        this.cart = app.forum.cart() || null;
     }
 
     load() {
         this.loading = true;
 
         // Load full cart including relationships
-        app.request({
+        app.request<ApiPayloadSingle>({
             method: 'GET',
             url: app.forum.attribute('apiUrl') + '/flamarkt/cart',
         }).then(cart => {
             this.loading = false;
-            this.cart = app.store.pushPayload(cart);
+            this.cart = app.store.pushPayload<Cart>(cart);
 
             m.redraw();
         }).catch(error => {

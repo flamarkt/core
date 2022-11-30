@@ -30,7 +30,6 @@ app.initializers.add('flamarkt-core', () => {
     app.store.models['flamarkt-order-lines'] = OrderLine;
     app.store.models['flamarkt-products'] = Product;
 
-    // @ts-ignore
     Forum.prototype.cart = Model.hasOne('cart');
 
     routes(app);

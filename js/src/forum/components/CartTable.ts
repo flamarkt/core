@@ -55,6 +55,7 @@ export default class CartTable extends Component<CartTableAttrs> {
                     value: this.attrs.cart.priceTotalLocal(),
                     hint: 'cart total',
                 })),
+                m('th'),
             ]));
         }
 

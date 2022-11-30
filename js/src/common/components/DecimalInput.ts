@@ -11,6 +11,7 @@ export interface DecimalInputAttrs extends ComponentAttrs {
     max?: number
     step?: number
     decimals?: number
+    className?: string
 }
 
 export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttrs> extends Component<T> {
@@ -38,7 +39,7 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
         return Math.round(value * Math.pow(10, this.decimals()));
     }
 
-    view() {
+    inputAttrs() {
         const inputAttrs: any = {
             type: 'number',
             value: this.fromIntegerValue(this.attrs.value) + '', // Cast to string to preserve zero
@@ -69,6 +70,14 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
             inputAttrs.step = 1 / Math.pow(10, this.decimals());
         }
 
-        return m('input.FormControl', inputAttrs);
+        if (this.attrs.className) {
+            inputAttrs.className = this.attrs.className;
+        }
+
+        return inputAttrs;
+    }
+
+    view() {
+        return m('input.FormControl', this.inputAttrs());
     }
 }
