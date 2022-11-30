@@ -17,6 +17,8 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
     min(): number | undefined;
     max(): number | undefined;
     step(): number | undefined;
+    disabled(): boolean;
+    className(): string;
     fromIntegerValue(value: number): number;
     toIntegerValue(value: number): number;
     inputAttrs(): any;

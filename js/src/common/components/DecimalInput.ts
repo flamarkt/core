@@ -31,6 +31,14 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
         return this.attrs.step;
     }
 
+    disabled(): boolean {
+        return !!this.attrs.disabled;
+    }
+
+    className(): string {
+        return this.attrs.className || '';
+    }
+
     fromIntegerValue(value: number): number {
         return value / Math.pow(10, this.decimals());
     }
@@ -48,6 +56,7 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
 
                 this.attrs.onchange(this.toIntegerValue(value));
             },
+            disabled: this.disabled(),
         };
 
         const min = this.min();
@@ -70,8 +79,10 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
             inputAttrs.step = 1 / Math.pow(10, this.decimals());
         }
 
-        if (this.attrs.className) {
-            inputAttrs.className = this.attrs.className;
+        const className = this.className();
+
+        if (className) {
+            inputAttrs.className = className;
         }
 
         return inputAttrs;
