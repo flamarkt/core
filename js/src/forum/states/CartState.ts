@@ -14,20 +14,44 @@ export default class CartState {
         return this.cart ? this.cart.productCount() : null;
     }
 
+    /**
+     * To be called by Flamarkt itself with the boot payload
+     */
     boot() {
         this.cart = app.forum.cart() || null;
     }
 
-    load() {
-        this.loading = true;
-
+    /**
+     * Separate method so that extensions can retrieve a cart update without triggering the loading status or redraw
+     * But with all the same relationships.
+     */
+    request(): Promise<Cart> {
         // Load full cart including relationships
-        app.request<ApiPayloadSingle>({
+        return app.request<ApiPayloadSingle>({
             method: 'GET',
             url: app.forum.attribute('apiUrl') + '/flamarkt/cart',
         }).then(cart => {
-            this.loading = false;
-            this.cart = app.store.pushPayload<Cart>(cart);
+            return app.store.pushPayload<Cart>(cart);
+        });
+    }
+
+    /**
+     * Intended to be used with a manually retrieved value with request()
+     * @param cart
+     */
+    setCart(cart: Cart | null) {
+        this.loading = false;
+        this.cart = cart;
+    }
+
+    /**
+     * Refresh the global cart
+     */
+    load(): Promise<void> {
+        this.loading = true;
+
+        return this.request().then(cart => {
+            this.setCart(cart);
 
             m.redraw();
         }).catch(error => {
