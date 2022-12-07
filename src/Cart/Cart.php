@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Flamarkt\Core\Product\Product;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
+use Flarum\User\Guest;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations;
@@ -46,6 +47,10 @@ class Cart extends AbstractModel
     public function products(): Relations\BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'flamarkt_cart_product')
+            // We inject a visibility scope here to allow extensions to customize the relationship
+            // However the actor is not available, it will always be guest
+            // This is mostly for changing the sort order and optionally creating fully invisible products
+            ->whereVisibleTo(new Guest(), 'cart')
             ->withPivot('quantity');
     }
 

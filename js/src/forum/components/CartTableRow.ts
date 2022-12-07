@@ -48,7 +48,7 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
 
         columns.add('product', m('td', m(Link, {
             href: app.route.product(product),
-        }, product.title())));
+        }, product.title())), 200);
         columns.add('quantity', m('td', [
             m(QuantityInput, {
                 className: 'CartTableQuantity',
@@ -74,12 +74,12 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
                 loading: this.inlineLoading(),
                 result: this.inlineResult(),
             }),
-        ]));
+        ]), 100);
         columns.add('total', m('td', m(PriceLabel, {
             value: product.cartPriceTotalLocal(),
             hint: 'cart product total',
             product,
-        })));
+        })), -100);
         columns.add('delete', m('td', Tooltip.component({
             text: this.deleteTooltipText(),
         }, Button.component({
@@ -89,7 +89,7 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
             onclick: () => {
                 this.submitQuantity(0);
             },
-        }))));
+        }))), -200);
 
         return columns;
     }

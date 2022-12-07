@@ -2,6 +2,7 @@ import Component, {ComponentAttrs} from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import CartTableRow from './CartTableRow';
 import Cart from '../../common/models/Cart';
+import Product from '../../common/models/Product';
 import PriceLabel from '../../common/components/PriceLabel';
 
 interface CartTableAttrs extends ComponentAttrs {
@@ -19,10 +20,10 @@ export default class CartTable extends Component<CartTableAttrs> {
     head(): ItemList<any> {
         const columns = new ItemList();
 
-        columns.add('product', m('th', 'Product'));
-        columns.add('quantity', m('th', 'Quantity'));
-        columns.add('total', m('th', 'Total'));
-        columns.add('actions', m('th',)); // Empty on purpose
+        columns.add('product', m('th', 'Product'), 200);
+        columns.add('quantity', m('th', 'Quantity'), 100);
+        columns.add('total', m('th', 'Total'), -100);
+        columns.add('actions', m('th'), -200); // Empty on purpose
 
         return columns;
     }
@@ -37,15 +38,15 @@ export default class CartTable extends Component<CartTableAttrs> {
                 return;
             }
 
-            rows.add('product-' + product.id(), CartTableRow.component({
+            rows.add(this.productRowKey(product), CartTableRow.component({
                 product,
-            }));
+            }, this.productRowPriority(product)));
         });
 
         if (products.length === 0) {
             rows.add('empty', m('tr', m('td', {
                 colspan: 100,
-            }, 'Cart is empty')));
+            }, 'Cart is empty')), -100);
         } else {
             rows.add('total', m('tr', [
                 m('th', {
@@ -56,9 +57,17 @@ export default class CartTable extends Component<CartTableAttrs> {
                     hint: 'cart total',
                 })),
                 m('th'),
-            ]));
+            ]), -100);
         }
 
         return rows;
+    }
+
+    productRowKey(product: Product): string {
+        return 'product-' + product.id();
+    }
+
+    productRowPriority(product: Product): number {
+        return 0;
     }
 }
