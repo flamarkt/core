@@ -40,7 +40,7 @@ export default class CartTable extends Component<CartTableAttrs> {
 
             rows.add(this.productRowKey(product), CartTableRow.component({
                 product,
-            }, this.productRowPriority(product)));
+            }), this.productRowPriority(product));
         });
 
         if (products.length === 0) {
