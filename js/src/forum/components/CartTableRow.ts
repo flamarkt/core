@@ -7,7 +7,7 @@ import ItemList from 'flarum/common/utils/ItemList';
 import Product from '../../common/models/Product';
 import QuantityInput from '../../common/components/QuantityInput';
 import PriceLabel from '../../common/components/PriceLabel';
-import InlineSubmitStatus from './InlineSubmitStatus';
+import InlineSubmitStatus, {InlineSubmitStatusResult} from './InlineSubmitStatus';
 
 interface CartTableRowAttrs extends ComponentAttrs {
     product: Product,
@@ -16,7 +16,7 @@ interface CartTableRowAttrs extends ComponentAttrs {
 export default class CartTableRow extends Component<CartTableRowAttrs> {
     quantity: number = 0
     quantitySaving: boolean = false
-    quantitySaveResult: 'success' | 'error' | null = null
+    quantitySaveResult: InlineSubmitStatusResult = null
     quantityChangeDebounce: number = 0
 
     oninit(vnode: any) {
@@ -59,9 +59,8 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
                 disabled: this.quantityEditDisabled(),
             }),
             m(InlineSubmitStatus, {
-                // Show feedback immediately if a debounce is active even though the request has not really started yet
-                loading: this.quantitySaving || this.quantityChangeDebounce > 0,
-                result: this.quantitySaveResult,
+                loading: this.inlineLoading(),
+                result: this.inlineResult(),
             }),
         ]));
         columns.add('total', m('td', m(PriceLabel, {
@@ -81,6 +80,15 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
         }))));
 
         return columns;
+    }
+
+    inlineLoading(): boolean {
+        // Show feedback immediately if a debounce is active even though the request has not really started yet
+        return this.quantitySaving || this.quantityChangeDebounce > 0;
+    }
+
+    inlineResult(): InlineSubmitStatusResult {
+        return this.quantitySaveResult;
     }
 
     quantityEditDisabled(): boolean {

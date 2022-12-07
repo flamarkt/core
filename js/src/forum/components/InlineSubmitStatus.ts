@@ -4,9 +4,11 @@ import classList from 'flarum/common/utils/classList';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import icon from 'flarum/common/helpers/icon';
 
+export type InlineSubmitStatusResult = 'success' | 'error' | null;
+
 export interface InlineSubmitStatusAttrs extends ComponentAttrs {
     loading?: boolean
-    result?: 'success' | 'error' | null
+    result?: InlineSubmitStatusResult
 }
 
 export default class InlineSubmitStatus extends Component<InlineSubmitStatusAttrs> {
