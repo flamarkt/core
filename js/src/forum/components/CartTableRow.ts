@@ -101,34 +101,38 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
 
         this.attrs.product.save({
             cartQuantity: quantity,
-        }).then(product => {
-            this.quantity = product.cartQuantity() || 0;
-            this.quantitySaving = false;
-            this.quantitySaveResult = 'success';
+        }).then(this.submitQuantityDone.bind(this)).catch(this.submitQuantityError.bind(this));
+    }
 
-            setTimeout(() => {
-                this.quantitySaveResult = null;
-                m.redraw();
-            }, 2000);
+    submitQuantityDone(product: Product) {
+        this.quantity = product.cartQuantity() || 0;
+        this.quantitySaving = false;
+        this.quantitySaveResult = 'success';
 
+        setTimeout(() => {
+            this.quantitySaveResult = null;
             m.redraw();
+        }, 2000);
 
-            // If a product was removed, reload full cart
-            if (this.quantity === 0) {
-                app.cart.load();
-            }
-        }).catch(error => {
-            this.quantitySaving = false;
-            this.quantitySaveResult = 'error';
+        m.redraw();
 
-            setTimeout(() => {
-                this.quantitySaveResult = null;
-                m.redraw();
-            }, 5000);
+        // If a product was removed, reload full cart
+        if (this.quantity === 0) {
+            app.cart.load();
+        }
+    }
 
+    submitQuantityError(error: any) {
+        this.quantitySaving = false;
+        this.quantitySaveResult = 'error';
+
+        setTimeout(() => {
+            this.quantitySaveResult = null;
             m.redraw();
+        }, 5000);
 
-            throw error;
-        });
+        m.redraw();
+
+        throw error;
     }
 }
