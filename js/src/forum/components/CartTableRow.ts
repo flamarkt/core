@@ -15,6 +15,7 @@ interface CartTableRowAttrs extends ComponentAttrs {
 
 export default class CartTableRow extends Component<CartTableRowAttrs> {
     quantity: number = 0
+    savedQuantity: number = 0
     quantitySaving: boolean = false
     quantitySaveResult: InlineSubmitStatusResult = null
     quantityChangeDebounce: number = 0
@@ -22,10 +23,21 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
     oninit(vnode: any) {
         super.oninit(vnode);
 
-        this.quantity = this.attrs.product.cartQuantity() || 0;
+        this.savedQuantity = this.attrs.product.cartQuantity() || 0;
+        this.quantity = this.savedQuantity;
     }
 
     view() {
+        const currentQuantityOnModel = this.attrs.product.cartQuantity() || 0;
+
+        // If the value has changed on the model from actions external to our code we need to update our state
+        if (currentQuantityOnModel !== this.savedQuantity) {
+            this.savedQuantity = currentQuantityOnModel;
+            this.quantity = currentQuantityOnModel;
+            clearTimeout(this.quantityChangeDebounce);
+            this.quantityChangeDebounce = 0;
+        }
+
         return m('tr', this.columns().toArray());
     }
 
@@ -113,7 +125,8 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
     }
 
     submitQuantityDone(product: Product) {
-        this.quantity = product.cartQuantity() || 0;
+        this.savedQuantity = product.cartQuantity() || 0;
+        this.quantity = this.savedQuantity;
         this.quantitySaving = false;
         this.quantitySaveResult = 'success';
 

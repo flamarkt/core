@@ -7,6 +7,7 @@ interface CartTableRowAttrs extends ComponentAttrs {
 }
 export default class CartTableRow extends Component<CartTableRowAttrs> {
     quantity: number;
+    savedQuantity: number;
     quantitySaving: boolean;
     quantitySaveResult: InlineSubmitStatusResult;
     quantityChangeDebounce: number;
