@@ -8,18 +8,13 @@ use Flarum\User\User;
 
 class ProductQuantityUpdated
 {
-    public $cart;
-    public $product;
-    public $actor;
-    public $previousQuantity;
-    public $newQuantity;
-
-    public function __construct(Cart $cart, Product $product, User $actor, int $previousQuantity, int $newQuantity)
+    public function __construct(
+        public Cart    $cart,
+        public Product $product,
+        public User    $actor,
+        public int     $previousQuantity,
+        public int     $newQuantity
+    )
     {
-        $this->cart = $cart;
-        $this->product = $product;
-        $this->actor = $actor;
-        $this->previousQuantity = $previousQuantity;
-        $this->newQuantity = $newQuantity;
     }
 }

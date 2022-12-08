@@ -7,12 +7,9 @@ use Flarum\User\User;
 
 class Deleted
 {
-    public $payment;
-    public $actor;
-
-    public function __construct(Payment $payment, User $actor = null)
+    public function __construct(
+        public Payment $payment,
+        public ?User   $actor = null)
     {
-        $this->payment = $payment;
-        $this->actor = $actor;
     }
 }

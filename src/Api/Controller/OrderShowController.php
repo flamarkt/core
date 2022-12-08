@@ -22,13 +22,11 @@ class OrderShowController extends AbstractShowController
         'payments',
     ];
 
-    protected $slugManager;
-    protected $repository;
-
-    public function __construct(SlugManager $slugManager, OrderRepository $repository)
+    public function __construct(
+        protected SlugManager     $slugManager,
+        protected OrderRepository $repository
+    )
     {
-        $this->slugManager = $slugManager;
-        $this->repository = $repository;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

@@ -6,7 +6,7 @@ use Flarum\Foundation\AbstractValidator;
 
 class ProductValidator extends AbstractValidator
 {
-    protected $product;
+    protected ?Product $product = null;
 
     // Not used internally, but necessary for extensions using the Validator extender
     public function getProduct(): ?Product

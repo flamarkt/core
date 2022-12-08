@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PriceDriver implements PriceDriverInterface
 {
-    public function __invoke(Product $product, User $actor, ServerRequestInterface $request = null)
+    public function __invoke(Product $product, User $actor, ServerRequestInterface $request = null): ?int
     {
         return $product->price;
     }

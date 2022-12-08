@@ -18,12 +18,12 @@ class PaymentRepository
 {
     use DispatchEventsTrait;
 
-    protected $validator;
-
-    public function __construct(Dispatcher $events, PaymentValidator $validator)
+    public function __construct(
+        Dispatcher                 $events,
+        protected PaymentValidator $validator
+    )
     {
         $this->events = $events;
-        $this->validator = $validator;
     }
 
     public function findUidOrFail(string $uid = null, User $actor = null): Payment
@@ -102,7 +102,7 @@ class PaymentRepository
         return $this->save($payment, $actor, $data);
     }
 
-    public function delete(Payment $payment, User $actor, array $data)
+    public function delete(Payment $payment, User $actor, array $data): void
     {
         $actor->assertCan('delete', $payment);
 

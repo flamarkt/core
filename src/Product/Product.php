@@ -46,23 +46,20 @@ class Product extends AbstractModel
         'hidden_at' => 'datetime',
     ];
 
-    /**
-     * @var Formatter
-     */
-    protected static $formatter;
+    protected static Formatter $formatter;
 
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'flamarkt_product_user');
     }
 
-    protected static $stateCart;
+    protected static ?Cart $stateCart = null;
 
     public function cartState(Cart $cart = null): HasOne
     {
         $cart = $cart ?: static::$stateCart;
 
-        return $this->hasOne(CartState::class)->where('cart_id', $cart ? $cart->id : null);
+        return $this->hasOne(CartState::class)->where('cart_id', $cart?->id);
     }
 
     public function stateForCart(Cart $cart): CartState
@@ -83,13 +80,13 @@ class Product extends AbstractModel
         static::$stateCart = $cart;
     }
 
-    protected static $stateUser;
+    protected static ?User $stateUser = null;
 
     public function userState(User $user = null): HasOne
     {
         $user = $user ?: static::$stateUser;
 
-        return $this->hasOne(UserState::class)->where('user_id', $user ? $user->id : null);
+        return $this->hasOne(UserState::class)->where('user_id', $user?->id);
     }
 
     public function stateForUser(User $user): UserState
@@ -151,7 +148,7 @@ class Product extends AbstractModel
         return static::$formatter;
     }
 
-    public static function setFormatter(Formatter $formatter)
+    public static function setFormatter(Formatter $formatter): void
     {
         static::$formatter = $formatter;
     }

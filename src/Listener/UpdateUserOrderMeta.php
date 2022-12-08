@@ -8,7 +8,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class UpdateUserOrderMeta
 {
-    public function subscribe(Dispatcher $events)
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen([
             Event\Created::class,
@@ -20,7 +20,7 @@ class UpdateUserOrderMeta
     /**
      * @param Event\Created|Event\Deleted|Event\UserChanged $event
      */
-    public function handle($event)
+    public function handle($event): void
     {
         if ($event instanceof Event\UserChanged && $event->oldUser) {
             $this->updateUser($event->oldUser);
@@ -31,7 +31,7 @@ class UpdateUserOrderMeta
         }
     }
 
-    protected function updateUser(User $user)
+    protected function updateUser(User $user): void
     {
         // We include soft-deleted orders
         $user->flamarkt_order_count = $user->orders()->count();

@@ -7,12 +7,10 @@ use Flarum\User\User;
 
 class Deleted
 {
-    public $order;
-    public $actor;
-
-    public function __construct(Order $order, User $actor = null)
+    public function __construct(
+        public Order $order,
+        public ?User $actor = null
+    )
     {
-        $this->order = $order;
-        $this->actor = $actor;
     }
 }

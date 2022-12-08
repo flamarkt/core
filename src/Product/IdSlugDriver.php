@@ -8,11 +8,10 @@ use Flarum\User\User;
 
 class IdSlugDriver implements SlugDriverInterface
 {
-    protected $products;
-
-    public function __construct(ProductRepository $products)
+    public function __construct(
+        protected ProductRepository $products
+    )
     {
-        $this->products = $products;
     }
 
     /**

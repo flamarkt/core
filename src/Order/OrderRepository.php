@@ -22,24 +22,15 @@ class OrderRepository
 {
     use DispatchEventsTrait;
 
-    protected $cartRepository;
-    protected $productRepository;
-    protected $orderValidator;
-    protected $lineValidator;
-
     public function __construct(
-        Dispatcher         $events,
-        CartRepository     $cartRepository,
-        ProductRepository  $productRepository,
-        OrderValidator     $orderValidator,
-        OrderLineValidator $lineValidator
+        Dispatcher                   $events,
+        protected CartRepository     $cartRepository,
+        protected ProductRepository  $productRepository,
+        protected OrderValidator     $orderValidator,
+        protected OrderLineValidator $lineValidator
     )
     {
         $this->events = $events;
-        $this->cartRepository = $cartRepository;
-        $this->productRepository = $productRepository;
-        $this->orderValidator = $orderValidator;
-        $this->lineValidator = $lineValidator;
     }
 
     public function query(): Builder
@@ -248,7 +239,7 @@ class OrderRepository
         return $this->save($order, $actor, $data);
     }
 
-    public function delete(Order $order, User $actor, array $data = [])
+    public function delete(Order $order, User $actor, array $data = []): void
     {
         $actor->assertCan('delete', $order);
 

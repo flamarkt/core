@@ -14,11 +14,10 @@ class ProductStoreController extends AbstractCreateController
 {
     public $serializer = ProductSerializer::class;
 
-    protected $repository;
-
-    public function __construct(ProductRepository $repository)
+    public function __construct(
+        protected ProductRepository $repository
+    )
     {
-        $this->repository = $repository;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

@@ -29,15 +29,12 @@ class ProductIndexController extends AbstractListController
 
     public $limit = 24;
 
-    protected $filterer;
-    protected $searcher;
-    protected $url;
-
-    public function __construct(ProductFilterer $filterer, ProductSearcher $searcher, UrlGenerator $url)
+    public function __construct(
+        protected ProductFilterer $filterer,
+        protected ProductSearcher $searcher,
+        protected UrlGenerator    $url
+    )
     {
-        $this->filterer = $filterer;
-        $this->searcher = $searcher;
-        $this->url = $url;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

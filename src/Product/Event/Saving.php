@@ -7,14 +7,11 @@ use Flarum\User\User;
 
 class Saving
 {
-    public $product;
-    public $actor;
-    public $data;
-
-    public function __construct(Product $product, User $actor, array $data = [])
+    public function __construct(
+        public Product $product,
+        public User    $actor,
+        public array   $data = []
+    )
     {
-        $this->product = $product;
-        $this->actor = $actor;
-        $this->data = $data;
     }
 }

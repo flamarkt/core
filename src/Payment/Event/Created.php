@@ -7,12 +7,10 @@ use Flarum\User\User;
 
 class Created
 {
-    public $payment;
-    public $actor;
-
-    public function __construct(Payment $payment, User $actor = null)
+    public function __construct(
+        public Payment $payment,
+        public ?User   $actor = null
+    )
     {
-        $this->payment = $payment;
-        $this->actor = $actor;
     }
 }

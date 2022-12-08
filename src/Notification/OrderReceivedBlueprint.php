@@ -9,11 +9,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OrderReceivedBlueprint implements BlueprintInterface, MailableInterface
 {
-    public $order;
-
-    public function __construct(Order $order)
+    public function __construct(
+        public Order $order
+    )
     {
-        $this->order = $order;
     }
 
     public function getSubject()

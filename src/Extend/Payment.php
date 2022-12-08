@@ -9,8 +9,8 @@ use Illuminate\Contracts\Container\Container;
 
 class Payment implements ExtenderInterface
 {
-    private $partialCallbacks = [];
-    private $remainingCallbacks = [];
+    protected array $partialCallbacks = [];
+    protected array $remainingCallbacks = [];
 
     /**
      * Register a payment callback that should execute before full payment options.

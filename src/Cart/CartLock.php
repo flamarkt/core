@@ -13,11 +13,10 @@ use Illuminate\Contracts\Cache\Repository;
  */
 class CartLock
 {
-    protected $cache;
-
-    public function __construct(Repository $cache)
+    public function __construct(
+        protected Repository $cache
+    )
     {
-        $this->cache = $cache;
     }
 
     public function isLocked(Cart $cart): bool

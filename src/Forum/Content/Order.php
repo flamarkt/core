@@ -12,18 +12,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Order
 {
-    protected $api;
-    protected $url;
-    protected $translator;
-
-    public function __construct(Client $api, UrlGenerator $url, TranslatorInterface $translator)
+    public function __construct(
+        protected Client              $api,
+        protected UrlGenerator        $url,
+        protected TranslatorInterface $translator
+    )
     {
-        $this->api = $api;
-        $this->url = $url;
-        $this->translator = $translator;
     }
 
-    public function __invoke(Document $document, ServerRequestInterface $request)
+    public function __invoke(Document $document, ServerRequestInterface $request): void
     {
         $queryParams = $request->getQueryParams();
         $id = Arr::get($queryParams, 'id');

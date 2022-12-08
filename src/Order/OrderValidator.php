@@ -6,7 +6,7 @@ use Flarum\Foundation\AbstractValidator;
 
 class OrderValidator extends AbstractValidator
 {
-    protected $order;
+    protected ?Order $order = null;
 
     // Not used internally, but necessary for extensions using the Validator extender
     public function getOrder(): Order

@@ -63,6 +63,6 @@ class PriceManager extends AbstractManager
 
     public function driver(Product $product, User $actor, ServerRequestInterface $request = null): string
     {
-        return $product->price_driver ?? $this->settings->get('flamarkt.defautPriceDriver') ?: 'fixed';
+        return $product->price_driver ?? $this->settings->get('flamarkt.defaultPriceDriver') ?: 'fixed';
     }
 }

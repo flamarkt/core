@@ -9,8 +9,8 @@ use Illuminate\Contracts\Container\Container;
 
 class Price implements ExtenderInterface
 {
-    protected $drivers = [];
-    protected $filters = [];
+    protected array $drivers = [];
+    protected array $filters = [];
 
     public function driver(string $name, string $className): self
     {

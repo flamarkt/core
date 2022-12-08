@@ -4,6 +4,7 @@ namespace Flamarkt\Core\Order\Gambit;
 
 use Flarum\Filter\FilterInterface;
 use Flarum\Filter\FilterState;
+use Flarum\Http\SlugDriverInterface;
 use Flarum\Http\SlugManager;
 use Flarum\Search\AbstractRegexGambit;
 use Flarum\Search\SearchState;
@@ -13,7 +14,7 @@ use Illuminate\Database\Query\Builder;
 // Based on Flarum AuthorFilterGambit but adapted to use slug instead of username
 class UserGambit extends AbstractRegexGambit implements FilterInterface
 {
-    protected $slugDriver;
+    protected SlugDriverInterface $slugDriver;
 
     public function __construct(SlugManager $slugManager)
     {

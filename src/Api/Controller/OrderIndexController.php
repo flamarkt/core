@@ -30,15 +30,12 @@ class OrderIndexController extends AbstractListController
         'createdAt' => 'desc',
     ];
 
-    protected $filterer;
-    protected $searcher;
-    protected $url;
-
-    public function __construct(OrderFilterer $filterer, OrderSearcher $searcher, UrlGenerator $url)
+    public function __construct(
+        protected OrderFilterer $filterer,
+        protected OrderSearcher $searcher,
+        protected UrlGenerator  $url
+    )
     {
-        $this->filterer = $filterer;
-        $this->searcher = $searcher;
-        $this->url = $url;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

@@ -8,5 +8,5 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface AvailabilityDriverInterface
 {
-    public function __invoke(Product $product, User $actor, ServerRequestInterface $request = null);
+    public function __invoke(Product $product, User $actor, ServerRequestInterface $request = null): string|bool|null;
 }

@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 
 class SaveUser
 {
-    public function handle(Saving $event)
+    public function handle(Saving $event): void
     {
         $attributes = (array)Arr::get($event->data, 'attributes');
 

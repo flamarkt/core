@@ -54,7 +54,7 @@ class Cart extends AbstractModel
             ->withPivot('quantity');
     }
 
-    public function updateMeta()
+    public function updateMeta(): void
     {
         $this->product_count = $this->products()->count();
         $this->price_total = $this->products->reduce(function ($previous, Product $product) {

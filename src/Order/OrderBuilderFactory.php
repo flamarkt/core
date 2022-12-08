@@ -20,28 +20,15 @@ use Ramsey\Uuid\Uuid;
 
 class OrderBuilderFactory
 {
-    protected $events;
-    protected $availability;
-    protected $price;
-    protected $lock;
-    protected $settings;
-    protected $paymentCallbacks;
-
     public function __construct(
-        Dispatcher                  $events,
-        AvailabilityManager         $availability,
-        PriceManager                $price,
-        CartLock                    $lock,
-        SettingsRepositoryInterface $settings,
-        array                       $paymentCallbacks
+        protected Dispatcher                  $events,
+        protected AvailabilityManager         $availability,
+        protected PriceManager                $price,
+        protected CartLock                    $lock,
+        protected SettingsRepositoryInterface $settings,
+        protected array                       $paymentCallbacks
     )
     {
-        $this->events = $events;
-        $this->availability = $availability;
-        $this->price = $price;
-        $this->lock = $lock;
-        $this->settings = $settings;
-        $this->paymentCallbacks = $paymentCallbacks;
     }
 
     public function build(User $actor, Cart $cart, array $data, ServerRequestInterface $request = null): Order

@@ -12,18 +12,15 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Product
 {
-    protected $api;
-    protected $view;
-    protected $url;
-
-    public function __construct(Client $api, Factory $view, UrlGenerator $url)
+    public function __construct(
+        protected Client       $api,
+        protected Factory      $view,
+        protected UrlGenerator $url
+    )
     {
-        $this->api = $api;
-        $this->view = $view;
-        $this->url = $url;
     }
 
-    public function __invoke(Document $document, ServerRequestInterface $request)
+    public function __invoke(Document $document, ServerRequestInterface $request): void
     {
         $queryParams = $request->getQueryParams();
         $id = Arr::get($queryParams, 'id');

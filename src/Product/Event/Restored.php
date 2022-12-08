@@ -7,12 +7,10 @@ use Flarum\User\User;
 
 class Restored
 {
-    public $product;
-    public $actor;
-
-    public function __construct(Product $product, User $actor = null)
+    public function __construct(
+        public Product $product,
+        public ?User   $actor = null
+    )
     {
-        $this->product = $product;
-        $this->actor = $actor;
     }
 }

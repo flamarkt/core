@@ -10,11 +10,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class OrderDeleteController extends AbstractDeleteController
 {
-    protected $repository;
-
-    public function __construct(OrderRepository $repository)
+    public function __construct(
+        protected OrderRepository $repository
+    )
     {
-        $this->repository = $repository;
     }
 
     protected function delete(ServerRequestInterface $request)

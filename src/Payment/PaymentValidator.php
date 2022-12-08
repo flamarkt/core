@@ -6,7 +6,7 @@ use Flarum\Foundation\AbstractValidator;
 
 class PaymentValidator extends AbstractValidator
 {
-    protected $payment;
+    protected ?Payment $payment = null;
 
     // Not used internally, but necessary for extensions using the Validator extender
     public function getPayment(): Payment

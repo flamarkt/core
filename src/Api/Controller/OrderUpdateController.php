@@ -20,11 +20,10 @@ class OrderUpdateController extends AbstractShowController
         'payments',
     ];
 
-    protected $repository;
-
-    public function __construct(OrderRepository $repository)
+    public function __construct(
+        protected OrderRepository $repository
+    )
     {
-        $this->repository = $repository;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

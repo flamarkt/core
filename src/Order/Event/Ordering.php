@@ -9,18 +9,13 @@ use Flarum\User\User;
 
 class Ordering
 {
-    public $builder;
-    public $order;
-    public $actor;
-    public $cart;
-    public $data;
-
-    public function __construct(OrderBuilder $builder, Order $order, User $actor, Cart $cart, array $data = [])
+    public function __construct(
+        public OrderBuilder $builder,
+        public Order        $order,
+        public User         $actor,
+        public Cart         $cart,
+        public array        $data = []
+    )
     {
-        $this->builder = $builder;
-        $this->order = $order;
-        $this->actor = $actor;
-        $this->cart = $cart;
-        $this->data = $data;
     }
 }

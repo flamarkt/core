@@ -9,15 +9,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractManager
 {
-    protected $drivers;
-    protected $filters;
-    protected $settings;
-
-    public function __construct(array $drivers, array $filters, SettingsRepositoryInterface $settings)
+    public function __construct(
+        protected array                       $drivers,
+        protected array                       $filters,
+        protected SettingsRepositoryInterface $settings
+    )
     {
-        $this->drivers = $drivers;
-        $this->filters = $filters;
-        $this->settings = $settings;
     }
 
     protected function process(Product $product, User $actor, ServerRequestInterface $request = null): array

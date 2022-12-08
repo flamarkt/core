@@ -2,8 +2,8 @@
 
 namespace Flamarkt\Core\Product;
 
-use Flamarkt\Core\Product\AvailabilityDriver\Always;
-use Flamarkt\Core\Product\AvailabilityDriver\Never;
+use Flamarkt\Core\Product\AvailabilityDriver\AlwaysAvailable;
+use Flamarkt\Core\Product\AvailabilityDriver\NeverAvailable;
 use Flarum\Foundation\AbstractServiceProvider;
 
 class ProductServiceProvider extends AbstractServiceProvider
@@ -11,8 +11,8 @@ class ProductServiceProvider extends AbstractServiceProvider
     public function register()
     {
         $this->container->instance('flamarkt.availability_drivers', [
-            'always' => new Always,
-            'never' => new Never,
+            'always' => new AlwaysAvailable,
+            'never' => new NeverAvailable,
         ]);
         $this->container->instance('flamarkt.availability_driver_filters', []);
 

@@ -8,9 +8,9 @@ use Flamarkt\Core\Product\Product;
 use Flarum\User\User;
 use Psr\Http\Message\ServerRequestInterface;
 
-class Always implements AvailabilityDriverInterface
+class AlwaysAvailable implements AvailabilityDriverInterface
 {
-    public function __invoke(Product $product, User $actor, ServerRequestInterface $request = null)
+    public function __invoke(Product $product, User $actor, ServerRequestInterface $request = null): string
     {
         return AvailabilityManager::AVAILABLE;
     }

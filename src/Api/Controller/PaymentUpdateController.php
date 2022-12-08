@@ -14,11 +14,10 @@ class PaymentUpdateController extends AbstractShowController
 {
     public $serializer = PaymentSerializer::class;
 
-    protected $repository;
-
-    public function __construct(PaymentRepository $repository)
+    public function __construct(
+        protected PaymentRepository $repository
+    )
     {
-        $this->repository = $repository;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

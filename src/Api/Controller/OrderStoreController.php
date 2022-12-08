@@ -22,15 +22,12 @@ class OrderStoreController extends AbstractCreateController
         'payments',
     ];
 
-    protected $orderRepository;
-    protected $cartRepository;
-    protected $orderBuilder;
-
-    public function __construct(OrderRepository $orderRepository, CartRepository $cartRepository, OrderBuilderFactory $orderBuilder)
+    public function __construct(
+        protected OrderRepository     $orderRepository,
+        protected CartRepository      $cartRepository,
+        protected OrderBuilderFactory $orderBuilder
+    )
     {
-        $this->orderRepository = $orderRepository;
-        $this->cartRepository = $cartRepository;
-        $this->orderBuilder = $orderBuilder;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

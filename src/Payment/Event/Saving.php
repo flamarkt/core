@@ -7,14 +7,11 @@ use Flarum\User\User;
 
 class Saving
 {
-    public $payment;
-    public $actor;
-    public $data;
-
-    public function __construct(Payment $payment, User $actor, array $data = [])
+    public function __construct(
+        public Payment $payment,
+        public User    $actor,
+        public array   $data = []
+    )
     {
-        $this->payment = $payment;
-        $this->actor = $actor;
-        $this->data = $data;
     }
 }

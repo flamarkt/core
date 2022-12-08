@@ -8,16 +8,12 @@ use Flarum\User\User;
 
 class SavingLine
 {
-    public $order;
-    public $line;
-    public $actor;
-    public $data;
-
-    public function __construct(Order $order, OrderLine $line, User $actor, array $data = [])
+    public function __construct(
+        public Order     $order,
+        public OrderLine $line,
+        public User      $actor,
+        public array     $data = []
+    )
     {
-        $this->order = $order;
-        $this->line = $line;
-        $this->actor = $actor;
-        $this->data = $data;
     }
 }

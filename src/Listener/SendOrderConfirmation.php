@@ -8,14 +8,13 @@ use Flarum\Notification\NotificationSyncer;
 
 class SendOrderConfirmation
 {
-    protected $notifications;
-
-    public function __construct(NotificationSyncer $notifications)
+    public function __construct(
+        protected NotificationSyncer $notifications
+    )
     {
-        $this->notifications = $notifications;
     }
 
-    public function handle(Created $event)
+    public function handle(Created $event): void
     {
         $this->notifications->sync(
             new OrderReceivedBlueprint($event->order),

@@ -10,11 +10,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class PaymentDeleteController extends AbstractDeleteController
 {
-    protected $repository;
-
-    public function __construct(PaymentRepository $repository)
+    public function __construct(
+        protected PaymentRepository $repository
+    )
     {
-        $this->repository = $repository;
     }
 
     protected function delete(ServerRequestInterface $request)

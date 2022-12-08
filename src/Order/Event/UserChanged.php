@@ -7,14 +7,11 @@ use Flarum\User\User;
 
 class UserChanged
 {
-    public $order;
-    public $actor;
-    public $oldUser;
-
-    public function __construct(Order $order, User $oldUser = null, User $actor = null)
+    public function __construct(
+        public Order $order,
+        public ?User $oldUser = null,
+        public ?User $actor = null
+    )
     {
-        $this->order = $order;
-        $this->actor = $actor;
-        $this->oldUser = $oldUser;
     }
 }

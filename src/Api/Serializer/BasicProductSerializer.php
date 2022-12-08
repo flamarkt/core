@@ -12,11 +12,10 @@ class BasicProductSerializer extends AbstractSerializer
 
     protected $type = 'flamarkt-products';
 
-    protected $slugManager;
-
-    public function __construct(SlugManager $slugManager)
+    public function __construct(
+        protected SlugManager $slugManager
+    )
     {
-        $this->slugManager = $slugManager;
     }
 
     /**

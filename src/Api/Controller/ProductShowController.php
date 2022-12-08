@@ -16,13 +16,11 @@ class ProductShowController extends AbstractShowController
 {
     public $serializer = ProductSerializer::class;
 
-    protected $slugManager;
-    protected $repository;
-
-    public function __construct(SlugManager $slugManager, ProductRepository $repository)
+    public function __construct(
+        protected SlugManager       $slugManager,
+        protected ProductRepository $repository
+    )
     {
-        $this->slugManager = $slugManager;
-        $this->repository = $repository;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

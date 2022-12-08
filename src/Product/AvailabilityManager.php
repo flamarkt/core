@@ -21,7 +21,7 @@ class AvailabilityManager extends AbstractManager
 
     public function driver(Product $product, User $actor, ServerRequestInterface $request = null): string
     {
-        return $product->availability_driver ?? $this->settings->get('flamarkt.defautAvailabilityDriver') ?: 'never';
+        return $product->availability_driver ?? $this->settings->get('flamarkt.defaultAvailabilityDriver') ?: 'never';
     }
 
     protected function sanitize($result)

@@ -11,11 +11,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CartMiddleware implements MiddlewareInterface
 {
-    protected $repository;
-
-    public function __construct(CartRepository $repository)
+    public function __construct(
+        protected CartRepository $repository
+    )
     {
-        $this->repository = $repository;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

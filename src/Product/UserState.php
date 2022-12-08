@@ -5,6 +5,7 @@ namespace Flamarkt\Core\Product;
 use Flarum\Database\AbstractModel;
 use Flarum\Foundation\EventGeneratorTrait;
 use Flarum\User\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -30,7 +31,7 @@ class UserState extends AbstractModel
         return $this->belongsTo(User::class);
     }
 
-    protected function setKeysForSaveQuery($query)
+    protected function setKeysForSaveQuery($query): Builder
     {
         $query->where('product_id', $this->product_id)
             ->where('user_id', $this->user_id);

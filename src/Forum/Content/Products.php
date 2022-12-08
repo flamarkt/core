@@ -13,22 +13,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Products
 {
-    protected $api;
-    protected $view;
-    protected $settings;
-    protected $url;
-    protected $translator;
-
-    public function __construct(Client $api, Factory $view, SettingsRepositoryInterface $settings, UrlGenerator $url, TranslatorInterface $translator)
+    public function __construct(
+        protected Client                      $api,
+        protected Factory                     $view,
+        protected SettingsRepositoryInterface $settings,
+        protected UrlGenerator                $url,
+        protected TranslatorInterface         $translator
+    )
     {
-        $this->api = $api;
-        $this->view = $view;
-        $this->settings = $settings;
-        $this->url = $url;
-        $this->translator = $translator;
     }
 
-    public function __invoke(Document $document, ServerRequestInterface $request)
+    public function __invoke(Document $document, ServerRequestInterface $request): void
     {
         $queryParams = $request->getQueryParams();
 

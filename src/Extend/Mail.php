@@ -10,10 +10,10 @@ use Illuminate\Contracts\Container\Container;
 
 class Mail implements ExtenderInterface
 {
-    protected $templateView;
+    protected ?string $templateView = null;
     protected $themeColor;
     protected $brand;
-    protected $css = [];
+    protected array $css = [];
 
     /**
      * Change the entire layout view used by Flamarkt emails.

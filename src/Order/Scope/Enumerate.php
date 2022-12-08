@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Enumerate extends View
 {
-    public function __invoke(User $actor, Builder $query)
+    public function __invoke(User $actor, Builder $query): void
     {
         parent::__invoke($actor, $query);
 

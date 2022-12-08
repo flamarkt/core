@@ -6,7 +6,7 @@ use Flarum\Foundation\AbstractValidator;
 
 class OrderLineValidator extends AbstractValidator
 {
-    protected $line;
+    protected ?OrderLine $line = null;
 
     // Not used internally, but necessary for extensions using the Validator extender
     public function getOrderLine(): OrderLine

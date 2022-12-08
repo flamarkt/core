@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 class OrderSearcher extends AbstractSearcher
 {
-    protected $repository;
-
-    public function __construct(GambitManager $gambits, array $searchMutators, OrderRepository $repository)
+    public function __construct(
+        GambitManager             $gambits,
+        array                     $searchMutators,
+        protected OrderRepository $repository
+    )
     {
         parent::__construct($gambits, $searchMutators);
-
-        $this->repository = $repository;
     }
 
     protected function getQuery(User $actor): Builder

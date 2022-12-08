@@ -7,14 +7,11 @@ use Flarum\User\User;
 
 class Renamed
 {
-    public $product;
-    public $oldTitle;
-    public $actor;
-
-    public function __construct(Product $product, $oldTitle, User $actor = null)
+    public function __construct(
+        public Product $product,
+        public string  $oldTitle,
+        public ?User   $actor = null
+    )
     {
-        $this->product = $product;
-        $this->oldTitle = $oldTitle;
-        $this->actor = $actor;
     }
 }

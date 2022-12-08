@@ -7,14 +7,11 @@ use Flarum\User\User;
 
 class DescriptionChanged
 {
-    public $product;
-    public $oldDescription;
-    public $actor;
-
-    public function __construct(Product $product, $oldDescription, User $actor = null)
+    public function __construct(
+        public Product $product,
+        public ?string $oldDescription,
+        public ?User   $actor = null
+    )
     {
-        $this->product = $product;
-        $this->oldDescription = $oldDescription;
-        $this->actor = $actor;
     }
 }

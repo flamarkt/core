@@ -8,11 +8,10 @@ use Flarum\User\User;
 
 class ProductComponent implements ComponentInterface
 {
-    protected $product;
-
-    public function __construct(Product $product)
+    public function __construct(
+        protected Product $product
+    )
     {
-        $this->product = $product;
     }
 
     public function route(): string

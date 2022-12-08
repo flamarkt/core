@@ -19,7 +19,7 @@ class CartSessionController extends AbstractShowController
         'products',
     ];
 
-    protected function data(ServerRequestInterface $request, Document $document)
+    protected function data(ServerRequestInterface $request, Document $document): Cart
     {
         /**
          * @var Cart $cart

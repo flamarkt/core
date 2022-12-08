@@ -18,14 +18,13 @@ class ProductRepository
 {
     use DispatchEventsTrait;
 
-    protected $validator;
-    protected $availability;
-
-    public function __construct(Dispatcher $events, ProductValidator $validator, AvailabilityManager $availability)
+    public function __construct(
+        Dispatcher                    $events,
+        protected ProductValidator    $validator,
+        protected AvailabilityManager $availability
+    )
     {
         $this->events = $events;
-        $this->validator = $validator;
-        $this->availability = $availability;
     }
 
     public function query(): Builder
@@ -180,7 +179,7 @@ class ProductRepository
         return $this->save($product, $actor, $data, $cart);
     }
 
-    public function delete(Product $product, User $actor, array $data = [])
+    public function delete(Product $product, User $actor, array $data = []): void
     {
         $actor->assertCan('delete', $product);
 

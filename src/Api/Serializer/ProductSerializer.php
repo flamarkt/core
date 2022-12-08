@@ -9,15 +9,13 @@ use Flarum\Http\SlugManager;
 
 class ProductSerializer extends BasicProductSerializer
 {
-    protected $availability;
-    protected $price;
-
-    public function __construct(SlugManager $slugManager, AvailabilityManager $availability, PriceManager $price)
+    public function __construct(
+        SlugManager                   $slugManager,
+        protected AvailabilityManager $availability,
+        protected PriceManager        $price
+    )
     {
         parent::__construct($slugManager);
-
-        $this->availability = $availability;
-        $this->price = $price;
     }
 
     protected function getDefaultAttributes($product): array

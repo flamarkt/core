@@ -11,12 +11,12 @@ class OrderBuilder
     /**
      * @var OrderLine[][]
      */
-    public $lines = [];
+    public array $lines = [];
 
     /**
      * @var Payment[]
      */
-    public $payments = [];
+    public array $payments = [];
 
     public function addLine(string $group = null, string $type = null): OrderLine
     {

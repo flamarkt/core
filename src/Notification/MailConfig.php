@@ -8,7 +8,7 @@ use Flarum\Settings\SettingsRepositoryInterface;
 
 class MailConfig
 {
-    public static $templateView = 'flamarkt::email.template';
+    public static string $templateView = 'flamarkt::email.template';
 
     public static $themeColorCallback;
 
