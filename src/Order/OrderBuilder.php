@@ -20,7 +20,7 @@ class OrderBuilder
 
     public function addLine(string $group = null, string $type = null): OrderLine
     {
-        if (!Arr::exists($this->lines, $group ?? '')) {
+        if (!Arr::exists($this->lines, $group ?? 'default')) {
             $this->lines[$group ?? 'default'] = [];
         }
 
