@@ -21,7 +21,7 @@ class OrderBuilder
     public function addLine(string $group = null, string $type = null): OrderLine
     {
         if (!Arr::exists($this->lines, $group ?? '')) {
-            $this->lines[$group ?? ''] = [];
+            $this->lines[$group ?? 'default'] = [];
         }
 
         $line = new OrderLine();
@@ -29,7 +29,7 @@ class OrderBuilder
         $line->group = $group;
         $line->type = $type;
 
-        $this->lines[$group ?? ''][] = $line;
+        $this->lines[$group ?? 'default'][] = $line;
 
         return $line;
     }
