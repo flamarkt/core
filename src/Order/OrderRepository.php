@@ -16,6 +16,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use Ramsey\Uuid\Uuid;
 
 class OrderRepository
@@ -64,7 +65,7 @@ class OrderRepository
 
     public function save(Order $order, User $actor, array $data): Order
     {
-        $linesRelationship = Arr::get($data, 'data.relationships.lines.data');
+        $linesRelationship = Arr::get($data, 'relationships.lines.data');
 
         if (is_array($linesRelationship)) {
             $actor->assertCan('backoffice');
@@ -79,13 +80,16 @@ class OrderRepository
              */
             $lines = [];
 
-            foreach ($linesRelationship as $lineData) {
+            $allLineErrors = [];
+
+            foreach ($linesRelationship as $lineIndex => $lineData) {
                 // Cast to string because pull() only accepts strings or integer
                 // And the IDs should already be as string in the keys
                 $line = $existingLines->pull((string)Arr::get($lineData, 'id'));
 
                 if (!$line) {
                     $line = new OrderLine();
+                    $line->uid = Uuid::uuid4()->toString();
                 }
 
                 $attributes = (array)Arr::get($lineData, 'attributes');
@@ -103,7 +107,26 @@ class OrderRepository
                     unset($attributes['productUid']);
                 }
 
-                $this->lineValidator->assertValid($attributes);
+                try {
+                    $this->lineValidator->setOrderLine($line->exists ? $line : null);
+                    $this->lineValidator->assertValid($attributes);
+                } catch (ValidationException $exception) {
+                    $messages = $exception->errors();
+
+                    // There shouldn't be zero messages here, but if it happened it would break our logic
+                    // since we will read the number of messages copied to $allLineErrors
+                    // So we'll throw immediately just in case it ever happens
+                    if (count($messages) === 0) {
+                        throw $exception;
+                    }
+
+                    foreach ($messages as $key => $message) {
+                        $allLineErrors['lines/' . $lineIndex . '/' . $key] = 'Line #' . $lineIndex . ': ' . implode("\n", $message);
+                    }
+
+                    // Continue validating other lines so the user gets all validation errors at once
+                    continue;
+                }
 
                 if (Arr::exists($attributes, 'group')) {
                     $line->group = Arr::get($attributes, 'group');
@@ -148,6 +171,10 @@ class OrderRepository
                 $this->events->dispatch(new SavingLine($order, $line, $actor, $lineData));
 
                 $lines[] = $line;
+            }
+
+            if (count($allLineErrors)) {
+                throw new \Flarum\Foundation\ValidationException([], $allLineErrors);
             }
 
             foreach ($lines as $index => $line) {

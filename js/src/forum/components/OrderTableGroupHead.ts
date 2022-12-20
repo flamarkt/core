@@ -1,10 +1,12 @@
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import OrderLine from '../../common/models/OrderLine';
 import ItemList from 'flarum/common/utils/ItemList';
+import Order from '../../common/models/Order';
 
 interface OrderTableGroupHeadAttrs extends ComponentAttrs {
-    group: string | null
+    group: string // Null is replaced by "default" in this parameter
     lines: OrderLine[]
+    order: Order
 }
 
 export default class OrderTableGroupHead extends Component<OrderTableGroupHeadAttrs> {

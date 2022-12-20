@@ -5,9 +5,11 @@ import OrderLine from '../../common/models/OrderLine';
 import ItemList from 'flarum/common/utils/ItemList';
 import PriceLabel from '../../common/components/PriceLabel'
 import QuantityLabel from '../../common/components/QuantityLabel';
+import Order from '../../common/models/Order';
 
 interface OrderTableRowAttrs extends ComponentAttrs {
-    line: OrderLine,
+    line: OrderLine
+    order: Order
 }
 
 export default class OrderTableRow extends Component<OrderTableRowAttrs> {

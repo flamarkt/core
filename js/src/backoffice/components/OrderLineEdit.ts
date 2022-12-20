@@ -8,6 +8,8 @@ import OrderLineEditState from '../states/OrderLineEditState';
 import PriceInput from '../../common/components/PriceInput';
 import QuantityInput from '../../common/components/QuantityInput';
 import PriceLabel from '../../common/components/PriceLabel';
+import augmentOptionsWithValue from '../utils/augmentOptionsWithValue';
+import OrderLineOptions from '../utils/OrderLineOptions';
 
 interface OrderLineAttrs extends Attributes {
     line: OrderLineEditState
@@ -38,10 +40,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 line.group = value === '_none' ? null : value;
                 onchange();
             },
-            options: {
-                _none: 'None',
-                shipping: 'Shipping',
-            },
+            options: augmentOptionsWithValue(OrderLineOptions.orderLineGroupOptions(), line.group),
         })), 90);
         columns.add('type', m('td.OrderLineEdit-Type', Select.component({
             value: line.type,
@@ -49,10 +48,7 @@ export default class OrderLineEdit implements ClassComponent<OrderLineAttrs> {
                 line.type = value;
                 onchange();
             },
-            options: {
-                product: 'Product',
-                manual: 'Manual',
-            },
+            options: augmentOptionsWithValue(OrderLineOptions.orderLineTypeOptions(), line.type),
         })), 80);
         columns.add('info', m('td.OrderLineEdit-Info', this.fields(line, onchange).toArray()), 30);
         columns.add('priceUnit', m('td.OrderLineEdit-PriceUnit', m(PriceInput, {

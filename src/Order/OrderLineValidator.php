@@ -3,6 +3,7 @@
 namespace Flamarkt\Core\Order;
 
 use Flarum\Foundation\AbstractValidator;
+use Illuminate\Validation\Rule;
 
 class OrderLineValidator extends AbstractValidator
 {
@@ -14,38 +15,57 @@ class OrderLineValidator extends AbstractValidator
         return $this->line;
     }
 
-    public function setOrderLine(OrderLine $line)
+    public function setOrderLine(OrderLine $line = null)
     {
         $this->line = $line;
     }
 
-    protected $rules = [
-        'group' => [
-            'nullable',
-            'in:shipping',
-        ],
-        'type' => [
-            'nullable',
-            'in:product,manual',
-        ],
-        'label' => [
-            'nullable',
-            'string',
-            'max:255',
-        ],
-        'comment' => [
-            'nullable',
-            'string',
-            'max:255',
-        ],
-        'productUid' => [
-            'exists:flamarkt_products,uid',
-        ],
-        'quantity' => [
-            'integer',
-        ],
-        'priceUnit' => [
-            'integer',
-        ],
-    ];
+    protected function getRules(): array
+    {
+        $groups = resolve('flamarkt.order.line.groups');
+        $types = resolve('flamarkt.order.line.types');
+
+        // Prevent errors if trying to save an invalid value that was already in the database
+        // Otherwise it would be impossible to edit other lines or attributes of a broken order without fixing all problems at once
+        // Which might not always be possible or desired
+        if ($this->line) {
+            if ($this->line->group) {
+                $groups[] = $this->line->group;
+            }
+
+            if ($this->line->type) {
+                $types[] = $this->line->type;
+            }
+        }
+
+        return [
+            'group' => [
+                'nullable',
+                Rule::in($groups),
+            ],
+            'type' => [
+                'nullable',
+                Rule::in($types),
+            ],
+            'label' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'comment' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'productUid' => [
+                Rule::exists('flamarkt_products', 'uid'),
+            ],
+            'quantity' => [
+                'integer',
+            ],
+            'priceUnit' => [
+                'integer',
+            ],
+        ];
+    }
 }

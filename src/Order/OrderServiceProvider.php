@@ -9,9 +9,13 @@ class OrderServiceProvider extends AbstractServiceProvider
 {
     public function register()
     {
-        $this->container->instance('flamarkt.order.groups', [
-            'products',
+        $this->container->instance('flamarkt.order.line.groups', [
             'shipping',
+        ]);
+
+        $this->container->instance('flamarkt.order.line.types', [
+            'product',
+            'manual',
         ]);
 
         $this->container->instance('flamarkt.payment.callbacks', [

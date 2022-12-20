@@ -52,47 +52,72 @@ export default class OrderTable extends Component<OrderTableAttrs> {
     rows(): ItemList<any> {
         const rows = new ItemList();
 
+        const {order} = this.attrs;
         let isFirstGroup = true;
-        let group: string | null = '__not_exists';
+        let group: string = '__not_exists';
         let linesInGroup: OrderLine[] = [];
 
-        (this.attrs.order.lines() || []).forEach(line => {
+        (order.lines() || []).forEach(line => {
             if (!line) {
                 return;
             }
 
-            if (line.group() !== group) {
+            const thisLineGroup = line.group() || 'default';
+
+            if (thisLineGroup !== group) {
                 if (!isFirstGroup) {
-                    rows.add('group-foot-' + group, m(OrderTableGroupFoot, {
+                    rows.add('group-foot-' + group /* previous group value */, m(OrderTableGroupFoot, {
                         group,
                         lines: linesInGroup,
-                    }));
+                        order,
+                    }), this.lineFootPriority(group));
                 }
 
-                group = line.group() as string;
+                group = thisLineGroup;
                 linesInGroup = [];
 
                 rows.add('group-head-' + group, m(OrderTableGroupHead, {
                     group,
                     line: [], // TODO: needs to pre-compute the list of lines to have them for the head
-                }));
+                    order,
+                }), this.lineHeadPriority(group));
             }
 
-            rows.add('line-' + line.id(), OrderTableRow.component({
+            rows.add(this.lineKey(line), OrderTableRow.component({
                 line,
-            }));
+                order,
+            }), this.linePriority(line));
             linesInGroup.push(line);
 
             isFirstGroup = false;
         });
 
+        // If there were no lines, isFirstGroup will still be false
+        // In that case we wouldn't have any group name to use so we'll skip since the page will be empty anyway
         if (!isFirstGroup) {
             rows.add('group-foot-' + group, m(OrderTableGroupFoot, {
                 group,
                 lines: linesInGroup,
-            }));
+                order,
+            }), this.lineFootPriority(group));
         }
 
         return rows;
+    }
+
+    lineKey(line: OrderLine) {
+        return 'line-' + line.id();
+    }
+
+    linePriority(line: OrderLine) {
+        return 0;
+    }
+
+    lineHeadPriority(group: string) {
+        return 0;
+    }
+
+    lineFootPriority(group: string) {
+        return 0;
     }
 }

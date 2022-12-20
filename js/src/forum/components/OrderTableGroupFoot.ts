@@ -2,10 +2,12 @@ import Component, {ComponentAttrs} from 'flarum/common/Component';
 import OrderLine from '../../common/models/OrderLine';
 import ItemList from 'flarum/common/utils/ItemList';
 import PriceLabel from '../../common/components/PriceLabel';
+import Order from '../../common/models/Order';
 
 interface OrderTableGroupFootAttrs extends ComponentAttrs {
-    group: string | null
+    group: string // Null is replaced by "default" in this parameter
     lines: OrderLine[]
+    order: Order
 }
 
 export default class OrderTableGroupFoot extends Component<OrderTableGroupFootAttrs> {
@@ -18,7 +20,8 @@ export default class OrderTableGroupFoot extends Component<OrderTableGroupFootAt
     }
 
     visible(): boolean {
-        return this.attrs.group === null;
+        // If there are any non-default groups, enable the footer for the default group
+        return (this.attrs.order.lines() || []).some(line => line && line.group() !== null) && this.attrs.group === 'default';
     }
 
     subtotal(): number {
