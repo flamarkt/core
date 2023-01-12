@@ -9,7 +9,7 @@ class Renamed
 {
     public function __construct(
         public Product $product,
-        public string  $oldTitle,
+        public ?string $oldTitle,
         public ?User   $actor = null
     )
     {

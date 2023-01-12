@@ -74,7 +74,10 @@ class ProductRepository
 
             if ($newTitle !== $oldTitle) {
                 $product->title = $newTitle;
-                $product->raise(new Event\Renamed($product, $oldTitle));
+
+                if ($product->exists) {
+                    $product->raise(new Event\Renamed($product, $oldTitle));
+                }
             }
         }
 
@@ -86,7 +89,10 @@ class ProductRepository
 
             if ($newDescription !== $oldDescription) {
                 $product->description = $newDescription;
-                $product->raise(new Event\DescriptionChanged($product, $oldDescription));
+
+                if ($product->exists) {
+                    $product->raise(new Event\DescriptionChanged($product, $oldDescription));
+                }
             }
         }
 
