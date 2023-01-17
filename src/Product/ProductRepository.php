@@ -84,14 +84,14 @@ class ProductRepository
         if (Arr::exists($attributes, 'description')) {
             $actor->assertCan('edit', $product);
 
-            $oldDescription = $product->description;
-            $newDescription = Arr::get($attributes, 'description');
+            $newDescription = Arr::get($attributes, 'description') ?: null;
 
-            if ($newDescription !== $oldDescription) {
+            if ($newDescription !== $product->description) {
+                $oldParsedDescription = $product->parsed_description;
                 $product->description = $newDescription;
 
                 if ($product->exists) {
-                    $product->raise(new Event\DescriptionChanged($product, $oldDescription));
+                    $product->raise(new Event\DescriptionChanged($product, $oldParsedDescription));
                 }
             }
         }

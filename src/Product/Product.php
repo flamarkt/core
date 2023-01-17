@@ -21,6 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @property string $uid
  * @property string $title
  * @property string $description
+ * @property string $parsed_description
  * @property int $price
  * @property string $availability_driver
  * @property string $price_driver

@@ -4,10 +4,10 @@ import AbstractShowPage from 'flamarkt/backoffice/common/pages/AbstractShowPage'
 import Product from '../../common/models/Product';
 import SubmitButton from 'flamarkt/backoffice/backoffice/components/SubmitButton';
 import ItemList from 'flarum/common/utils/ItemList';
-import TextEditor from 'flarum/common/components/TextEditor';
 import Select from 'flarum/common/components/Select';
 import SoftDeleteButton from 'flamarkt/backoffice/backoffice/components/SoftDeleteButton';
 import PermanentDeleteButton from 'flamarkt/backoffice/backoffice/components/PermanentDeleteButton';
+import RichTextInput from 'flamarkt/backoffice/backoffice/components/RichTextInput';
 import PriceInput from '../../common/components/PriceInput';
 
 export default class ProductShowPage extends AbstractShowPage {
@@ -19,11 +19,6 @@ export default class ProductShowPage extends AbstractShowPage {
     price: number = 0;
     availabilityDriver: string | null = null;
     priceDriver: string | null = null;
-
-    // We can't use the TextEditor component without having a composer object where the editor can be written to
-    composer = {
-        editor: null,
-    };
 
     newRecord() {
         return app.store.createRecord('flamarkt-products', {
@@ -64,12 +59,6 @@ export default class ProductShowPage extends AbstractShowPage {
     fields(): ItemList<any> {
         const fields = new ItemList();
 
-        // We need to patch our way through the global app object because of https://github.com/flarum/markdown/pull/28
-        // which made the markdown toolbar only work globally
-        // TODO: remove when possible
-        // @ts-ignore
-        app.composer = this.composer;
-
         fields.add('title', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.title')),
             m('input.FormControl', {
@@ -85,7 +74,7 @@ export default class ProductShowPage extends AbstractShowPage {
 
         fields.add('description', m('.Form-group', [
             m('label', app.translator.trans('flamarkt-core.backoffice.products.field.description')),
-            m('.FormControl.FormControl--editor', TextEditor.component({
+            m(RichTextInput, {
                 value: this.description,
                 onchange: (value: string) => {
                     this.description = value;
@@ -94,8 +83,7 @@ export default class ProductShowPage extends AbstractShowPage {
                     m.redraw();
                 },
                 disabled: this.saving,
-                composer: this.composer,
-            })),
+            }),
         ]), 40);
 
         fields.add('price', m('.Form-group', [
