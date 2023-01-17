@@ -24,6 +24,7 @@ export default class OrderShowPage extends AbstractShowPage {
 
         app.setTitle(extractText(app.translator.trans('flamarkt-core.forum.order.browserTitle', {
             number: this.order.number(),
+            date: this.order.titleDate(),
         })));
         app.setTitleCount(0);
     }

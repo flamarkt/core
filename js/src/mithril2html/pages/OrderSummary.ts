@@ -2,6 +2,7 @@ import app from 'flarum/forum/app';
 import {Vnode} from 'mithril';
 import Page from 'flarum/common/components/Page';
 import Order from '../../common/models/Order';
+import OrderFacts from 'flamarkt/core/forum/components/OrderFacts';
 import OrderTable from 'flamarkt/core/forum/components/OrderTable';
 import ItemList from 'flarum/common/utils/ItemList';
 import LinkButton from 'flarum/common/components/LinkButton';
@@ -35,6 +36,10 @@ export class OrderSummary extends Page {
 
     sections(): ItemList<any> {
         const sections = new ItemList();
+
+        sections.add('facts', m(OrderFacts, {
+            order: this.order,
+        }), 150);
 
         sections.add('table', m(OrderTable, {
             order: this.order,

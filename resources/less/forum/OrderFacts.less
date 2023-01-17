@@ -1,0 +1,43 @@
+.FlamarktOrderFacts {
+    display: flex;
+    padding: 10px 0;
+}
+
+.FlamarktOrderFact {
+    padding: 0 20px 0 0;
+    width: 230px;
+    max-width: 100%;
+
+    dl {
+        margin: 0;
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    dd {
+        margin: 5px 0 0 0;
+    }
+}
+
+.FlamarktOrderFact--payment {
+    display: table;
+
+    dd {
+        display: table-row;
+
+        > span {
+            display: table-cell;
+            padding: 2px 6px 2px 0;
+
+            &.date {
+                color: @muted-color;
+            }
+
+            &.amount {
+                text-align: right;
+            }
+        }
+    }
+}

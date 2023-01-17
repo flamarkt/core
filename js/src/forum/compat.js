@@ -5,6 +5,9 @@ import CartPageSection from './components/CartPageSection';
 import CartTable from './components/CartTable';
 import CartTableRow from './components/CartTableRow';
 import InlineSubmitStatus from './components/InlineSubmitStatus';
+import OrderFact from './components/OrderFact';
+import OrderFactPayment from './components/OrderFactPayment';
+import OrderFacts from './components/OrderFacts';
 import OrderTable from './components/OrderTable';
 import OrderTableGroupFoot from './components/OrderTableGroupFoot';
 import OrderTableGroupHead from './components/OrderTableGroupHead';
@@ -31,6 +34,7 @@ import ProductShowPage from './pages/ProductShowPage';
 import CartState from './states/CartState';
 import ProductGridListState from './states/ProductGridListState';
 import AccountControls from './utils/AccountControls';
+import DateFormat from './utils/DateFormat';
 
 export const forum = {
     'components/Breadcrumb': Breadcrumb,
@@ -40,6 +44,9 @@ export const forum = {
     'components/CartTable': CartTable,
     'components/CartTableRow': CartTableRow,
     'components/InlineSubmitStatus': InlineSubmitStatus,
+    'components/OrderFact': OrderFact,
+    'components/OrderFactPayment': OrderFactPayment,
+    'components/OrderFacts': OrderFacts,
     'components/OrderTable': OrderTable,
     'components/OrderTableGroupFoot': OrderTableGroupFoot,
     'components/OrderTableGroupHead': OrderTableGroupHead,
@@ -66,4 +73,5 @@ export const forum = {
     'states/CartState': CartState,
     'states/ProductGridListState': ProductGridListState,
     'utils/AccountControls': AccountControls,
+    'utils/DateFormat': DateFormat,
 }

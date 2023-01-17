@@ -1,9 +1,5 @@
 import app from 'flarum/forum/app';
 import {extend, override} from 'flarum/common/extend';
-import Cart from '../common/models/Cart';
-import Order from '../common/models/Order';
-import OrderLine from '../common/models/OrderLine';
-import Product from '../common/models/Product';
 import {common} from '../common/compat';
 import {forum} from './compat';
 import IndexPage from 'flarum/forum/components/IndexPage';
@@ -18,6 +14,7 @@ import NotificationGrid from 'flarum/forum/components/NotificationGrid';
 import Search from 'flarum/forum/components/Search';
 import ForumApplication from 'flarum/forum/ForumApplication';
 import ProductSearchSource from './components/ProductSearchSource';
+import addModels from '../common/addModels';
 
 export {
     common,
@@ -25,10 +22,7 @@ export {
 };
 
 app.initializers.add('flamarkt-core', () => {
-    app.store.models['flamarkt-carts'] = Cart;
-    app.store.models['flamarkt-orders'] = Order;
-    app.store.models['flamarkt-order-lines'] = OrderLine;
-    app.store.models['flamarkt-products'] = Product;
+    addModels();
 
     Forum.prototype.cart = Model.hasOne('cart');
 

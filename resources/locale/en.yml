@@ -127,7 +127,7 @@ flamarkt-core:
             account: Account
             cart: Cart
             customers: Customers
-            order: Order {number}
+            order: Order {number} from {date}
             orders: Orders
             payments: Payments
             products: Products
