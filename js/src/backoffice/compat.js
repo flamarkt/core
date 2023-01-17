@@ -1,6 +1,7 @@
 import EditPaymentModal from './components/EditPaymentModal';
 import OrderLineEdit from './components/OrderLineEdit';
 import OrderList from './components/OrderList';
+import OrderPaymentSection from './components/OrderPaymentSection';
 import OrderRelationshipSelect from './components/OrderRelationshipSelect';
 import PaymentList from './components/PaymentList';
 import ProductList from './components/ProductList';
@@ -18,6 +19,7 @@ export const backoffice = {
     'components/EditPaymentModal': EditPaymentModal,
     'components/OrderLineEdit': OrderLineEdit,
     'components/OrderList': OrderList,
+    'components/OrderPaymentSection': OrderPaymentSection,
     'components/OrderRelationshipSelect': OrderRelationshipSelect,
     'components/PaymentList': PaymentList,
     'components/ProductList': ProductList,

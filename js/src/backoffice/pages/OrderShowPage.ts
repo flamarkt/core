@@ -14,8 +14,7 @@ import UserRelationshipSelect from 'flamarkt/backoffice/common/components/UserRe
 import OrderLineEditState from '../states/OrderLineEditState';
 import SoftDeleteButton from 'flamarkt/backoffice/backoffice/components/SoftDeleteButton';
 import PermanentDeleteButton from 'flamarkt/backoffice/backoffice/components/PermanentDeleteButton';
-import PaymentList from '../components/PaymentList';
-import PaymentListPassthroughState from '../states/PaymentListPassthroughState';
+import OrderPaymentSection from '../components/OrderPaymentSection';
 
 export default class OrderShowPage extends AbstractShowPage {
     order: Order | null = null;
@@ -65,7 +64,7 @@ export default class OrderShowPage extends AbstractShowPage {
 
         return m('form.OrderShowPage', {
             onsubmit: this.onsubmit.bind(this),
-        }, m('.container.container--narrow', this.fields().toArray()));
+        }, m('.container', this.fields().toArray()));
     }
 
     fields(): ItemList<any> {
@@ -157,12 +156,9 @@ export default class OrderShowPage extends AbstractShowPage {
             }),
         ]), -10);
 
-        fields.add('payments', m('.Form-group', [
-            m('label', app.translator.trans('flamarkt-core.backoffice.payments.title')),
-            m(PaymentList, {
-                state: new PaymentListPassthroughState(this.order!),
-            }),
-        ]), -20);
+        fields.add('payments', m(OrderPaymentSection, {
+            order: this.order,
+        }), -20);
 
         return fields;
     }
