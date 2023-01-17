@@ -6,6 +6,9 @@ export const forum: {
     'components/CartTable': typeof CartTable;
     'components/CartTableRow': typeof CartTableRow;
     'components/InlineSubmitStatus': typeof InlineSubmitStatus;
+    'components/OrderFact': typeof OrderFact;
+    'components/OrderFactPayment': typeof OrderFactPayment;
+    'components/OrderFacts': typeof OrderFacts;
     'components/OrderTable': typeof OrderTable;
     'components/OrderTableGroupFoot': typeof OrderTableGroupFoot;
     'components/OrderTableGroupHead': typeof OrderTableGroupHead;
@@ -34,6 +37,11 @@ export const forum: {
     'utils/AccountControls': {
         controls(user: import("flarum/common/models/User").default): import("flarum/common/utils/ItemList").default<any>;
     };
+    'utils/DateFormat': {
+        defaultFormat(): string;
+        orderDayFormat(): string;
+        paymentDayFormat(): string;
+    };
 };
 import Breadcrumb from "./components/Breadcrumb";
 import CartDropdown from "./components/CartDropdown";
@@ -42,6 +50,9 @@ import CartPageSection from "./components/CartPageSection";
 import CartTable from "./components/CartTable";
 import CartTableRow from "./components/CartTableRow";
 import InlineSubmitStatus from "./components/InlineSubmitStatus";
+import OrderFact from "./components/OrderFact";
+import OrderFactPayment from "./components/OrderFactPayment";
+import OrderFacts from "./components/OrderFacts";
 import OrderTable from "./components/OrderTable";
 import OrderTableGroupFoot from "./components/OrderTableGroupFoot";
 import OrderTableGroupHead from "./components/OrderTableGroupHead";

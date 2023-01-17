@@ -13,5 +13,6 @@ export default class Order extends Model {
     user: () => false | User;
     lines: () => false | (OrderLine | undefined)[];
     payments: () => false | (Payment | undefined)[];
+    titleDate(): string;
     apiEndpoint(): string;
 }

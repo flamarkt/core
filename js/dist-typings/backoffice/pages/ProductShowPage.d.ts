@@ -10,9 +10,6 @@ export default class ProductShowPage extends AbstractShowPage {
     price: number;
     availabilityDriver: string | null;
     priceDriver: string | null;
-    composer: {
-        editor: null;
-    };
     newRecord(): import("flarum/common/Model").default;
     findType(): string;
     show(product: Product): void;

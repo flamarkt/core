@@ -117,7 +117,7 @@ flamarkt-core:
         template:
             footer: Sent from {title}
         orderUpdated:
-            Subject: Your order {number} has been updated
+            subject: Your order {number} has been updated
             message: 'Your order status has been updated. You will find a summary below:'
         orderReceived:
             subject: Your order {number} has been received
