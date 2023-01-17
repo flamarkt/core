@@ -21,7 +21,7 @@
 @endsection
 
 @section('content')
-    <p>{{ $translator->trans('flamarkt-core.email.orderReceived.message') }}</p>
+    {!! $blueprint->getEmailMessage($translator) !!}
 
-    @mithril2html(new \Flamarkt\Core\Mithril2Html\OrderComponent($blueprint->order))
+    @mithril2html($blueprint->getEmailComponent())
 @endsection

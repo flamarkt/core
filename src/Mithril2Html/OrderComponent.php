@@ -9,14 +9,15 @@ use Flarum\User\User;
 class OrderComponent implements ComponentInterface
 {
     public function __construct(
-        protected Order $order
+        protected Order  $order,
+        protected string $notificationType
     )
     {
     }
 
     public function route(): string
     {
-        return 'flamarkt/order-summary';
+        return 'flamarkt/order-summary?notificationType=' . $this->notificationType;
     }
 
     public function preload(): ?string
