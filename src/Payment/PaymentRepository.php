@@ -67,7 +67,7 @@ class PaymentRepository
         if (Arr::exists($attributes, 'amount')) {
             $actor->assertCan('edit', $payment);
 
-            $payment->amount = Arr::get($attributes, 'amount');
+            $payment->amount = (int)Arr::get($attributes, 'amount');
         }
 
         $this->events->dispatch(new Saving($payment, $actor, $data));

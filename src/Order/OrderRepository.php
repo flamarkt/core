@@ -159,11 +159,11 @@ class OrderRepository
                 }
 
                 if (Arr::exists($attributes, 'priceUnit')) {
-                    $line->price_unit = Arr::get($attributes, 'priceUnit');
+                    $line->price_unit = (int)Arr::get($attributes, 'priceUnit');
                 }
 
                 if (Arr::exists($attributes, 'quantity')) {
-                    $line->quantity = Arr::get($attributes, 'quantity');
+                    $line->quantity = (int)Arr::get($attributes, 'quantity');
                 }
 
                 $line->updateTotal();

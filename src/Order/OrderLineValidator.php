@@ -62,9 +62,13 @@ class OrderLineValidator extends AbstractValidator
             ],
             'quantity' => [
                 'integer',
+                'min:-2147483648', // MySQL signed INT range
+                'max:2147483647',
             ],
             'priceUnit' => [
                 'integer',
+                'min:-2147483648', // MySQL signed INT range
+                'max:2147483647',
             ],
         ];
     }

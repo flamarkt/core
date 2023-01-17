@@ -32,6 +32,8 @@ class PaymentValidator extends AbstractValidator
         ],
         'amount' => [
             'integer',
+            'min:-2147483648', // MySQL signed INT range
+            'max:2147483647',
         ],
     ];
 }
