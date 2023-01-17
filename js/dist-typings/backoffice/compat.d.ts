@@ -2,6 +2,7 @@ export const backoffice: {
     'components/EditPaymentModal': typeof EditPaymentModal;
     'components/OrderLineEdit': typeof OrderLineEdit;
     'components/OrderList': typeof OrderList;
+    'components/OrderPaymentSection': typeof OrderPaymentSection;
     'components/OrderRelationshipSelect': typeof OrderRelationshipSelect;
     'components/PaymentList': typeof PaymentList;
     'components/ProductList': typeof ProductList;
@@ -25,6 +26,7 @@ export const backoffice: {
 import EditPaymentModal from "./components/EditPaymentModal";
 import OrderLineEdit from "./components/OrderLineEdit";
 import OrderList from "./components/OrderList";
+import OrderPaymentSection from "./components/OrderPaymentSection";
 import OrderRelationshipSelect from "./components/OrderRelationshipSelect";
 import PaymentList from "./components/PaymentList";
 import ProductList from "./components/ProductList";
