@@ -1,0 +1,31 @@
+.FlamarktDecimalInput {
+    padding: 0;
+    display: flex;
+
+    // Copied from .Form-control
+    &.focused {
+        background-color: var(--body-bg);
+        color: var(--text-color);
+        border-color: var(--primary-color);
+    }
+
+    input {
+        display: block;
+        padding: 8px 13px; // Same as .Form-control
+        border: none;
+        background: transparent;
+        width: 100%;
+        flex-grow: 1;
+        flex-shrink: 1;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.FlamarktDecimalInputUnit {
+    padding: 8px 13px 0 0; // Made to match with .Form-control
+    line-height: 15px;
+    cursor: text;
+}

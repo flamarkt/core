@@ -14,10 +14,25 @@
     td {
         border-top: 1px solid #dedede;
     }
+
+    // Force the width of numberic inputs so they don't take too much space when we know we rarely need more than ~5 digits
+    .FlamarktDecimalInput {
+        max-width: 10em;
+    }
+
+    // Reduce space used by form groups used inside of the table
+    .Form-group, label {
+        margin-bottom: 5px;
+    }
 }
 
-.OrderLineEdit-Quantity, .OrderLineEdit-PriceUnit {
-    input {
-        max-width: 7em;
+.OrderLineEdit-Info {
+    max-width: 20em;
+}
+
+.OrderLineEdit-Group, .OrderLineEdit-Type {
+    .Select {
+        // For some reason the Select is not reserving the space it really needs
+        margin-right: 10px;
     }
 }

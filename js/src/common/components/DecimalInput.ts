@@ -1,10 +1,12 @@
 import Component, {ComponentAttrs} from 'flarum/common/Component';
+import classList from 'flarum/common/utils/classList';
 import Product from '../models/Product';
 
 export interface DecimalInputAttrs extends ComponentAttrs {
     value: number
     onchange: (value: number) => void
     disabled?: boolean
+    readonly?: boolean
     product?: Product
     unit?: string
     min?: number
@@ -15,6 +17,8 @@ export interface DecimalInputAttrs extends ComponentAttrs {
 }
 
 export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttrs> extends Component<T> {
+    hasFocus: boolean = false
+
     decimals(): number {
         return this.attrs.decimals || 0;
     }
@@ -35,8 +39,14 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
         return !!this.attrs.disabled;
     }
 
-    className(): string {
-        return this.attrs.className || '';
+    readonly(): boolean {
+        return !!this.attrs.readonly;
+    }
+
+    className(): any[] {
+        return [{
+            focused: this.hasFocus,
+        }, this.attrs.className];
     }
 
     fromIntegerValue(value: number): number {
@@ -56,7 +66,14 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
 
                 this.attrs.onchange(this.toIntegerValue(value));
             },
+            onfocus: () => {
+                this.hasFocus = true;
+            },
+            onblur: () => {
+                this.hasFocus = false;
+            },
             disabled: this.disabled(),
+            readonly: this.readonly(),
         };
 
         const min = this.min();
@@ -79,16 +96,25 @@ export default class DecimalInput<T extends DecimalInputAttrs = DecimalInputAttr
             inputAttrs.step = 1 / Math.pow(10, this.decimals());
         }
 
-        const className = this.className();
-
-        if (className) {
-            inputAttrs.className = className;
-        }
-
         return inputAttrs;
     }
 
+    unitLabel(): string {
+        return '';
+    }
+
     view() {
-        return m('input.FormControl', this.inputAttrs());
+        const label = this.unitLabel();
+
+        return m('.FlamarktDecimalInput.FormControl', {
+            className: classList(this.className()),
+        }, [
+            m('input', this.inputAttrs()),
+            label ? m('.FlamarktDecimalInputUnit', {
+                onclick: () => {
+                    this.$('input').focus();
+                },
+            }, label) : null,
+        ]);
     }
 }
