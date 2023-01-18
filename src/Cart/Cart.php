@@ -46,7 +46,8 @@ class Cart extends AbstractModel
 
     public function products(): Relations\BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'flamarkt_cart_product')
+        // Hard-code cart_id column name to prevent GuestCart from trying to use a different auto-generated name
+        return $this->belongsToMany(Product::class, 'flamarkt_cart_product', 'cart_id')
             // We inject a visibility scope here to allow extensions to customize the relationship
             // However the actor is not available, it will always be guest
             // This is mostly for changing the sort order and optionally creating fully invisible products

@@ -15,7 +15,11 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
     product(): Product | undefined;
     title(): string;
     contentTitle(): null;
-    content(): Children;
+    /**
+     * Whether to show the "browsing disabled" information message if the product cannot be loaded
+     */
+    showBrowsingDisabled(): boolean;
+    content(): any;
     loadingContent(): Children;
     loadedContent(product: Product): Children;
     sections(product: Product): ItemList<any>;

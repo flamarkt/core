@@ -39,12 +39,12 @@ class OrderRepository
         return Order::query();
     }
 
-    public function visibleTo(User $actor = null): Builder
+    public function visibleTo(User $actor = null, string $ability = 'view'): Builder
     {
         $query = $this->query();
 
         if ($actor) {
-            return $query->whereVisibleTo($actor);
+            return $query->whereVisibleTo($actor, $ability);
         }
 
         return $query;

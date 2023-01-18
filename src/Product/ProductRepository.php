@@ -32,12 +32,12 @@ class ProductRepository
         return Product::query();
     }
 
-    public function visibleTo(User $actor = null): Builder
+    public function visibleTo(User $actor = null, string $ability = 'view'): Builder
     {
         $query = $this->query();
 
         if ($actor) {
-            return $query->whereVisibleTo($actor);
+            return $query->whereVisibleTo($actor, $ability);
         }
 
         return $query;
@@ -117,6 +117,8 @@ class ProductRepository
         }
 
         if ($cart && Arr::exists($attributes, 'cartQuantity')) {
+            $actor->assertCan('addProducts', $cart);
+
             $quantity = max((int)Arr::get($attributes, 'cartQuantity'), 0);
 
             $state = $product->stateForCart($cart);
@@ -125,7 +127,7 @@ class ProductRepository
 
             if ($quantity !== $previousQuantity) {
                 // TODO: pass request
-                // TODO: use clean copy of product
+                // TODO: use clean copy of product without attributes in process of being edited
                 if ($quantity > 0 && !$this->availability->canOrder($product, $actor, null)) {
                     throw new PermissionDeniedException;
                 }

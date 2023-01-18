@@ -43,9 +43,21 @@ export default function () {
         })
         .registerPermission({
             icon: 'fas fa-shopping-cart',
-            label: app.translator.trans('flamarkt-core.backoffice.permissions.shop'),
-            permission: 'flamarkt.shop',
+            label: app.translator.trans('flamarkt-core.backoffice.permissions.browse'),
+            permission: 'flamarkt.browse',
             allowGuest: true,
+        }, 'reply')
+        .registerPermission({
+            icon: 'fas fa-shopping-cart',
+            label: app.translator.trans('flamarkt-core.backoffice.permissions.cart'),
+            permission: 'flamarkt.cart',
+            // allowGuest: true, // Planned, but currently not technically possible, needs carts that belongs to guests
+        }, 'reply')
+        .registerPermission({
+            icon: 'fas fa-shopping-cart',
+            label: app.translator.trans('flamarkt-core.backoffice.permissions.checkout'),
+            permission: 'flamarkt.checkout',
+            // allowGuest: true, // Add once carts can be used by guests
         }, 'reply')
         .registerPermission({
             icon: 'fas fa-wrench',

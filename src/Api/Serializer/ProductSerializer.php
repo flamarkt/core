@@ -27,6 +27,10 @@ class ProductSerializer extends BasicProductSerializer
                 'price' => $this->price->price($product, $this->actor, $this->request),
             ];
 
+        // canOrder was renamed to canAddToCart for clarity
+        // We keep the original for backward compatibility and also because it might be implemented with a different meaning in the future
+        $attributes['canAddToCart'] = $attributes['canOrder'];
+
         // We can't pre-load the correct cart from here since we don't have access to the request
         // Instead the cart should always be set in the controller that might return products that require it
         if ($state = $product->cartState) {

@@ -7,6 +7,7 @@ import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Placeholder from 'flarum/common/components/Placeholder';
+import BrowsingDisabled from '../components/BrowsingDisabled';
 
 export interface ProductIndexLayoutAttrs extends AbstractShopLayoutAttrs {
     state: ProductListState,
@@ -38,7 +39,21 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
         return super.contentTitle();
     }
 
+    /**
+     * Whether to show the "product disabled" information instead of the product list
+     */
+    showBrowsingDisabled(): boolean {
+        return !app.forum.attribute('flamarktCanBrowse');
+    }
+
     content() {
+        if (this.showBrowsingDisabled()) {
+            // Use an array to prevent everything from breaking if an extension extends content as an array
+            return [
+                m(BrowsingDisabled),
+            ];
+        }
+
         return [
             m('.ProductListFilters', this.filters().toArray()),
             m('ul.ProductList', this.attrs.state.pages.map(page => page.items.map(product => ProductListItem.component({

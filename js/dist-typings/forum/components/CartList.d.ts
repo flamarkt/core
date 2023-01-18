@@ -7,6 +7,7 @@ interface CartListAttrs extends ComponentAttrs {
 export default class CartList extends Component<CartListAttrs> {
     attrs: CartListAttrs;
     view(): any;
+    showCartContents(): boolean;
     items(): ItemList<any>;
 }
 export {};

@@ -15,6 +15,6 @@ class ProductPolicy extends AbstractPolicy
 
     public function orderWhenAvailable(User $actor, Product $product)
     {
-        return $actor->hasPermission('flamarkt.shop');
+        return $actor->hasPermission('flamarkt.cart');
     }
 }

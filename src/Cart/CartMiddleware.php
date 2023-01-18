@@ -32,9 +32,9 @@ class CartMiddleware implements MiddlewareInterface
 
         $actor = RequestUtil::getActor($request);
 
-        if ($actor->isGuest()) {
-            // TODO: allow guests
-            return $handler->handle($request);
+        if ($actor->isGuest() || !$actor->hasPermission('flamarkt.cart')) {
+            // TODO: allow guests. Currently disabled because there's no way to match which cart belongs to which guest
+            return $handler->handle($request->withAttribute('cart', new GuestCart()));
         }
 
         $cartUid = $session->get('cart_uid');

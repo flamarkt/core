@@ -31,7 +31,11 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
         }
 
         if (!cart.exists) {
-            return 'No cart';
+            return m('p', app.translator.trans('flamarkt-core.forum.cart.noCartInfo'));
+        }
+
+        if (!cart.canAddProducts()) {
+            return m('p', app.translator.trans('flamarkt-core.forum.cart.cannotAddProducts'));
         }
 
         return m('form', {
@@ -58,7 +62,7 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
 
         sections.add('products', CartPageSection.component({
             className: 'CartPage-products',
-            title: 'Products',
+            title: app.translator.trans('flamarkt-core.forum.cart.section.products'),
         }, this.sectionProducts().toArray()));
 
         const sectionPayment = this.sectionPayment().toArray();
@@ -66,7 +70,7 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
         if (sectionPayment.length) {
             sections.add('payment', CartPageSection.component({
                 className: 'CartPage-payment',
-                title: 'Payment',
+                title: app.translator.trans('flamarkt-core.forum.cart.section.payment'),
             }, sectionPayment));
         }
 
@@ -74,9 +78,14 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
             type: 'submit',
             className: 'Button Button--primary',
             loading: this.submitting,
-        }, 'Place order')));
+            disabled: this.submitDisabled(),
+        }, app.translator.trans('flamarkt-core.forum.cart.checkout'))));
 
         return sections;
+    }
+
+    submitDisabled(): boolean {
+        return !this.attrs.cart!.canCheckout();
     }
 
     data() {

@@ -11,6 +11,7 @@ class ForumAttributes
         $attributes = [
             'priceDecimals' => 2,
             'priceUnit' => 'CHF',
+            'flamarktCanBrowse' => $serializer->getActor()->hasPermission('flamarkt.browse'),
         ];
 
         if ($serializer->getActor()->can('backoffice')) {

@@ -2,19 +2,8 @@
 
 namespace Flamarkt\Core\Product\Scope;
 
-use Flarum\User\User;
-use Illuminate\Database\Eloquent\Builder;
-
 class Enumerate extends View
 {
-    public function __invoke(User $actor, Builder $query): void
-    {
-        parent::__invoke($actor, $query);
-
-        if ($actor->isGuest()) {
-            $query->whereRaw('0=1');
-        } else if ($actor->cannot('backoffice')) {
-            $query->where('user_id', $actor->id);
-        }
-    }
+    // Nothing to override here
+    // This is useful for extensions that want to make some products invisible from the list but keep them accessible through direct link
 }

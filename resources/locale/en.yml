@@ -66,7 +66,9 @@ flamarkt-core:
             defaultPriceDriver: Default Price Driver
             forceOrderPrepayment: Force orders to be paid in full during submission
         permissions:
-            shop: Shop
+            browse: Browse shop
+            cart: Put products in cart
+            checkout: Make purchases
             backoffice: Use backoffice
     forum:
         nav:
@@ -79,6 +81,12 @@ flamarkt-core:
         cart:
             browserTitle: => flamarkt-core.ref.page.cart
             headingTitle: => flamarkt-core.ref.page.cart
+            noCartInfo: No cart information
+            cannotAddProducts: Log in to add products to cart
+            checkout: Place order
+            section:
+                products: Products
+                payment: Payment
         order:
             browserTitle: => flamarkt-core.ref.page.order
             headingTitle: => flamarkt-core.ref.page.order
@@ -98,12 +106,16 @@ flamarkt-core:
             label: => flamarkt-core.ref.page.cart
             products: "{count, plural, one {# product} other {# products}}"
             action: Checkout
+            guest: Log in to add products to cart
         search:
             products:
                 heading: => flamarkt-core.ref.page.products
                 all: 'Search all products for "{query}"'
         breadcrumb:
             products: => flamarkt-core.ref.page.products
+        browsingDisabled:
+            title: Product list hidden
+            message: Log in to browse products
     lib:
         sort:
             products:

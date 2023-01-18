@@ -9,6 +9,10 @@ export default class Product extends Model {
     priceEdit = Model.attribute<number | null>('priceEdit');
     cartQuantity = Model.attribute<number | null>('cartQuantity');
     isHidden = Model.attribute<boolean>('isHidden');
+    canAddToCart = Model.attribute<number | null>('canAddToCart');
+    /**
+     * @deprecated Use canAddToCart instead. Behaviour will probably change in the future to differentiate products that can be added to cart but not actually ordered.
+     */
     canOrder = Model.attribute<number | null>('canOrder');
     canEdit = Model.attribute<number | null>('canEdit');
 
@@ -22,7 +26,6 @@ export default class Product extends Model {
     }
 
     apiEndpoint() {
-        // @ts-ignore data.id not type-hinted for non-existent models
-        return '/flamarkt/products' + (this.exists ? '/' + this.data.id : '');
+        return '/flamarkt/products' + (this.exists ? '/' + (this.data as any).id : '');
     }
 }

@@ -20,6 +20,6 @@ class OrderSearcher extends AbstractSearcher
 
     protected function getQuery(User $actor): Builder
     {
-        return $this->repository->visibleTo($actor);
+        return $this->repository->visibleTo($actor, 'viewEnumerate');
     }
 }

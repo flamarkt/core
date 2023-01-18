@@ -20,6 +20,7 @@ export default class CartPage extends Page {
         if (app.cart.loading) {
             cart = null;
         } else if (!app.cart.cart) {
+            // This line should no longer be needed since GuestCart was implemented and returned by default
             cart = app.store.createRecord('flamarkt-carts');
         } else {
             cart = app.cart.cart;

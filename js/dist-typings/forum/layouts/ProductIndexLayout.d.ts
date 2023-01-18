@@ -10,6 +10,10 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
     title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
     currentPageHref(): string;
     contentTitle(): any;
+    /**
+     * Whether to show the "product disabled" information instead of the product list
+     */
+    showBrowsingDisabled(): boolean;
     content(): any[];
     bottomControls(): any;
     filters(): ItemList<any>;

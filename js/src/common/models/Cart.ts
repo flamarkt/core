@@ -4,6 +4,8 @@ import Product from './Product';
 export default class Cart extends Model {
     productCount = Model.attribute<number>('productCount');
     priceTotal = Model.attribute<number>('priceTotal');
+    canAddProducts = Model.attribute<boolean>('canAddProducts');
+    canCheckout = Model.attribute<boolean>('canCheckout');
 
     products = Model.hasMany<Product>('products');
 

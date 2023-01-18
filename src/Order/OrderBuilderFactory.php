@@ -33,7 +33,7 @@ class OrderBuilderFactory
 
     public function build(User $actor, Cart $cart, array $data, ServerRequestInterface $request = null): Order
     {
-        $actor->assertCan('flamarkt.shop');
+        $actor->assertCan('checkout', $cart);
 
         if ($this->lock->isLocked($cart)) {
             throw new ValidationException([

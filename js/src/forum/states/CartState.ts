@@ -48,6 +48,11 @@ export default class CartState {
      * Refresh the global cart
      */
     load(): Promise<void> {
+        // Since guest carts are currently not implemented, we can be certain the data already pre-loaded at page load is still valid
+        if (this.cart && !app.session.user) {
+            return Promise.resolve();
+        }
+
         this.loading = true;
 
         return this.request().then(cart => {

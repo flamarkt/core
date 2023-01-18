@@ -98,6 +98,7 @@ $extenders = [
         ->attributes(UserAttributes::class),
 
     (new Extend\Policy())
+        ->modelPolicy(Cart\Cart::class, Cart\Access\CartPolicy::class)
         ->modelPolicy(Order\Order::class, Order\Access\OrderPolicy::class)
         ->modelPolicy(Product\Product::class, Product\Access\ProductPolicy::class),
 

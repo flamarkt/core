@@ -15,17 +15,25 @@ export default class CartList extends Component<CartListAttrs> {
         return m('.CartDropdownList', this.items().toArray());
     }
 
+    showCartContents(): boolean {
+        return !!this.attrs.state.cart?.canAddProducts();
+    }
+
     items(): ItemList<any> {
         const items = new ItemList();
 
-        items.add('products', m('p', app.translator.trans('flamarkt-core.forum.cartDropdown.products', {
-            count: this.attrs.state.productCount() || 0,
-        })), 10);
+        if (this.showCartContents()) {
+            items.add('products', m('p', app.translator.trans('flamarkt-core.forum.cartDropdown.products', {
+                count: this.attrs.state.productCount() || 0,
+            })), 10);
 
-        items.add('link', LinkButton.component({
-            className: 'Button Button--primary Button--block',
-            href: app.route('flamarkt.cart'),
-        }, app.translator.trans('flamarkt-core.forum.cartDropdown.action')), -10);
+            items.add('link', LinkButton.component({
+                className: 'Button Button--primary Button--block',
+                href: app.route('flamarkt.cart'),
+            }, app.translator.trans('flamarkt-core.forum.cartDropdown.action')), -10);
+        } else {
+            items.add('guest', m('p', app.translator.trans('flamarkt-core.forum.cartDropdown.guest')), 20);
+        }
 
         return items;
     }

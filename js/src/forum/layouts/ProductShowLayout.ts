@@ -7,6 +7,7 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import ProductQuantity from '../components/ProductQuantity';
 import ItemList from 'flarum/common/utils/ItemList';
 import PriceLabel from '../../common/components/PriceLabel';
+import BrowsingDisabled from '../components/BrowsingDisabled';
 
 export interface ProductShowLayoutAttrs extends AbstractShopLayoutAttrs {
     product?: Product,
@@ -50,10 +51,27 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return null;
     }
 
+    /**
+     * Whether to show the "browsing disabled" information message if the product cannot be loaded
+     */
+    showBrowsingDisabled(): boolean {
+        return !app.forum.attribute('flamarktCanBrowse');
+    }
+
     content() {
         const product = this.product();
 
-        return product ? this.loadedContent(product) : this.loadingContent();
+        if (product) {
+            return this.loadedContent(product);
+        }
+
+        // At the moment this won't be visible in many situations since the page will be handled by the basic HTTP 404 error when browsing directly
+        // This will only be visible when following internal links
+        if (this.showBrowsingDisabled()) {
+            return m(BrowsingDisabled);
+        }
+
+        return this.loadingContent();
     }
 
     loadingContent(): Children {
@@ -116,7 +134,7 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
     }
 
     showCartControls(product: Product): boolean {
-        return !!product.canOrder();
+        return !!product.canAddToCart();
     }
 
     descriptionSection(product: Product): ItemList<any> {

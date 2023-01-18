@@ -14,6 +14,7 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
     sectionProducts(): ItemList<any>;
     sectionPayment(): ItemList<any>;
     sections(): ItemList<any>;
+    submitDisabled(): boolean;
     data(): {
         relationships: {
             cart: Cart | undefined;

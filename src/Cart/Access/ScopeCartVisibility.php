@@ -2,10 +2,13 @@
 
 namespace Flamarkt\Core\Cart\Access;
 
+use Flarum\User\User;
+use Illuminate\Database\Eloquent\Builder;
+
 class ScopeCartVisibility
 {
-    public function __invoke(): void
+    public function __invoke(User $actor, Builder $query): void
     {
-        // TODO: Implement __invoke() method.
+        $query->where('user_id', $actor->id);
     }
 }

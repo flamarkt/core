@@ -104,11 +104,11 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
     }
 
     quantityEditDisabled(): boolean {
-        return !this.attrs.product.canOrder();
+        return !this.attrs.product.canAddToCart();
     }
 
     deleteDisabled(): boolean {
-        return !this.attrs.product.canOrder();
+        return !this.attrs.product.canAddToCart();
     }
 
     deleteTooltipText(): string {
