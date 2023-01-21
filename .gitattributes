@@ -1,4 +1,6 @@
 js/src export-ignore
 .git* export-ignore
+tests export-ignore
+phpunit.xml export-ignore
 
 js/dist/*.js -diff

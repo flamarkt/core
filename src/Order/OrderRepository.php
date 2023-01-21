@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
-use Ramsey\Uuid\Uuid;
 
 class OrderRepository
 {
@@ -89,7 +88,6 @@ class OrderRepository
 
                 if (!$line) {
                     $line = new OrderLine();
-                    $line->uid = Uuid::uuid4()->toString();
                 }
 
                 $attributes = (array)Arr::get($lineData, 'attributes');
@@ -255,10 +253,7 @@ class OrderRepository
     {
         $actor->assertCan('create', Order::class);
 
-        $order = new Order();
-        $order->uid = Uuid::uuid4()->toString();
-
-        return $this->save($order, $actor, $data);
+        return $this->save(new Order(), $actor, $data);
     }
 
     public function update(Order $order, User $actor, array $data): Order

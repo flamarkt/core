@@ -12,7 +12,6 @@ use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Ramsey\Uuid\Uuid;
 
 class ProductRepository
 {
@@ -176,10 +175,7 @@ class ProductRepository
     {
         $actor->assertCan('create', Product::class);
 
-        $product = new Product();
-        $product->uid = Uuid::uuid4()->toString();
-
-        return $this->save($product, $actor, $data);
+        return $this->save(new Product(), $actor, $data);
     }
 
     public function update(Product $product, User $actor, array $data, Cart $cart = null): Product

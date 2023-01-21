@@ -4,7 +4,6 @@ namespace Flamarkt\Core\Cart;
 
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Builder;
-use Ramsey\Uuid\Uuid;
 
 class CartRepository
 {
@@ -53,7 +52,6 @@ class CartRepository
     public function store(User $actor): Cart
     {
         $cart = new Cart();
-        $cart->uid = Uuid::uuid4()->toString();
         $cart->user_id = $actor->id;
         $cart->save();
 

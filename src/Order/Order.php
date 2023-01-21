@@ -3,6 +3,7 @@
 namespace Flamarkt\Core\Order;
 
 use Carbon\Carbon;
+use Flamarkt\Core\Database\HasUid;
 use Flamarkt\Core\Order\Event\Hidden;
 use Flamarkt\Core\Order\Event\Restored;
 use Flamarkt\Core\Payment\Payment;
@@ -32,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations;
  */
 class Order extends AbstractModel
 {
-    use EventGeneratorTrait, ScopeVisibilityTrait;
+    use HasUid, EventGeneratorTrait, ScopeVisibilityTrait;
 
     protected $table = 'flamarkt_orders';
 

@@ -16,7 +16,6 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
-use Ramsey\Uuid\Uuid;
 
 class OrderBuilderFactory
 {
@@ -84,7 +83,6 @@ class OrderBuilderFactory
         }
 
         $order = new Order();
-        $order->uid = Uuid::uuid4()->toString();
         $order->user()->associate($actor);
 
         $builder = new OrderBuilder();

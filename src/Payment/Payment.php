@@ -3,6 +3,7 @@
 namespace Flamarkt\Core\Payment;
 
 use Carbon\Carbon;
+use Flamarkt\Core\Database\HasUid;
 use Flamarkt\Core\Order\Order;
 use Flamarkt\Core\Product\Product;
 use Flarum\Database\AbstractModel;
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations;
  */
 class Payment extends AbstractModel
 {
-    use EventGeneratorTrait;
+    use HasUid, EventGeneratorTrait;
 
     protected $table = 'flamarkt_order_payments';
 

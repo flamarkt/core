@@ -4,6 +4,7 @@ namespace Flamarkt\Core\Product;
 
 use Carbon\Carbon;
 use Flamarkt\Core\Cart\Cart;
+use Flamarkt\Core\Database\HasUid;
 use Flamarkt\Core\Product\Event\Hidden;
 use Flamarkt\Core\Product\Event\Restored;
 use Flarum\Database\AbstractModel;
@@ -34,7 +35,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Product extends AbstractModel
 {
-    use EventGeneratorTrait, ScopeVisibilityTrait;
+    use HasUid, EventGeneratorTrait, ScopeVisibilityTrait;
 
     protected $table = 'flamarkt_products';
 

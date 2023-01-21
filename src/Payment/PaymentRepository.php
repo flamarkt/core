@@ -12,7 +12,6 @@ use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Ramsey\Uuid\Uuid;
 
 class PaymentRepository
 {
@@ -91,7 +90,6 @@ class PaymentRepository
         $actor->assertCan('create', Payment::class);
 
         $payment = new Payment();
-        $payment->uid = Uuid::uuid4()->toString();
         $payment->order()->associate($order);
 
         return $this->save($payment, $actor, $data);

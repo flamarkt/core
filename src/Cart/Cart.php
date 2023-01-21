@@ -3,6 +3,7 @@
 namespace Flamarkt\Core\Cart;
 
 use Carbon\Carbon;
+use Flamarkt\Core\Database\HasUid;
 use Flamarkt\Core\Product\Product;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
@@ -28,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations;
  */
 class Cart extends AbstractModel
 {
-    use ScopeVisibilityTrait;
+    use HasUid, ScopeVisibilityTrait;
 
     protected $table = 'flamarkt_carts';
 

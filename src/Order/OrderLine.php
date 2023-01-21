@@ -2,6 +2,7 @@
 
 namespace Flamarkt\Core\Order;
 
+use Flamarkt\Core\Database\HasUid;
 use Flamarkt\Core\Product\Product;
 use Flarum\Database\AbstractModel;
 use Illuminate\Database\Eloquent\Relations;
@@ -24,6 +25,8 @@ use Illuminate\Database\Eloquent\Relations;
  */
 class OrderLine extends AbstractModel
 {
+    use HasUid;
+
     protected $table = 'flamarkt_order_lines';
 
     protected $casts = [

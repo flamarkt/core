@@ -16,6 +16,10 @@
         "clarkwinkelmann/flarum-mithril2html": "^1.0",
         "ext-json": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "flarum/testing": "^1.0"
+    },
     "authors": [
         {
             "name": "Flamarkt",
@@ -29,6 +33,11 @@
     "autoload": {
         "psr-4": {
             "Flamarkt\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Flamarkt\\Core\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -52,10 +61,16 @@
             "dev-main": "0.1.x-dev"
         }
     },
-    "repositories": {
-        "workbench": {
-            "type": "path",
-            "url": "../backoffice"
-        }
+    "scripts": {
+        "test": [
+            "@test:integration"
+        ],
+        "test:integration": "phpunit -c tests/phpunit.integration.xml",
+        "test:setup": "@php tests/integration/setup.php"
+    },
+    "scripts-descriptions": {
+        "test": "Runs all tests.",
+        "test:integration": "Runs all integration tests.",
+        "test:setup": "Sets up a database for use with integration tests. Execute this only once."
     }
 }
