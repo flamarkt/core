@@ -1,7 +1,8 @@
-/// <reference path="../../../../vendor/flarum/core/js/src/common/translator-icu-rich.d.ts" />
+/// <reference types="flarum/@types/translator-icu-rich" />
+import { Children } from 'mithril';
+import ItemList from 'flarum/common/utils/ItemList';
 import AbstractShopLayout, { AbstractShopLayoutAttrs } from './AbstractShopLayout';
 import ProductListState from '../../common/states/ProductListState';
-import ItemList from 'flarum/common/utils/ItemList';
 export interface ProductIndexLayoutAttrs extends AbstractShopLayoutAttrs {
     state: ProductListState;
 }
@@ -14,7 +15,7 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
      * Whether to show the "product disabled" information instead of the product list
      */
     showBrowsingDisabled(): boolean;
-    content(): any[];
-    bottomControls(): any;
-    filters(): ItemList<any>;
+    content(): Children;
+    bottomControls(): Children;
+    filters(): ItemList<Children>;
 }

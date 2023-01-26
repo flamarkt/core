@@ -4,9 +4,11 @@ namespace Flamarkt\Core\Cart;
 
 use Carbon\Carbon;
 use Flamarkt\Core\Database\HasUid;
+use Flamarkt\Core\Order\OrderBuilderFactory;
 use Flamarkt\Core\Product\Product;
 use Flarum\Database\AbstractModel;
 use Flarum\Database\ScopeVisibilityTrait;
+use Flarum\Foundation\EventGeneratorTrait;
 use Flarum\User\Guest;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations;
  * @property int $order_id
  * @property int $product_count
  * @property int $price_total
+ * @property int $amount_due_after_partial
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -29,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations;
  */
 class Cart extends AbstractModel
 {
-    use HasUid, ScopeVisibilityTrait;
+    use HasUid, EventGeneratorTrait, ScopeVisibilityTrait;
 
     protected $table = 'flamarkt_carts';
 
@@ -59,9 +62,16 @@ class Cart extends AbstractModel
     public function updateMeta(): void
     {
         $this->product_count = $this->products()->count();
-        $this->price_total = $this->products->reduce(function ($previous, Product $product) {
-            return $previous + ($product->price * $product->pivot->quantity);
-        }, 0);
+
+        try {
+            $builder = resolve(OrderBuilderFactory::class)->pretend($this);
+            $this->price_total = $builder->priceTotal();
+            $this->amount_due_after_partial = $builder->totalUnpaid();
+        } catch (\Exception $exception) {
+            $this->price_total = null;
+            $this->amount_due_after_partial = null;
+        }
+
         $this->save();
     }
 

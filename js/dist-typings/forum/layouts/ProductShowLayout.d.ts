@@ -22,9 +22,9 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
     content(): any;
     loadingContent(): Children;
     loadedContent(product: Product): Children;
-    sections(product: Product): ItemList<any>;
-    gallerySection(product: Product): ItemList<any>;
-    priceSection(product: Product): ItemList<any>;
+    sections(product: Product): ItemList<Children>;
+    gallerySection(product: Product): ItemList<Children>;
+    priceSection(product: Product): ItemList<Children>;
     showCartControls(product: Product): boolean;
-    descriptionSection(product: Product): ItemList<any>;
+    descriptionSection(product: Product): ItemList<Children>;
 }

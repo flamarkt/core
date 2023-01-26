@@ -1,4 +1,4 @@
-/// <reference path="../../../../vendor/flarum/core/js/src/common/translator-icu-rich.d.ts" />
+/// <reference types="flarum/@types/translator-icu-rich" />
 import AbstractAccountLayout, { AbstractAccountLayoutAttrs } from './AbstractAccountLayout';
 import ItemList from 'flarum/common/utils/ItemList';
 import Order from '../../common/models/Order';

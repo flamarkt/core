@@ -19,21 +19,70 @@ class CartLock
     {
     }
 
-    public function isLocked(Cart $cart): bool
+    public function getContentLockOrigin(Cart $cart): ?string
     {
-        return $this->cache->has($cart->uid . '-lock');
+        if ($this->isSubmitLocked($cart)) {
+            return 'SUBMIT';
+        }
+
+        // Lock expiration is taken care of by the cache driver
+        $origin = $this->cache->get($cart->uid . '-content-lock');
+
+        // No need for a special NULL check since NULL will never be stored in this cache value (`default` is used)
+        if ($origin) {
+            return $origin;
+        }
+
+        return null;
     }
 
-    public function lock(Cart $cart): void
+    public function isContentLocked(Cart $cart): bool
+    {
+        return $this->getContentLockOrigin($cart) !== null;
+    }
+
+    public function isContentLockedExceptBy(Cart $cart, string $exceptOrigin): bool
+    {
+        $origin = $this->getContentLockOrigin($cart);
+
+        return $origin === 'SUBMIT' || ($origin && $origin !== $exceptOrigin);
+    }
+
+    public function isContentLockedBy(Cart $cart, string $origin): bool
+    {
+        return $this->getContentLockOrigin($cart) === $origin;
+    }
+
+    public function isSubmitLocked(Cart $cart): bool
+    {
+        // Lock expiration is taken care of by the cache driver
+        return $this->cache->has($cart->uid . '-submit-lock');
+    }
+
+    public function lockContent(Cart $cart, string $origin = 'default'): void
     {
         // The lock lifetime is to prevent submitting the cart again too soon if Flamarkt
         // experienced an unrecoverable error during processing and wasn't able to clear the lock at the end
         // There likely isn't any queued task at this point, so it's just to let any error handler finish its job
-        $this->cache->set($cart->uid . '-lock', Carbon::now(), 120); // 2 minutes
+        $this->cache->set($cart->uid . '-content-lock', $origin, 120); // 2 minutes
     }
 
-    public function unlock(Cart $cart): void
+    public function lockSubmit(Cart $cart): void
     {
-        $this->cache->forget($cart->uid . '-lock');
+        // The lock lifetime is to prevent submitting the cart again too soon if Flamarkt
+        // experienced an unrecoverable error during processing and wasn't able to clear the lock at the end
+        // There likely isn't any queued task at this point, so it's just to let any error handler finish its job
+        $this->cache->set($cart->uid . '-submit-lock', 'default', 120); // 2 minutes
+    }
+
+    public function unlockContent(Cart $cart): void
+    {
+        $this->cache->forget($cart->uid . '-content-lock');
+    }
+
+    public function unlockSubmit(Cart $cart): void
+    {
+        $this->unlockContent($cart);
+        $this->cache->forget($cart->uid . '-submit-lock');
     }
 }

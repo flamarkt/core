@@ -86,8 +86,8 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         }, this.sections(product).toArray()));
     }
 
-    sections(product: Product): ItemList<any> {
-        const sections = new ItemList();
+    sections(product: Product): ItemList<Children> {
+        const sections = new ItemList<Children>();
 
         const galleryItems = this.gallerySection(product).toArray();
 
@@ -102,12 +102,12 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return sections;
     }
 
-    gallerySection(product: Product): ItemList<any> {
-        return new ItemList();
+    gallerySection(product: Product): ItemList<Children> {
+        return new ItemList<Children>();
     }
 
-    priceSection(product: Product): ItemList<any> {
-        const items = new ItemList();
+    priceSection(product: Product): ItemList<Children> {
+        const items = new ItemList<Children>();
 
         if (product.canEdit()) {
             items.add('edit', LinkButton.component({
@@ -137,8 +137,8 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
         return !!product.canAddToCart();
     }
 
-    descriptionSection(product: Product): ItemList<any> {
-        const items = new ItemList();
+    descriptionSection(product: Product): ItemList<Children> {
+        const items = new ItemList<Children>();
 
         const descriptionHtml = product.descriptionHtml();
 

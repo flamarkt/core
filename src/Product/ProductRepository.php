@@ -3,10 +3,12 @@
 namespace Flamarkt\Core\Product;
 
 use Flamarkt\Core\Cart\Cart;
+use Flamarkt\Core\Cart\CartLock;
 use Flamarkt\Core\Cart\Event\ProductQuantityUpdated;
 use Flamarkt\Core\Cart\Event\UpdatingProductQuantity;
 use Flamarkt\Core\Product\Event;
 use Flarum\Foundation\DispatchEventsTrait;
+use Flarum\Foundation\ValidationException;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -20,7 +22,8 @@ class ProductRepository
     public function __construct(
         Dispatcher                    $events,
         protected ProductValidator    $validator,
-        protected AvailabilityManager $availability
+        protected AvailabilityManager $availability,
+        protected CartLock            $lock
     )
     {
         $this->events = $events;
@@ -58,6 +61,7 @@ class ProductRepository
     public function save(Product $product, User $actor, array $data, Cart $cart = null)
     {
         $attributes = (array)Arr::get($data, 'attributes');
+        $includeCartInRelationships = false;
 
         if ($product->exists) {
             $this->validator->setProduct($product);
@@ -116,6 +120,12 @@ class ProductRepository
         }
 
         if ($cart && Arr::exists($attributes, 'cartQuantity')) {
+            if ($this->lock->isContentLocked($cart)) {
+                throw new ValidationException([
+                    'cartQuantity' => 'Cannot update quantity while cart is being processed. Try again in a few minutes.',
+                ]);
+            }
+
             $actor->assertCan('addProducts', $cart);
 
             $quantity = max((int)Arr::get($attributes, 'cartQuantity'), 0);
@@ -145,6 +155,8 @@ class ProductRepository
                 $this->events->dispatch(new ProductQuantityUpdated($cart, $product, $actor, $previousQuantity, $quantity));
 
                 $cart->updateMeta();
+
+                $includeCartInRelationships = true;
             }
         }
 
@@ -167,6 +179,10 @@ class ProductRepository
         $product->save();
 
         $this->dispatchEventsFor($product, $actor);
+
+        // To be returned by the JSON:API payload
+        // Ideally we would include it separately from the product model but JSON:API only allows relationships of the main model
+        $product->setRelation('cart', $includeCartInRelationships ? $cart : null);
 
         return $product;
     }

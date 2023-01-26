@@ -3,6 +3,7 @@ import Product from './Product';
 export default class Cart extends Model {
     productCount: () => number;
     priceTotal: () => number;
+    amountDueAfterPartial: () => number;
     canAddProducts: () => boolean;
     canCheckout: () => boolean;
     products: () => false | (Product | undefined)[];

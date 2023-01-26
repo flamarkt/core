@@ -15,6 +15,10 @@ class ProductUpdateController extends AbstractShowController
 {
     public $serializer = ProductSerializer::class;
 
+    public $include = [
+        'cart',
+    ];
+
     public function __construct(
         protected ProductRepository $repository
     )
@@ -31,6 +35,10 @@ class ProductUpdateController extends AbstractShowController
         $product = $this->repository->update($product, $actor, (array)Arr::get($request->getParsedBody(), 'data'), $cart);
 
         Product::setStateCart($cart);
+
+        if (!$product->cart) {
+            $this->removeInclude('cart');
+        }
 
         return $product;
     }

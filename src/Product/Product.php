@@ -32,6 +32,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @property CartState $cartState
  * @property UserState $userState
+ * @property ?Cart $cart
  */
 class Product extends AbstractModel
 {
@@ -80,6 +81,14 @@ class Product extends AbstractModel
     public static function setStateCart(Cart $cart = null)
     {
         static::$stateCart = $cart;
+    }
+
+    /**
+     * Used as a way to access the cart from ProductSerializer because somehow the fake relation isn't accessible
+     */
+    public function getCartFromState(): ?Cart
+    {
+        return static::$stateCart;
     }
 
     protected static ?User $stateUser = null;
@@ -175,5 +184,12 @@ class Product extends AbstractModel
         }
 
         return $this;
+    }
+
+    public function cart(): HasOne
+    {
+        // Intentionally designed so the column names are valid, but it would never return anything
+        // It will only ever be manually populated through the ProductRepository
+        return $this->hasOne(Cart::class, 'order_id')->whereRaw('1=0');
     }
 }

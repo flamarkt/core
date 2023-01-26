@@ -48,6 +48,7 @@ $extenders = [
 
     (new Extend\Routes('api'))
         ->get('/flamarkt/cart', 'flamarkt.cart', Api\Controller\CartSessionController::class)
+        ->patch('/flamarkt/carts/{id}', 'flamarkt.carts.update', Api\Controller\CartUpdateController::class)
         //
         ->get('/flamarkt/orders', 'flamarkt.orders.index', Api\Controller\OrderIndexController::class)
         ->post('/flamarkt/orders', 'flamarkt.orders.store', Api\Controller\OrderStoreController::class)
@@ -118,6 +119,7 @@ $extenders = [
     (new Extend\Event())
         ->subscribe(Listener\UpdateUserOrderMeta::class)
         ->listen(UserEvent\Saving::class, Listener\SaveUser::class)
+        ->listen(Cart\Event\WillOrder::class, Listener\EnsureCartNotEmpty::class)
         ->listen(Order\Event\Created::class, Listener\SendOrderConfirmation::class),
 
     (new Extend\ModelUrl(Order\Order::class))

@@ -87,6 +87,10 @@ flamarkt-core:
             section:
                 products: Products
                 payment: Payment
+            payment:
+                partialOr: Or
+                completeWith: Complete payment amount with
+                instantOr: Or pay another way
         order:
             browserTitle: => flamarkt-core.ref.page.order
             headingTitle: => flamarkt-core.ref.page.order

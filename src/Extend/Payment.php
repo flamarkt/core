@@ -15,6 +15,7 @@ class Payment implements ExtenderInterface
     /**
      * Register a payment callback that should execute before full payment options.
      * This is intended for methods that might not always cover the full amount of the order and will be combined with another method for the remaining funds.
+     * When $builder->pretend is true, partial payment providers should add a payment record but not actually persist the transaction.
      *
      * @param callable|string $callback
      *
@@ -29,7 +30,7 @@ class Payment implements ExtenderInterface
      */
     public function partialCallback($callback): self
     {
-        $this->partialCallbacks [] = $callback;
+        $this->partialCallbacks[] = $callback;
 
         return $this;
     }
@@ -37,6 +38,7 @@ class Payment implements ExtenderInterface
     /**
      * Register a payment callback that should execute after partial payment options.
      * This is intended for methods that will cover the full remaining unpaid amount.
+     * Callbacks should default to no-op if $builder->pretend is true.
      *
      * @param callable|string $callback
      *
@@ -51,7 +53,7 @@ class Payment implements ExtenderInterface
      */
     public function remainingCallback($callback): self
     {
-        $this->partialCallbacks [] = $callback;
+        $this->partialCallbacks[] = $callback;
 
         return $this;
     }

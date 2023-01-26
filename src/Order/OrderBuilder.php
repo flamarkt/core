@@ -2,11 +2,24 @@
 
 namespace Flamarkt\Core\Order;
 
+use Flamarkt\Core\Cart\Cart;
 use Flamarkt\Core\Payment\Payment;
+use Flarum\User\User;
 use Illuminate\Support\Arr;
+use Psr\Http\Message\ServerRequestInterface;
 
 class OrderBuilder
 {
+    public function __construct(
+        public Order                   $order,
+        public User                    $actor,
+        public Cart                    $cart,
+        public ?ServerRequestInterface $request = null,
+        public bool                    $pretend = false
+    )
+    {
+    }
+
     /**
      * @var OrderLine[][]
      */

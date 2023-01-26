@@ -39,6 +39,7 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
                 onclick: () => {
                     this.savingQuantity = true;
 
+                    // This also reloads the cart through the relationship that's included by default
                     product.save({
                         cartQuantity: this.cartQuantity,
                     }).then(() => {
@@ -47,8 +48,6 @@ export default class ProductQuantity extends Component<ProductQuantityAttrs> {
                         this.cartQuantity = product.cartQuantity() || 1;
 
                         m.redraw();
-
-                        app.cart.load();
                     }).catch(error => {
                         this.savingQuantity = false;
 

@@ -1,12 +1,13 @@
+import {Children} from 'mithril';
 import app from 'flarum/forum/app';
-import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout';
-import ProductListState from '../../common/states/ProductListState';
-import ProductListItem from '../components/ProductListItem';
-import ProductSortDropdown from '../../common/components/ProductSortDropdown';
-import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Placeholder from 'flarum/common/components/Placeholder';
+import ItemList from 'flarum/common/utils/ItemList';
+import AbstractShopLayout, {AbstractShopLayoutAttrs} from './AbstractShopLayout';
+import ProductListItem from '../components/ProductListItem';
+import ProductSortDropdown from '../../common/components/ProductSortDropdown';
+import ProductListState from '../../common/states/ProductListState';
 import BrowsingDisabled from '../components/BrowsingDisabled';
 
 export interface ProductIndexLayoutAttrs extends AbstractShopLayoutAttrs {
@@ -46,7 +47,7 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
         return !app.forum.attribute('flamarktCanBrowse');
     }
 
-    content() {
+    content(): Children {
         if (this.showBrowsingDisabled()) {
             // Use an array to prevent everything from breaking if an extension extends content as an array
             return [
@@ -63,7 +64,7 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
         ];
     }
 
-    bottomControls() {
+    bottomControls(): Children {
         if (this.attrs.state.loading) {
             return LoadingIndicator.component();
         } else if (this.attrs.state.moreResults) {
@@ -78,10 +79,12 @@ export default class ProductIndexLayout<T extends ProductIndexLayoutAttrs = Prod
                 text: 'No results', //TODO: translate
             });
         }
+
+        return null;
     }
 
-    filters(): ItemList<any> {
-        const items = new ItemList();
+    filters(): ItemList<Children> {
+        const items = new ItemList<Children>();
 
         items.add('sort', m(ProductSortDropdown, {
             list: this.attrs.state,

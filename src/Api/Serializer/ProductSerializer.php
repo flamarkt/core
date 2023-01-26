@@ -6,6 +6,8 @@ use Flamarkt\Core\Product\AvailabilityManager;
 use Flamarkt\Core\Product\PriceManager;
 use Flamarkt\Core\Product\Product;
 use Flarum\Http\SlugManager;
+use Tobscure\JsonApi\Relationship;
+use Tobscure\JsonApi\Resource;
 
 class ProductSerializer extends BasicProductSerializer
 {
@@ -59,5 +61,20 @@ class ProductSerializer extends BasicProductSerializer
         Product::setStateUser($this->actor);
 
         return $attributes;
+    }
+
+    public function cart($product): ?Relationship
+    {
+        // It was supposed to work with just $product->cart and the regular relation definition
+        // But I can't figure out why the relation value is NULL in the serializer while perfectly fine in the controller
+        $data = $product->getCartFromState();
+
+        if ($data) {
+            $serializer = $this->resolveSerializer(CartSerializer::class, $product, $data);
+
+            return new Relationship(new Resource($data, $serializer));
+        }
+
+        return null;
     }
 }
