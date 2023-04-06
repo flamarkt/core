@@ -17,9 +17,14 @@ export default class ProductShowLayout extends AbstractShopLayout<ProductShowLay
     breadcrumbItems() {
         const items = super.breadcrumbItems();
 
-        items.add('products', LinkButton.component({
-            href: app.route('flamarkt.products.index'),
-        }, app.translator.trans('flamarkt-core.forum.breadcrumb.products')));
+        const productsHref = app.route('flamarkt.products.index');
+
+        // If the products page isn't the homepage, add it to the breadcrumb
+        if (productsHref !== '/') {
+            items.add('products', LinkButton.component({
+                href: productsHref,
+            }, app.translator.trans('flamarkt-core.forum.breadcrumb.products')));
+        }
 
         return items;
     }
