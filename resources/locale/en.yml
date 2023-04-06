@@ -81,8 +81,9 @@ flamarkt-core:
         cart:
             browserTitle: => flamarkt-core.ref.page.cart
             headingTitle: => flamarkt-core.ref.page.cart
-            noCartInfo: No cart information
-            cannotAddProducts: Log in to add products to cart
+            noCartInfo: No cart information.
+            cannotAddProducts: Log in to add products to cart.
+            locked: Cart is locked by a background process. If you can't edit or submit, try again in a few minutes.
             checkout: Place order
             section:
                 products: Products

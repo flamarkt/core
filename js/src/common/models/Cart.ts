@@ -7,6 +7,7 @@ export default class Cart extends Model {
     amountDueAfterPartial = Model.attribute<number>('amountDueAfterPartial');
     canAddProducts = Model.attribute<boolean>('canAddProducts');
     canCheckout = Model.attribute<boolean>('canCheckout');
+    isLocked = Model.attribute<boolean>('isLocked');
 
     products = Model.hasMany<Product>('products');
 

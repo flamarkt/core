@@ -99,10 +99,6 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
             return m('p', app.translator.trans('flamarkt-core.forum.cart.noCartInfo'));
         }
 
-        if (!cart.canAddProducts()) {
-            return m('p', app.translator.trans('flamarkt-core.forum.cart.cannotAddProducts'));
-        }
-
         return m('form', {
             onsubmit: this.onsubmit.bind(this),
         }, this.sections().toArray());
@@ -203,6 +199,15 @@ export default class CartLayout extends AbstractShopLayout<CartLayoutAttrs> {
 
     sections(): ItemList<Children> {
         const sections = new ItemList<Children>();
+
+        if (!this.formDisabled()) {
+            // If the form was not marked as disabled, add some information that might help demystify strange errors
+            if (this.attrs.cart!.isLocked()) {
+                sections.add('locked', m('.Alert', app.translator.trans('flamarkt-core.forum.cart.locked')));
+            } else if (!this.attrs.cart!.canAddProducts()) {
+                sections.add('cannotAddProducts', m('.Alert', app.translator.trans('flamarkt-core.forum.cart.cannotAddProducts')));
+            }
+        }
 
         sections.add('products', CartPageSection.component({
             className: 'CartPage-products',
