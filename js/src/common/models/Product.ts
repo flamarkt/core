@@ -2,7 +2,7 @@ import Model from 'flarum/common/Model';
 
 export default class Product extends Model {
     title = Model.attribute<string>('title');
-    slug = Model.attribute('slug');
+    slug = Model.attribute<string>('slug');
     description = Model.attribute<string | null>('description');
     descriptionHtml = Model.attribute<string | null>('descriptionHtml');
     price = Model.attribute<number | null>('price');

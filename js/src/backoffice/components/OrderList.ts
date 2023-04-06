@@ -1,10 +1,10 @@
 import app from 'flamarkt/backoffice/backoffice/app';
 import LinkButton from 'flarum/common/components/LinkButton';
 import AbstractList from 'flamarkt/backoffice/backoffice/components/AbstractList';
-import Order from '../../common/models/Order';
 import username from 'flarum/common/helpers/username';
 import humanTime from 'flarum/common/helpers/humanTime';
 import PriceLabel from '../../common/components/PriceLabel';
+import Order from '../../common/models/Order';
 
 export default class OrderList extends AbstractList<Order> {
     head() {
@@ -24,7 +24,7 @@ export default class OrderList extends AbstractList<Order> {
         const columns = super.columns(order);
 
         columns.add('number', m('td', order.number()), 50);
-        columns.add('date', m('td', humanTime(order.createdAt())), 40);
+        columns.add('date', m('td', humanTime(order.createdAt()!)), 40);
         columns.add('user', m('td', username(order.user())), 30);
         columns.add('priceTotal', m('td', m(PriceLabel, {
             value: order.priceTotal(),

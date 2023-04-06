@@ -22,7 +22,7 @@ export default class ProductShowPage extends AbstractShowPage {
 
     newRecord() {
         return app.store.createRecord('flamarkt-products', {
-            // Necessary because some of the extensions read values with model.attribute(name)
+            // Necessary because some extensions read values with model.attribute(name)
             // which errors if the attributes object is not defined
             attributes: {},
         });
@@ -41,7 +41,6 @@ export default class ProductShowPage extends AbstractShowPage {
         this.priceDriver = product.attribute('priceDriver');
 
         //app.history.push('product', product.title());
-        // @ts-ignore
         app.setTitle(product.title());
         app.setTitleCount(0);
     }

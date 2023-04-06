@@ -6,6 +6,7 @@ export default class Cart extends Model {
     amountDueAfterPartial: () => number;
     canAddProducts: () => boolean;
     canCheckout: () => boolean;
+    isLocked: () => boolean;
     products: () => false | (Product | undefined)[];
     priceTotalLocal(): number;
     apiEndpoint(): string;

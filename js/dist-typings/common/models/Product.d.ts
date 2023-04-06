@@ -1,7 +1,7 @@
 import Model from 'flarum/common/Model';
 export default class Product extends Model {
     title: () => string;
-    slug: () => unknown;
+    slug: () => string;
     description: () => string | null;
     descriptionHtml: () => string | null;
     price: () => number | null;

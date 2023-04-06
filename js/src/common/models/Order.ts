@@ -5,11 +5,11 @@ import Payment from './Payment';
 import DateFormat from '../../forum/utils/DateFormat';
 
 export default class Order extends Model {
-    number = Model.attribute('number');
-    slug = Model.attribute('slug');
-    productCount = Model.attribute('productCount');
-    priceTotal = Model.attribute('priceTotal');
-    paidAmount = Model.attribute('paidAmount');
+    number = Model.attribute<string>('number');
+    slug = Model.attribute<string>('slug');
+    productCount = Model.attribute<number>('productCount');
+    priceTotal = Model.attribute<number>('priceTotal');
+    paidAmount = Model.attribute<number>('paidAmount');
     createdAt = Model.attribute('createdAt', Model.transformDate);
     isHidden = Model.attribute<boolean>('isHidden');
 

@@ -13,7 +13,7 @@ export default class OrderRelationshipSelect extends AbstractRelationshipSelect<
         }
 
         return app.store
-            .find('flamarkt/orders', {
+            .find<Order[]>('flamarkt/orders', {
                 filter: {q: query},
                 page: {limit: 5},
             })
