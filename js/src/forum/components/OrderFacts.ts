@@ -1,4 +1,5 @@
 import {Children, Vnode} from 'mithril';
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import Order from '../../common/models/Order';
@@ -24,7 +25,7 @@ export default class OrderFacts extends Component<OrderFactsAttrs> {
 
         if (shippingInformation.length) {
             items.add('shipping', m(OrderFact, {
-                title: 'Shipping',
+                title: app.translator.trans('flamarkt-core.forum.order.fact.shipping'),
                 className: 'FlamarktOrderFact--shipping',
             }, this.wrapContent(...shippingInformation)), 100);
         }
@@ -33,7 +34,7 @@ export default class OrderFacts extends Component<OrderFactsAttrs> {
 
         if (paymentInformation.length) {
             items.add('payment', m(OrderFact, {
-                title: 'Payment status',
+                title: app.translator.trans('flamarkt-core.forum.order.fact.payment'),
                 className: 'FlamarktOrderFact--payment',
             }, this.wrapContent(...paymentInformation)), 50);
         }

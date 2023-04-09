@@ -78,6 +78,7 @@ flamarkt-core:
         account:
             browserTitle: => flamarkt-core.ref.page.account
             headingTitle: => flamarkt-core.ref.page.account
+            breadcrumb: => flamarkt-core.ref.page.account
         cart:
             browserTitle: => flamarkt-core.ref.page.cart
             headingTitle: => flamarkt-core.ref.page.cart
@@ -92,9 +93,25 @@ flamarkt-core:
                 partialOr: Or
                 completeWith: Complete payment amount with
                 instantOr: Or pay another way
+            table:
+                product: Product
+                quantity: Quantity
+                total: Total
+                remove: Remove from cart
+                empty: Cart is empty
         order:
             browserTitle: => flamarkt-core.ref.page.order
             headingTitle: => flamarkt-core.ref.page.order
+            fact:
+                shipping: Shipping
+                payment: Payment status
+            table:
+                product: Product
+                priceUnit: Price
+                quantity: Quantity
+                priceTotal: Total
+                groupTotal: Subtotal
+                grandTotal: Total
         orders:
             browserTitle: => flamarkt-core.ref.page.orders
             headingTitle: => flamarkt-core.ref.page.orders

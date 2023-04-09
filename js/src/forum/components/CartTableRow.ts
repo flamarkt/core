@@ -4,6 +4,7 @@ import Button from 'flarum/common/components/Button';
 import Link from 'flarum/common/components/Link';
 import Tooltip from 'flarum/common/components/Tooltip';
 import ItemList from 'flarum/common/utils/ItemList';
+import extractText from 'flarum/common/utils/extractText';
 import Product from '../../common/models/Product';
 import QuantityInput from '../../common/components/QuantityInput';
 import PriceLabel from '../../common/components/PriceLabel';
@@ -112,7 +113,7 @@ export default class CartTableRow extends Component<CartTableRowAttrs> {
     }
 
     deleteTooltipText(): string {
-        return 'Remove from cart';
+        return extractText(app.translator.trans('flamarkt-core.forum.cart.table.remove'));
     }
 
     submitQuantity(quantity: number) {

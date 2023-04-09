@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import CartTableRow from './CartTableRow';
@@ -20,9 +21,9 @@ export default class CartTable extends Component<CartTableAttrs> {
     head(): ItemList<any> {
         const columns = new ItemList();
 
-        columns.add('product', m('th', 'Product'), 200);
-        columns.add('quantity', m('th', 'Quantity'), 100);
-        columns.add('total', m('th', 'Total'), -100);
+        columns.add('product', m('th', app.translator.trans('flamarkt-core.forum.cart.table.product')), 200);
+        columns.add('quantity', m('th', app.translator.trans('flamarkt-core.forum.cart.table.quantity')), 100);
+        columns.add('total', m('th', app.translator.trans('flamarkt-core.forum.cart.table.total')), -100);
         columns.add('actions', m('th'), -200); // Empty on purpose
 
         return columns;
@@ -46,7 +47,7 @@ export default class CartTable extends Component<CartTableAttrs> {
         if (products.length === 0) {
             rows.add('empty', m('tr', m('td', {
                 colspan: 100,
-            }, 'Cart is empty')), -100);
+            }, app.translator.trans('flamarkt-core.forum.cart.table.empty'))), -100);
         } else {
             rows.add('total', m('tr', [
                 m('th', {

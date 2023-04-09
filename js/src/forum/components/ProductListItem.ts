@@ -4,7 +4,7 @@ import Component, {ComponentAttrs} from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
 import Link from 'flarum/common/components/Link';
 import Product from '../../common/models/Product';
-import formatPrice from '../../common/helpers/formatPrice';
+import PriceLabel from '../../common/components/PriceLabel';
 
 interface ProductListItemAttrs extends ComponentAttrs {
     product: Product,
@@ -27,7 +27,10 @@ export default class ProductListItem extends Component<ProductListItemAttrs> {
 
         const {product} = this.attrs;
 
-        items.add('price', m('span.ProductListItem--price', formatPrice(product.price())), 20);
+        items.add('price', m('span.ProductListItem--price', m(PriceLabel, {
+            value: product.price(),
+            product,
+        })), 20);
         items.add('title', m('span.ProductListItem--title', product.title()), 10);
 
         return items;

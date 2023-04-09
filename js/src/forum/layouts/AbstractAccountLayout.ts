@@ -13,7 +13,7 @@ export default abstract class AbstractAccountLayout<T = AbstractAccountLayoutAtt
         if (this.currentPageHref() !== app.route('flamarkt.account')) {
             items.add('account', LinkButton.component({
                 href: app.route('flamarkt.account'),
-            }, 'Account'));
+            }, app.translator.trans('flamarkt-core.forum.account.breadcrumb')));
         }
 
         return items;

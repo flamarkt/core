@@ -1,6 +1,6 @@
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import ItemList from 'flarum/common/utils/ItemList';
-import Product from '../../common/models/Product';
 import Order from '../../common/models/Order';
 import OrderTableRow from './OrderTableRow';
 import OrderTableGroupHead from './OrderTableGroupHead';
@@ -26,10 +26,10 @@ export default class OrderTable extends Component<OrderTableAttrs> {
         const columns = new ItemList();
 
         columns.add('number', m('th'), 100); // Empty on purpose
-        columns.add('product', m('th', 'Product'), 30);
-        columns.add('priceUnit', m('th', 'Price'), -30);
-        columns.add('quantity', m('th', 'Quantity'), -60);
-        columns.add('priceTotal', m('th', 'Total'), -90);
+        columns.add('product', m('th', app.translator.trans('flamarkt-core.forum.order.table.product')), 30);
+        columns.add('priceUnit', m('th', app.translator.trans('flamarkt-core.forum.order.table.priceUnit')), -30);
+        columns.add('quantity', m('th', app.translator.trans('flamarkt-core.forum.order.table.quantity')), -60);
+        columns.add('priceTotal', m('th', app.translator.trans('flamarkt-core.forum.order.table.priceTotal')), -90);
 
         return columns;
     }
@@ -38,7 +38,7 @@ export default class OrderTable extends Component<OrderTableAttrs> {
         const columns = new ItemList();
 
         columns.add('number', m('th'), 100);
-        columns.add('product', m('th', 'Total'), 30);
+        columns.add('product', m('th', app.translator.trans('flamarkt-core.forum.order.table.grandTotal')), 30);
         columns.add('priceUnit', m('th'), -30);
         columns.add('quantity', m('th'), -60);
         columns.add('priceTotal', m('th', m(PriceLabel, {

@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Component, {ComponentAttrs} from 'flarum/common/Component';
 import OrderLine from '../../common/models/OrderLine';
 import ItemList from 'flarum/common/utils/ItemList';
@@ -32,7 +33,7 @@ export default class OrderTableGroupFoot extends Component<OrderTableGroupFootAt
         const columns = new ItemList();
 
         columns.add('number', m('th'), 100);
-        columns.add('product', m('th', 'Subtotal'), 30);
+        columns.add('product', m('th', app.translator.trans('flamarkt-core.forum.order.table.groupTotal')), 30);
         columns.add('priceUnit', m('th'), -30);
         columns.add('quantity', m('th'), -60);
         columns.add('priceTotal', m('th', m(PriceLabel, {
