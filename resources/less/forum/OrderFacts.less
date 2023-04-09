@@ -1,12 +1,21 @@
 .FlamarktOrderFacts {
     display: flex;
+    flex-wrap: wrap;
     padding: 10px 0;
 }
 
 .FlamarktOrderFact {
-    padding: 0 20px 0 0;
-    width: 230px;
+    margin-right: 20px;
+    width: 227px; // Enough space for 3 columns on "tablet" breakpoint and on "desktop" with sidebar
     max-width: 100%;
+
+    @media @desktop-hd {
+        width: 250px; // Enough space for 3 columns with sidebar visible
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
 
     dl {
         margin: 0;
